@@ -1,0 +1,5 @@
+.button{
+    -fx-background-color: #78bbff;
+    -fx-arc-height: 20%;
+    -fx-effect: dropshadow(gaussian, #505050, 10, 0.3, 0, 0);
+}
