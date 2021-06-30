@@ -3,3 +3,9 @@
     -fx-arc-height: 20%;
     -fx-effect: dropshadow(gaussian, #505050, 10, 0.3, 0, 0);
 }
+.button:hover{
+    -fx-background-color: #0001ba;
+    -fx-arc-height: 20%;
+    -fx-effect: dropshadow(gaussian, #505050, 10, 0.5, 0, 0);
+    -fx-cursor: hand;
+}
