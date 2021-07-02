@@ -15,7 +15,7 @@
          <children>
             <ImageView fitHeight="700.0" fitWidth="1400.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Pictures/backGround.jpg" />
+                  <Image url="@../Pictures/backgrounds/backGround.jpg" />
                </image>
                <StackPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

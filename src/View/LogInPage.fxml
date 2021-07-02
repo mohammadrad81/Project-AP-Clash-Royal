@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+   <center>
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Pictures/backgrounds/signInPage.jpg" />
+               </image>
+            </ImageView>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <bottom>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#returnToMainMenu" prefHeight="20.0" prefWidth="100.0" stylesheets="@../Styles/ButtonsStyles.css" text="BACK">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </bottom>
+               <center>
+                  <VBox alignment="CENTER" prefHeight="275.0" prefWidth="513.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TextField fx:id="usernameTextField" maxWidth="300.0" promptText="username...">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <PasswordField fx:id="passwordTextField" maxWidth="300.0" promptText="password...">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </PasswordField>
+                        <Button fx:id="logInButton" maxWidth="100.0" mnemonicParsing="false" onAction="#logIn" stylesheets="@../Styles/ButtonsStyles.css" text="Log In">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="141.0" style="-fx-background-color: #FF0000FF;" text="WRONG PASSWORD" visible="false" />
+                        <Label alignment="CENTER" layoutX="340.0" layoutY="266.0" prefHeight="18.0" prefWidth="246.0" style="-fx-background-color: #FF0000FF;" text="NO USER FOUND WITH THIS USERNAME" visible="false">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>
