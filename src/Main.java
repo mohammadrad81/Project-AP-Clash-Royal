@@ -9,7 +9,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/View/MainMenu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/View/LogInPage.fxml"));
         primaryStage.setTitle("Clash Royale");
         primaryStage.getIcons().add(new Image("/Pictures/icon.png"));
         primaryStage.setResizable(false);
