@@ -39,12 +39,12 @@
                <center>
                   <VBox alignment="CENTER" prefHeight="275.0" prefWidth="513.0" BorderPane.alignment="CENTER">
                      <children>
-                        <TextField fx:id="usernameTextField" maxWidth="300.0" promptText="username...">
+                        <TextField fx:id="usernameTextField" maxWidth="300.0" promptText="username..." stylesheets="@../Styles/TextFields.css">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <PasswordField fx:id="passwordTextField" maxWidth="300.0" promptText="password...">
+                        <PasswordField fx:id="passwordTextField" maxWidth="300.0" promptText="password..." stylesheets="@../Styles/TextFields.css">
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
