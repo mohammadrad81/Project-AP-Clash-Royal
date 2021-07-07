@@ -32,8 +32,13 @@ public class MainMenuController {
     }
 
     @FXML
-    void goSignUpPage(ActionEvent event) {
+    void goSignUpPage(ActionEvent event) throws Exception{
+        Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/View/SignUpPage.fxml"));
 
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
