@@ -16,7 +16,7 @@ import java.io.*;
 
 public class SignupPageController {
 
-    private final String userFileAddress = "src/Users/users.bin";
+    private final String userFileAddress = "./Users/users.bin";
 
     @FXML
     private Button backButton;
@@ -37,7 +37,6 @@ public class SignupPageController {
     void returnToMainMenu(ActionEvent event) throws Exception{
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/View/MainMenu.fxml"));
-
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
