@@ -54,12 +54,13 @@
                                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                     </VBox.margin>
                                 </Button>
-                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="141.0" style="-fx-background-color: #FF0000FF;" text="WRONG PASSWORD" visible="false" />
-                                <Label alignment="CENTER" layoutX="340.0" layoutY="266.0" prefHeight="18.0" prefWidth="246.0" style="-fx-background-color: #FF0000FF;" text="NO USER FOUND WITH THIS USERNAME" visible="false">
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                    </VBox.margin>
-                                </Label>
+                                <Label fx:id="errorLabel" alignment="CENTER" prefHeight="18.0" style="-fx-background-color: #FF0000FF;" visible="false">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="4.0" right="4.0" />
+                           </padding></Label>
                             </children>
                         </VBox>
                     </center>
