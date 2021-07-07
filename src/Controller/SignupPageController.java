@@ -16,7 +16,7 @@ import java.io.*;
 
 public class SignupPageController {
 
-    private final String userFileAddress = "/Users/users.bin";
+    private final String userFileAddress = "src/Users/users.bin";
 
     @FXML
     private Button backButton;
@@ -110,19 +110,21 @@ public class SignupPageController {
         File file = new File(userFileAddress);
         if (!file.exists()){
             try {
+                file.getParentFile().mkdirs();
                 file.createNewFile();
+
             }
             catch (IOException e){
                 System.out.println("cannot create file");
             }
         }
-        try (FileOutputStream fileOutputStream = new FileOutputStream(userFileAddress);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file, true);
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)){
 
             objectOutputStream.writeObject(player);
         }
         catch (IOException e){
-
+            e.printStackTrace();
         }
     }
 
