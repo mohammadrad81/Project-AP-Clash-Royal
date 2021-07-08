@@ -8,7 +8,7 @@ import Model.Cards.Reals.Type;
  * @version 1.0.0
  */
 public class Giant extends Troop{
-    private static final String cardImageAddress = "../../../../Pictures/CardImages/ArchersCard.jpg";
+    private static final String cardImageAddress = "../../../../Pictures/CardImages/GiantCard.jpg";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {2000, 2200, 2420, 2660, 2920};
     private static final int[] damageByLevel = {126, 138, 152, 167, 183};
