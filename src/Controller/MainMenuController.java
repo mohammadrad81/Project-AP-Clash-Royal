@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class MainMenuController {
 
     @FXML
@@ -17,8 +19,13 @@ public class MainMenuController {
     }
 
     @FXML
-    void goDevelopersDetailPage(ActionEvent event) {
+    void goDevelopersDetailPage(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/View/DevelopersDetails.fxml"));
 
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
