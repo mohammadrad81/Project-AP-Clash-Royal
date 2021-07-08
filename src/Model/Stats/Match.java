@@ -1,6 +1,8 @@
 package Model.Stats;
 
-public class Match {
+import java.io.Serializable;
+
+public class Match implements Serializable {
     private String player1Username;
     private String player2Username;
     private int player1Crown;

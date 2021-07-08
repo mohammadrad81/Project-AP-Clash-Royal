@@ -2,12 +2,14 @@ package Model.Cards;
 
 import Model.GameEntity;
 
+import java.io.Serializable;
+
 /**
  * class for cards of the game
  * @version 1.0.0
  * @since 7.8.2021
  */
-public abstract class Card implements GameEntity {
+public abstract class Card implements GameEntity, Serializable {
     private int cost;
     private String cardImageAddress; // the image of the card
     private String imageAddress; // the image of the element in the game board
