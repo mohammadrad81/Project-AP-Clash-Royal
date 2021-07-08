@@ -104,7 +104,6 @@ public class LogInPageController {
         try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(users))){
             while (true){
                 Player player = (Player) objectInputStream.readObject();
-                objectInputStream.readObject();
                 if (player == null)
                     break;
                 if (player.getUsername().equals(username) && player.getPassword().equals(password))
