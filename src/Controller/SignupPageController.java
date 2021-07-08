@@ -16,7 +16,7 @@ import java.io.*;
 
 public class SignupPageController {
 
-    private final String userFileAddress = "./Users/users.bin";
+    private final String directoryAddress = "./Users/"; //must append with 'username'.bin
 
     @FXML
     private Button backButton;
@@ -44,13 +44,13 @@ public class SignupPageController {
 
     @FXML
     void signup(ActionEvent event) throws Exception{
-        if (usernameTextField.getText().isEmpty()){
+        if (usernameTextField.getText().trim().isEmpty()){
             errorLabel.setText("FILL USERNAME FIELD");
             errorLabel.setVisible(true);
             usernameTextField.requestFocus();
             return;
         }
-        if (passwordTextField.getText().isEmpty()){
+        if (passwordTextField.getText().trim().isEmpty()){
             errorLabel.setText("FILL PASSWORD FIELD");
             errorLabel.setVisible(true);
             passwordTextField.requestFocus();
@@ -83,30 +83,12 @@ public class SignupPageController {
     }
 
     private boolean usernameExists(String username) {
-        File users = new File(userFileAddress);
-        if (!users.exists())
-            return false;
-
-        try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(users))){
-            while (true){
-                Player player = (Player) objectInputStream.readObject();
-                if (player == null)
-                    break;
-                if (player.getUsername().equals(username))
-                    return true;
-            }
-            return false;
-        }
-        catch (IOException e){
-            return false;
-        }
-        catch (ClassNotFoundException e){
-            return false;
-        }
+        File users = new File(directoryAddress + username + ".bin");
+        return users.exists();
     }
 
     private void addPlayer(Player player){
-        File file = new File(userFileAddress);
+        File file = new File(directoryAddress + player.getUsername() + ".bin");
         if (!file.exists()){
             try {
                 file.getParentFile().mkdirs();
@@ -117,7 +99,7 @@ public class SignupPageController {
                 System.out.println("cannot create file");
             }
         }
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file, true);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)){
 
             objectOutputStream.writeObject(player);
