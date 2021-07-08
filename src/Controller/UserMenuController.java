@@ -40,6 +40,21 @@ public class UserMenuController {
         stage.show();
     }
 
+    @FXML
+    void goBattleDeck(ActionEvent event) throws Exception{
+        Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/BattleDeck.fxml"));
+        loader.load();
+        BattleDeckController controller = loader.getController();
+        controller.setPlayer(player);
+
+        Parent root = loader.getRoot();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void setPlayer(Player player){
         this.player = player;
         welcomeLabel.setText("WELCOME " + player.getUsername());
