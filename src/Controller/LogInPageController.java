@@ -21,7 +21,7 @@ import java.io.ObjectInputStream;
 
 public class LogInPageController {
 
-    private final String userFileAddress = "./Users/users.bin";
+    private final String directoryAddress = "./Users/"; // must append with 'username'.bin
 
     @FXML
     private Button backButton;
@@ -40,14 +40,14 @@ public class LogInPageController {
 
     @FXML
     void logIn(ActionEvent event) throws Exception{
-        if (usernameTextField.getText().isEmpty()){
+        if (usernameTextField.getText().trim().isEmpty()){
             errorLabel.setText("FILL USERNAME FIELD");
             errorLabel.setVisible(true);
             usernameTextField.requestFocus();
             return;
         }
 
-        if (passwordTextField.getText().isEmpty()){
+        if (passwordTextField.getText().trim().isEmpty()){
             errorLabel.setText("FILL PASSWORD FIELD");
             errorLabel.setVisible(true);
             passwordTextField.requestFocus();
@@ -97,19 +97,13 @@ public class LogInPageController {
     }
 
     private Player findPlayer(String username, String password){
-        File users = new File(userFileAddress);
+        File users = new File(directoryAddress + username + ".bin");
         if (!users.exists())
             return null;
-
         try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(users))){
-            while (true){
-                Player player = (Player) objectInputStream.readObject();
-                if (player == null)
-                    break;
-                if (player.getUsername().equals(username) && player.getPassword().equals(password))
-                    return player;
-            }
-
+            Player player = (Player) objectInputStream.readObject();
+            if (player.getUsername().equals(username) && player.getPassword().equals(password))
+                return player;
         }
         catch (IOException e){
             System.out.println("file not found");

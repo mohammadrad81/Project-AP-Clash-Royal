@@ -24,7 +24,7 @@
                <center>
                       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="345.0" prefWidth="234.0" spacing="10.0" BorderPane.alignment="CENTER">
                           <children>
-                        <Label fx:id="welcomeLabel" alignment="CENTER" style="-fx-background-color: #2d2323;" text="dg" textFill="WHITE">
+                        <Label fx:id="welcomeLabel" alignment="CENTER" style="-fx-background-color: #2d2323;" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
