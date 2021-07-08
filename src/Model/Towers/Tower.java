@@ -9,17 +9,11 @@ import Model.GameEntity;
  * @version 1.0.0
  */
 public abstract class Tower implements GameEntity {
-    private Type myType;
-    private Type targetType;
+    private Type myType , targetType;
     private String imageAddress;
-
-    private int[] healthByLevelArray;
-    private int[] damageByLevelArray;
-
-    private int health;
-    private int damage;
-    private double range;
-    private double hitSpeed;
+    private int[] healthByLevelArray , damageByLevelArray;
+    private int health , damage , level;
+    private double range , hitSpeed;
     private boolean activeToShoot;
 
     /**
@@ -38,7 +32,8 @@ public abstract class Tower implements GameEntity {
     public Tower(String imageAddress, int[] healthByLevelArray,
                  int[] damageByLevelArray, double range,
                  double hitSpeed, boolean activeToShoot) {
-
+        this.myType = Type.ground;
+        this.targetType = Type.airAndGround;
         this.imageAddress = imageAddress;
         this.healthByLevelArray = healthByLevelArray;
         this.damageByLevelArray = damageByLevelArray;
@@ -47,6 +42,7 @@ public abstract class Tower implements GameEntity {
         this.range = range;
         this.hitSpeed = hitSpeed;
         this.activeToShoot = activeToShoot;
+        this.level = 1;
     }
 
     /**
@@ -56,6 +52,7 @@ public abstract class Tower implements GameEntity {
      */
     @Override
     public void upgrade(int level){
+        this.level = level;
         this.health = healthByLevelArray[level -1];
         this.damage = damageByLevelArray[level -1];
     }
