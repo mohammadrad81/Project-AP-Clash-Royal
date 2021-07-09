@@ -43,6 +43,9 @@ public class Player implements Serializable {
         cards.add(new Arrows());
         cards.add(new Cannon());
         cards.add(new InfernoTower());
+
+        history.add(new Match(username,"Majid",3,1));
+        history.add(new Match(username, "Mohammad", 2, 3));
     }
 
     public String getUsername() {
@@ -59,6 +62,10 @@ public class Player implements Serializable {
 
     public ArrayList<Card> getHand() {
         return hand;
+    }
+
+    public ArrayList<Match> getHistory() {
+        return history;
     }
 
     @Override
