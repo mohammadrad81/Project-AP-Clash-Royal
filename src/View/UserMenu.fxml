@@ -40,7 +40,7 @@
                                       <Insets />
                                   </VBox.margin>
                         </Button>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="BATTLE DECK" />
+                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goBattleDeck" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="BATTLE DECK" />
                               <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="BATTLE HISTORY" />
                               <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="TRAINING CAMP" />
                         <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="1V1" />

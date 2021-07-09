@@ -8,7 +8,7 @@ import Model.Cards.Reals.Type;
  * @version 1.0.0
  */
 public class Archer extends Troop{
-    private static final String cardImageAddress = "../../../../Pictures/CardImages/ArchersCard.jpg";
+    private static final String cardImageAddress = "/Pictures/CardImages/ArchersCard.jpg";
     private static final String imageAddress = ""; // will be written later
     private static final int[] healthByLevelArray = {125, 127, 151, 166, 182};
     private static final int[] damageByLevelArray = {33, 44, 48, 53, 58};

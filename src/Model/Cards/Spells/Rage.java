@@ -6,7 +6,7 @@ package Model.Cards.Spells;
  * @since 7.8.2021
  */
 public class Rage extends Spell{
-    private static final String rageCardImageAddress = "../../../Pictures/CardImages/RageCard.jpg";
+    private static final String rageCardImageAddress = "/Pictures/CardImages/RageCard.jpg";
     private static final double[] durationByLevelArray = {6, 6.5, 7, 7.5, 8};
 
     private double duration;
