@@ -37,11 +37,6 @@
                <center>
                   <AnchorPane prefHeight="600.0" prefWidth="390.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label contentDisplay="CENTER" layoutX="89.0" layoutY="14.0" prefHeight="66.0" prefWidth="215.0" text="Player Profile" textAlignment="CENTER" textFill="#50ebff">
-                           <font>
-                              <Font name="Agency FB Bold" size="45.0" />
-                           </font>
-                        </Label>
                         <VBox layoutX="11.0" layoutY="90.0" spacing="10.0">
                            <children>
                               <Label fx:id="usernameLabel" text="USERNAME : " textFill="#52eaff">
@@ -77,6 +72,11 @@
                            </font>
                         </Label>
                         <FlowPane fx:id="cardPicturesFlowPane" alignment="TOP_CENTER" hgap="5.0" layoutX="8.0" layoutY="338.0" prefHeight="222.0" prefWidth="377.0" vgap="5.0" />
+                        <Label fx:id="usernameLabel1" layoutX="92.0" layoutY="14.0" prefHeight="46.0" prefWidth="209.0" text="PROFILE PAGE" textAlignment="CENTER" textFill="#47eaff">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </center>
