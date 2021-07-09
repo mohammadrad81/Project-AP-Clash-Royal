@@ -72,7 +72,7 @@
                            </font>
                         </Label>
                         <FlowPane fx:id="cardPicturesFlowPane" alignment="TOP_CENTER" hgap="5.0" layoutX="8.0" layoutY="338.0" prefHeight="222.0" prefWidth="377.0" vgap="5.0" />
-                        <Label fx:id="usernameLabel1" layoutX="92.0" layoutY="14.0" prefHeight="46.0" prefWidth="209.0" text="PROFILE PAGE" textAlignment="CENTER" textFill="#47eaff">
+                        <Label fx:id="usernameLabel1" layoutX="95.0" layoutY="26.0" text="PROFILE PAGE" textAlignment="CENTER" textFill="#47eaff">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
