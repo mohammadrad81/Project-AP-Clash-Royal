@@ -92,33 +92,37 @@ public class BattleDeckController {
     @FXML
     void cardsMouseClicked(MouseEvent event) {
         Card card = cardsListView.getSelectionModel().getSelectedItem();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if (hand.size() >= 8)
-                    return;
-                deckChanged = true;
-                player.getCards().remove(card);
-                player.getHand().add(card);
-                cards.remove(card);
-                hand.add(card);
-            }
-        });
+        if(card != null){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (hand.size() >= 8)
+                        return;
+                    deckChanged = true;
+                    player.getCards().remove(card);
+                    player.getHand().add(card);
+                    cards.remove(card);
+                    hand.add(card);
+                }
+            });
+        }
     }
 
     @FXML
     void handMouseClicked(MouseEvent event) {
         Card card = handListView.getSelectionModel().getSelectedItem();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                deckChanged = true;
-                player.getCards().add(card);
-                player.getHand().remove(card);
-                hand.remove(card);
-                cards.add(card);
-            }
-        });
+        if(card != null){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    deckChanged = true;
+                    player.getCards().add(card);
+                    player.getHand().remove(card);
+                    hand.remove(card);
+                    cards.add(card);
+                }
+            });
+        }
     }
     private void saveChanges(){
         File file = new File(directoryAddress + player.getUsername() + ".bin");
