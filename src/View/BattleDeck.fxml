@@ -63,7 +63,7 @@
                               <Insets left="4.0" right="4.0" />
                            </padding>
                         </Label>
-                        <ListView fx:id="handListView" onMouseClicked="#handMouseClicked" orientation="HORIZONTAL" prefHeight="120.0">
+                        <ListView fx:id="handListView" focusTraversable="false" onMouseClicked="#handMouseClicked" orientation="HORIZONTAL" prefHeight="120.0">
                            <VBox.margin>
                               <Insets left="8.0" right="8.0" />
                            </VBox.margin>

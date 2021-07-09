@@ -4,30 +4,31 @@ import Model.Cards.Card;
 import Users.Player;
 import View.CardView;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Orientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class BattleDeckController {
 
-//    private ArrayList<Card> cards;
-//    private ArrayList<Card> hand;
     private Player player;
+    private final String directoryAddress = "./Users/"; //must append with 'username'.bin
+    private boolean deckChanged = false;
 
     private ObservableList<Card> cards = FXCollections.observableArrayList();
     private ObservableList<Card> hand = FXCollections.observableArrayList();
@@ -42,7 +43,13 @@ public class BattleDeckController {
     private ListView<Card> handListView;
 
     @FXML
+    private Label selectedCardsLabel;
+
+    @FXML
     void returnToUserMenu(ActionEvent event) throws Exception{
+        if (deckChanged)
+            saveChanges();
+
         Stage stage = (Stage) backButton.getScene().getWindow();
 
         FXMLLoader loader = new FXMLLoader();
@@ -58,43 +65,6 @@ public class BattleDeckController {
     }
 
     public void initialize(){
-//        cardsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Card> observable, Card oldValue, Card newValue) {
-////                player.getCards().remove(newValue);
-////                player.getHand().add(newValue);
-//                Card card = cardsListView.getSelectionModel().getSelectedItem();
-//                Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        cards.remove(card);
-//                        hand.add(card);
-//
-//                    }
-//                });
-//
-//
-//
-//            }
-//        });
-//        handListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Card> observable, Card oldValue, Card newValue) {
-////                player.getCards().add(newValue);
-////                player.getHand().remove(newValue);
-//                Card card = handListView.getSelectionModel().getSelectedItem();
-//                Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        hand.remove(card);
-//                        cards.add(card);
-//                    }
-//                });
-//
-//
-//
-//            }
-//        });
         cardsListView.setCellFactory(new Callback<ListView<Card>, ListCell<Card>>() {
             @Override
             public ListCell<Card> call(ListView<Card> param) {
@@ -125,6 +95,11 @@ public class BattleDeckController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                if (hand.size() >= 8)
+                    return;
+                deckChanged = true;
+                player.getCards().remove(card);
+                player.getHand().add(card);
                 cards.remove(card);
                 hand.add(card);
             }
@@ -137,10 +112,25 @@ public class BattleDeckController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                deckChanged = true;
+                player.getCards().add(card);
+                player.getHand().remove(card);
                 hand.remove(card);
                 cards.add(card);
             }
         });
+    }
+    private void saveChanges(){
+        File file = new File(directoryAddress + player.getUsername() + ".bin");
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)){
+
+            objectOutputStream.writeObject(player);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
 }
