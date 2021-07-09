@@ -40,7 +40,7 @@ public class MatchView extends ListCell<Match> {
         }
         else {
             image.setImage(new Image(item.getImageAddress(username)));
-            label.setText(item.toString());
+            label.setText(item.getAsString(username));
             setGraphic(hBox);
         }
     }
