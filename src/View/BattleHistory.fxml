@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.BattleHistoryController">
+    <center>
+        <StackPane BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="700.0" fitWidth="1400.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Pictures/backgrounds/profilePage.jpg" />
+                    </image>
+                </ImageView>
+                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                    <bottom>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <Button fx:id="backButton" mnemonicParsing="false" onAction="#returnToUserMenu" prefHeight="20.0" prefWidth="100.0" stylesheets="@../Styles/ButtonsStyles.css" text="BACK">
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </bottom>
+                    <center>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                            <children>
+                        <Label text="History" textFill="#31d8fa">
+                           <font>
+                              <Font name="System Bold" size="37.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="50.0" />
+                           </VBox.margin>
+                        </Label>
+                                <ListView fx:id="matchesListView" focusTraversable="false" prefHeight="300.0" prefWidth="100.0">
+                                    <VBox.margin>
+                                        <Insets left="90.0" right="90.0" />
+                                    </VBox.margin>
+                                    <opaqueInsets>
+                                        <Insets left="20.0" />
+                                    </opaqueInsets>
+                                </ListView>
+                            </children>
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                        </VBox>
+                    </center>
+                </BorderPane>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>
