@@ -13,6 +13,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 
 public class UserMenuController {
 
@@ -73,6 +74,21 @@ public class UserMenuController {
     public void setPlayer(Player player){
         this.player = player;
         welcomeLabel.setText("WELCOME " + player.getUsername());
+    }
+
+    @FXML
+    void goProfilePage(ActionEvent event) throws IOException {
+        Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/View/profilePage.fxml"));
+        fxmlLoader.load();
+        ProfilePageController controller = fxmlLoader.getController();
+        controller.setPlayer(player);
+
+        Parent root = fxmlLoader.getRoot();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 

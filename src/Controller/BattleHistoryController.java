@@ -47,7 +47,7 @@ public class BattleHistoryController {
         matchesListView.setCellFactory(new Callback<ListView<Match>, ListCell<Match>>() {
             @Override
             public ListCell<Match> call(ListView<Match> param) {
-                return new MatchView();
+                return new MatchView(player.getUsername());
             }
         });
     }

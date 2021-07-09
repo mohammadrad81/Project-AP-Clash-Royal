@@ -43,9 +43,6 @@ public class Player implements Serializable {
         cards.add(new Arrows());
         cards.add(new Cannon());
         cards.add(new InfernoTower());
-
-        history.add(new Match(username,"Majid",3,1));
-        history.add(new Match(username, "Mohammad", 2, 3));
     }
 
     public String getUsername() {
@@ -64,10 +61,51 @@ public class Player implements Serializable {
         return hand;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
     public ArrayList<Match> getHistory() {
         return history;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public void addMatchToHistory(Match match){
+       history.add(match);
+    }
+
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
+    }
+
+    public void setHand(ArrayList<Card> hand) {
+        this.hand = hand;
+    }
+
+    public int getCountOfWonMatches(){
+        int counter = 0;
+        for(Match match : history){
+            if(match.getWinnerName().equals(username)){
+                counter++;
+            }
+        }
+        return counter;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
