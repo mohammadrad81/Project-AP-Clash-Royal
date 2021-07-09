@@ -3,6 +3,7 @@ package Controller;
 import Model.Cards.Card;
 import Users.Player;
 import View.CardView;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -10,11 +11,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -55,27 +58,43 @@ public class BattleDeckController {
     }
 
     public void initialize(){
-        cardsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
-            @Override
-            public void changed(ObservableValue<? extends Card> observable, Card oldValue, Card newValue) {
-//                player.getCards().remove(newValue);
-//                player.getHand().add(newValue);
-                cards.remove(newValue);
-                hand.add(newValue);
-
-            }
-        });
-        cardsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
-            @Override
-            public void changed(ObservableValue<? extends Card> observable, Card oldValue, Card newValue) {
-//                player.getCards().add(newValue);
-//                player.getHand().remove(newValue);
-                if (hand.contains(newValue))
-                    hand.remove(newValue);
-                cards.add(newValue);
-
-            }
-        });
+//        cardsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Card> observable, Card oldValue, Card newValue) {
+////                player.getCards().remove(newValue);
+////                player.getHand().add(newValue);
+//                Card card = cardsListView.getSelectionModel().getSelectedItem();
+//                Platform.runLater(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        cards.remove(card);
+//                        hand.add(card);
+//
+//                    }
+//                });
+//
+//
+//
+//            }
+//        });
+//        handListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Card> observable, Card oldValue, Card newValue) {
+////                player.getCards().add(newValue);
+////                player.getHand().remove(newValue);
+//                Card card = handListView.getSelectionModel().getSelectedItem();
+//                Platform.runLater(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        hand.remove(card);
+//                        cards.add(card);
+//                    }
+//                });
+//
+//
+//
+//            }
+//        });
         cardsListView.setCellFactory(new Callback<ListView<Card>, ListCell<Card>>() {
             @Override
             public ListCell<Card> call(ListView<Card> param) {
@@ -96,6 +115,32 @@ public class BattleDeckController {
         hand = FXCollections.observableArrayList(player.getHand());
         cardsListView.setItems(cards);
         handListView.setItems(hand);
+    }
+
+
+
+    @FXML
+    void cardsMouseClicked(MouseEvent event) {
+        Card card = cardsListView.getSelectionModel().getSelectedItem();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                cards.remove(card);
+                hand.add(card);
+            }
+        });
+    }
+
+    @FXML
+    void handMouseClicked(MouseEvent event) {
+        Card card = handListView.getSelectionModel().getSelectedItem();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                hand.remove(card);
+                cards.add(card);
+            }
+        });
     }
 
 }

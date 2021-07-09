@@ -44,7 +44,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <ListView fx:id="cardsListView" focusTraversable="false" orientation="HORIZONTAL" prefHeight="120.0">
+                        <ListView fx:id="cardsListView" focusTraversable="false" onMouseClicked="#cardsMouseClicked" orientation="HORIZONTAL" prefHeight="120.0">
                            <VBox.margin>
                               <Insets left="8.0" right="8.0" />
                            </VBox.margin>
@@ -63,7 +63,7 @@
                               <Insets left="4.0" right="4.0" />
                            </padding>
                         </Label>
-                        <ListView fx:id="handListView" orientation="HORIZONTAL" prefHeight="120.0">
+                        <ListView fx:id="handListView" onMouseClicked="#handMouseClicked" orientation="HORIZONTAL" prefHeight="120.0">
                            <VBox.margin>
                               <Insets left="8.0" right="8.0" />
                            </VBox.margin>
