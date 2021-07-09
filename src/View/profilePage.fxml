@@ -37,7 +37,7 @@
                <center>
                   <AnchorPane prefHeight="600.0" prefWidth="390.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label contentDisplay="CENTER" layoutX="87.0" layoutY="14.0" prefHeight="66.0" prefWidth="219.0" text="Player Profile" textAlignment="CENTER" textFill="#50ebff">
+                        <Label contentDisplay="CENTER" layoutX="89.0" layoutY="14.0" prefHeight="66.0" prefWidth="215.0" text="Player Profile" textAlignment="CENTER" textFill="#50ebff">
                            <font>
                               <Font name="Agency FB Bold" size="45.0" />
                            </font>
