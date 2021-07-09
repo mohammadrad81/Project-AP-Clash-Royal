@@ -35,7 +35,7 @@
                               <Insets left="4.0" right="4.0" />
                            </padding>
                         </Label>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="PROFILE">
+                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goProfilePage" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="PROFILE">
                                   <VBox.margin>
                                       <Insets />
                                   </VBox.margin>

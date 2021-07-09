@@ -14,8 +14,8 @@ public class MatchView extends ListCell<Match> {
     private HBox hBox = new HBox(8.0);
     private Label label = new Label();
     private ImageView image = new ImageView();
-
-    public MatchView(){
+    private String username;
+    public MatchView(String username){
         hBox.setAlignment(Pos.CENTER_RIGHT);
 
         label.setTextAlignment(TextAlignment.CENTER);
@@ -28,7 +28,7 @@ public class MatchView extends ListCell<Match> {
         hBox.getChildren().add(image);
         setPrefHeight(USE_COMPUTED_SIZE);
         setPrefWidth(USE_COMPUTED_SIZE);
-
+        this.username = username;
 
     }
     @Override
@@ -39,7 +39,7 @@ public class MatchView extends ListCell<Match> {
             setGraphic(null); // don't display anything
         }
         else {
-            image.setImage(new Image(item.getImageAddress()));
+            image.setImage(new Image(item.getImageAddress(username)));
             label.setText(item.toString());
             setGraphic(hBox);
         }
