@@ -8,7 +8,7 @@ import Model.Cards.Reals.Type;
  * @version 1.0.0
  */
 public class InfernoTower extends Building{
-    private static final String infernoCardImageAddress = "/Pictures/CardImages/InfernoTowerCard.jpg";
+    private static final String infernoCardImageAddress = "/Pictures/CardImages/InfernoTowerCard.png";
     private static final String infernoImageAddress = "";
     private static final int[] firstDamageByLevel = {20, 22, 24, 26, 29};
     private static final int[] lastDamageByLevel = {400, 440, 484, 532, 584};

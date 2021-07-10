@@ -8,7 +8,7 @@ import Model.Cards.Reals.Type;
  * @version 1.0.0
  */
 public class Valkyrie extends Troop{
-    private static final String cardImageAddress = "/Pictures/CardImages/ValkyrieCard.jpg";
+    private static final String cardImageAddress = "/Pictures/CardImages/ValkyrieCard.png";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {880, 968, 1064, 1170, 1280};
     private static final int[] damageByLevel = {120, 132, 145, 159, 175};

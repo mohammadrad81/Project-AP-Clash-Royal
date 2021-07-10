@@ -7,7 +7,7 @@ package Model.Cards.Spells;
  * @since 7.8.2021
  */
 public class Arrows extends Spell{
-    private static final String arrowsCardImageAddress = "/Pictures/CardImages/ArrowsCard.jpg";
+    private static final String arrowsCardImageAddress = "/Pictures/CardImages/ArrowsCard.png";
     private static final int[] areaDamageByLevelArray = {144, 156, 174, 189, 210};
     private int areaDamage;
 

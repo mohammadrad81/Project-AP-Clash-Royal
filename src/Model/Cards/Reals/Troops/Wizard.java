@@ -6,7 +6,7 @@ import Model.Cards.Reals.Type;
  * wizard card of the game
  */
 public class Wizard extends Troop{
-    private static final String cardImageAddress = "/Pictures/CardImages/WizardCard.jpg";
+    private static final String cardImageAddress = "/Pictures/CardImages/WizardCard.png";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {340, 374, 411, 452, 496};
     private static final int[] damageByLevel = {130, 143, 157, 172, 189};

@@ -8,7 +8,7 @@ import Model.Cards.Reals.Type;
  * @version 1.0.0
  */
 public class MiniPekka extends Troop{
-    private static final String cardImageAddress = "/Pictures/CardImages/MiniPEKKACard.jpg";
+    private static final String cardImageAddress = "/Pictures/CardImages/MiniPEKKACard.png";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {600, 660, 726, 798, 876};
     private static final int[] damageByLevel = {325, 357, 393, 432, 474};

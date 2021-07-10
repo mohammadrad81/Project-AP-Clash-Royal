@@ -6,7 +6,7 @@ package Model.Cards.Spells;
  * @since 7.8.2021
  */
 public class Fireball extends Spell{
-    private static final String fireBallCardImageAddress = "/Pictures/CardImages/FireballCard.jpg";
+    private static final String fireBallCardImageAddress = "/Pictures/CardImages/FireballCard.png";
     private static final int[] areaDamageByLevelArray = {325, 357, 393, 532, 474};
 
     private int areaDamage;
