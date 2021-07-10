@@ -1,6 +1,8 @@
 package Model.Cards.Reals;
 
 import Model.Cards.Card;
+import Model.Interfaces.Damager;
+import Model.Interfaces.HealthHaver;
 
 /**
  * the cards which are not spells
@@ -8,7 +10,7 @@ import Model.Cards.Card;
  * @version 1.0.0
  * @since 7.8.2021
  */
-public abstract class Real extends Card {
+public abstract class Real extends Card implements HealthHaver , Damager {
     private int health , damage;
     private double hitSpeed , range;
     private Type myType;
