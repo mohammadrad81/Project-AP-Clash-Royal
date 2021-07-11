@@ -50,7 +50,7 @@ public abstract class GameManager {
         this.playerRandomCardsHashMap.put(secondPlayer, new ArrayList<>());
 
         this.playerElixir = new HashMap<>();
-
+        this.commands = new ArrayList<>();
 
         this.activeSpells = new ArrayList<>();
         this.playerToElementHashMap = new HashMap<>();
@@ -131,23 +131,27 @@ public abstract class GameManager {
     }
 
     public void buyCard(Player player , Card card , Point2D point2D){
-        GameElement gameElement = null;
-        playerRandomCardsHashMap.get(player).remove(card);
+        if(playerElixir.get(player) >= card.getCost()){
+            playerElixir.put(player , playerElixir.get(player) - card.getCost());
+            GameElement gameElement = null;
+            playerRandomCardsHashMap.get(player).remove(card);
 
-        if(player == secondPlayer){
-            gameElement =
-                    new GameElement(card , point2D ,
-                    player , frameCounter,
-                    Direction.backward);
+            if(player == secondPlayer){
+                gameElement =
+                        new GameElement(card , point2D ,
+                                player , frameCounter,
+                                Direction.backward);
+            }
+            else if(player == firstPlayer){
+                gameElement =
+                        new GameElement(card , point2D ,
+                                player , frameCounter,
+                                Direction.forward);
+            }
+            addElement(player , gameElement);
+            giveRandomCardToPlayer(player);
         }
-        else if(player == firstPlayer){
-            gameElement =
-                    new GameElement(card , point2D ,
-                            player , frameCounter,
-                            Direction.forward);
-        }
-        addElement(player , gameElement);
-        giveRandomCardToPlayer(player);
+
     }
 
     public void giveRandomCardToPlayer(Player player , int count){
@@ -310,7 +314,7 @@ public abstract class GameManager {
         return false;
     }
 
-    private boolean isGameOver(){
+    public boolean isGameOver(){
         if(frameCounter == 1800 ||
                 !hasKingTowers(firstPlayer) ||
                 !hasKingTowers(secondPlayer)){
