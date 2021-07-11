@@ -39,7 +39,7 @@ public abstract class GameManager {
     private HashMap<GameElement , GameElement> elementToTargetHashMap;
     private List<GameElement> activeSpells;
 
-    private List<String> commands;
+    private List<Command> commands;
 
     public GameManager(Player firstPlayer, Player secondPlayer) {
         this.firstPlayer = firstPlayer;
@@ -114,7 +114,7 @@ public abstract class GameManager {
         }
 
         if(gameElement.getGameEntity() instanceof Tower){
-            if(player == firstPlayer){
+            if(player.equals(firstPlayer)){
                 activeKingTower(firstPlayer);
                 increaseSecondPlayerCrown();
             }
@@ -136,13 +136,13 @@ public abstract class GameManager {
             GameElement gameElement = null;
             playerRandomCardsHashMap.get(player).remove(card);
 
-            if(player == secondPlayer){
+            if(player.equals(secondPlayer)){
                 gameElement =
                         new GameElement(card , point2D ,
                                 player , frameCounter,
                                 Direction.backward);
             }
-            else if(player == firstPlayer){
+            else if(player.equals(firstPlayer)){
                 gameElement =
                         new GameElement(card , point2D ,
                                 player , frameCounter,
@@ -172,14 +172,14 @@ public abstract class GameManager {
                 done = true;
             }
         }
-    }
+    } // done
 
     public void givePlayerTowers(Player player){
         List<GameElement> gameElements = playerToElementHashMap.get(player);
         GameElement kingTowerElement = null;
         GameElement leftPrincessTower = null;
         GameElement rightPrincessTower = null;
-        if(player == firstPlayer){
+        if(player.equals(firstPlayer)){
             kingTowerElement =
                     new GameElement(new KingTower(player.getLevel()) ,
                             new Point(9 , 31),
@@ -205,13 +205,13 @@ public abstract class GameManager {
                             player,
                             frameCounter,
                             Direction.backward);
-            leftPrincessTower =
+            rightPrincessTower =
                     new GameElement(new PrincessTower(player.getLevel()),
                             new Point(3, 4),
                             player,
                             frameCounter,
                             Direction.backward);
-            rightPrincessTower =
+            leftPrincessTower =
                     new GameElement(new PrincessTower(player.getLevel()),
                             new Point(15, 4),
                             player,
@@ -221,7 +221,7 @@ public abstract class GameManager {
         gameElements.add(kingTowerElement);
         gameElements.add(leftPrincessTower);
         gameElements.add(rightPrincessTower);
-    }
+    } // done
 
     public void spellArea(GameElement spellElement){
         activeSpells.add(spellElement);
@@ -234,7 +234,7 @@ public abstract class GameManager {
         else if(spellElement.getGameEntity() instanceof Fireball){
             fireBallArea(spellElement);
         }
-    }
+    } // done
 
     private void arrowArea(GameElement arrowElement){
         Arrows arrows = (Arrows) arrowElement.getGameEntity();
@@ -254,7 +254,7 @@ public abstract class GameManager {
                 }
             }
         }
-    }
+    } // done
 
     private void fireBallArea(GameElement fireBallElement){
         Fireball fireball = (Fireball) fireBallElement.getGameEntity();
@@ -275,7 +275,7 @@ public abstract class GameManager {
                 }
             }
         }
-    }
+    } // done
 
     private void rageArea(GameElement rageElement){
         Rage rage = (Rage) rageElement.getGameEntity();
@@ -287,7 +287,7 @@ public abstract class GameManager {
                 for(int z = 0; z < 2; z++){
                     gameElementLocation = new Point(i , j);
                     if(mapArray[i][j][z] != null){
-                        if(mapArray[i][j][z].getOwner() == rageElement.getOwner()){
+                        if(mapArray[i][j][z].getOwner().equals(rageElement.getOwner())){
                             if(ragePoint.distance(gameElementLocation) <= rage.getRadius()){
                                 mapArray[i][j][z].boost();
                             }
@@ -321,7 +321,7 @@ public abstract class GameManager {
             return true;
         }
         return false;
-    }
+    } // done
 
     private boolean hasKingTowers(Player player){
         for(GameElement gameElement : playerToElementHashMap.get(player)){
@@ -330,16 +330,54 @@ public abstract class GameManager {
             }
         }
         return false;
+    } // done
+
+    private boolean hasLeftTower(Player player){
+        if(player.equals(firstPlayer)){
+            if(mapArray[3][28][0] != null){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            if(mapArray[15][4][0] != null){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+    private boolean hasRightTower(Player player){
+        if(player.equals(firstPlayer)){
+            if(mapArray[15][28][0] != null){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else{
+            if(mapArray[3][4][0] != null){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 
     private void doCommands(){
-        for(String command : commands){
+        for(Command command : commands){
             doTheCommand(command);
         }
     }
 
-    private void doTheCommand(String command){
-        //implement later
+    private void doTheCommand(Command command){
+
     }
 
     private void activeKingTower(Player player){
@@ -348,7 +386,7 @@ public abstract class GameManager {
                 ((KingTower)gameElement.getGameEntity()).setActiveToShoot(true);
             }
         }
-    }
+    } // done
 
     public void update(){
         increaseElixirs();
@@ -480,6 +518,80 @@ public abstract class GameManager {
 
     public void damageAnimation(Point2D src , Point2D dest){
         // implement later
+    }
+
+    public void addCommand(Command command){
+        commands.add(command);
+    }
+
+    private boolean isAreaAllowed(Command command){
+        int x = (int) command.getPoint2D().getX();
+        int y = (int) command.getPoint2D().getY();
+
+        if(y == 16){ // no spawn on the bridge
+            return false;
+        }
+
+        if( !(x >= 0 && x <= 18) || !(y >= 0 && y <= 32)){
+            return false;
+        }
+
+        if(command.getCard() instanceof Spell){
+            return true;
+        }
+
+        if(mapArray[x][y][0] != null || mapArray[x][y][1]!= null ){ // no multiple spawn in one place
+            return false;
+        }
+
+        if(command.getPlayer().equals(firstPlayer)){
+
+
+            if(hasLeftTower(secondPlayer) && hasRightTower(secondPlayer)){
+                if(y >= 17 && y <= 32){
+                    return true;
+                }
+            }
+            else if(hasRightTower(secondPlayer)){
+                if(y <= 32 && ((x >= 9 && y >= 12) || y >= 17)){
+                    return true;
+                }
+            }
+            else if(hasLeftTower(secondPlayer)){
+                if(y <= 32 && ((x <= 9 && y >= 12) || y >= 17)){
+                    return true;
+                }
+            }
+            else {
+                if(y <= 32 && y >= 12){
+                    return true;
+                }
+            }
+        }
+
+        else {
+            if(hasLeftTower(firstPlayer) && hasRightTower(firstPlayer)){
+                if(y >= 0 && y <= 15){
+                    return true;
+                }
+            }
+            else if(hasRightTower(firstPlayer)){
+                if(y >= 0 && ((x <= 9 && y <= 20) || y <= 15)){
+                    return true;
+                }
+            }
+            else if(hasLeftTower(firstPlayer)){
+                if(y >= 0 && ((x >= 9 && y <= 20) || y <= 15)){
+                    return true;
+                }
+            }
+            else{
+                if(y >= 0 && y <= 20){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 
