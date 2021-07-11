@@ -97,6 +97,15 @@ public class GameElement {
         }
     }
 
+    public void hurt(int damage){
+        if(damage > health){
+            health = 0;
+        }
+        else {
+            health -= damage;
+        }
+    }
+
     public GameEntity getGameEntity() {
         return gameEntity;
     }
@@ -151,5 +160,13 @@ public class GameElement {
 
     public Speed getSpeed() {
         return speed;
+    }
+
+    public void setLocation(Point2D location) {
+        this.location = location;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 }
