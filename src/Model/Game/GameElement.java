@@ -65,6 +65,7 @@ public class GameElement {
     }
 
     public void boost(){
+        boosted = true;
         damage = (int) (damage * (140.0 / 100.0));
         hitSpeed = hitSpeed * (140.0 / 100.0);
         if(gameEntity instanceof Troop){
@@ -77,15 +78,15 @@ public class GameElement {
             else if(speed == Speed.fast){
                 speed = Speed.superFast;
             }
-            boosted = true;
         }
     }
 
     public void deBoost(){
+        boosted = false;
         if(gameEntity instanceof Damager){
             this.damage = ((Damager) gameEntity).getDamage();
             this.hitSpeed = ((Damager) gameEntity).getHitSpeed();
-            boosted = false;
+
         }
         if(gameEntity instanceof Troop){
             if(speed == Speed.medium){
