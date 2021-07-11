@@ -20,6 +20,7 @@ public class GameElement {
     private boolean isTroop;
     private boolean isBuilding;
     private boolean isTower;
+    private boolean boosted;
     private int health;
     private int damage;
     private double hitSpeed;
@@ -76,6 +77,7 @@ public class GameElement {
             else if(speed == Speed.fast){
                 speed = Speed.superFast;
             }
+            boosted = true;
         }
     }
 
@@ -83,6 +85,7 @@ public class GameElement {
         if(gameEntity instanceof Damager){
             this.damage = ((Damager) gameEntity).getDamage();
             this.hitSpeed = ((Damager) gameEntity).getHitSpeed();
+            boosted = false;
         }
         if(gameEntity instanceof Troop){
             if(speed == Speed.medium){
@@ -169,4 +172,10 @@ public class GameElement {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+    public boolean isBoosted() {
+        return boosted;
+    }
+
+
 }
