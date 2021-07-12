@@ -417,7 +417,7 @@ public abstract class GameManager {
     }
 
     private void doTheCommand(Command command){
-        // implement later
+        buyCard(command.getPlayer() , command.getCard() , command.getPoint2D());
     }
 
     private void activeKingTower(Player player){
@@ -493,11 +493,17 @@ public abstract class GameManager {
                                     if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
                                         damageAnimation(gameElement.getLocation() , targetElement.getLocation());
                                         targetElement.hurt(gameElement.getDamage());
+                                        if(targetElement.getGameEntity() instanceof KingTower){
+                                            activeKingTower(targetElement.getOwner());
+                                        }
                                     }
                                 }
                                 else {
                                     damageAnimation(gameElement.getLocation() , targetElement.getLocation());
                                     targetElement.hurt(gameElement.getDamage());
+                                    if(targetElement.getGameEntity() instanceof KingTower){
+                                        activeKingTower(targetElement.getOwner());
+                                    }
                                 }
                             }
                         }
