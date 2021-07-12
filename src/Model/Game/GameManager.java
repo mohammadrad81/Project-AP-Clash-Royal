@@ -460,7 +460,13 @@ public abstract class GameManager {
                     if(gameElement.getGameEntity() instanceof HealthHaver){
                         healthHaver = (HealthHaver) gameElement.getGameEntity();
                         if(healthHaver.getHealth() <= 0){
-                            removeElement(gameElement.getOwner() , gameElement);
+                            removeElement(gameElement);
+                        }
+                    }
+                    if(gameElement.getGameEntity() instanceof Building){
+                        Building building = (Building) gameElement.getGameEntity();
+                        if(frameCounter - gameElement.getMadeAtFrame() >= (10L * building.getLifeTime())){
+                            removeElement(gameElement);
                         }
                     }
                 }
