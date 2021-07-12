@@ -65,9 +65,11 @@ public class GameElement {
     }
 
     public void boost(){
-        boosted = true;
-        damage = (int) (damage * (140.0 / 100.0));
-        hitSpeed = hitSpeed * (140.0 / 100.0);
+        if(gameEntity instanceof Damager){
+            boosted = true;
+            damage = (int) (damage * (140.0 / 100.0));
+            hitSpeed = hitSpeed * (140.0 / 100.0);
+        }
         if(gameEntity instanceof Troop){
             if(speed == Speed.slow){
                 speed = Speed.medium;
@@ -82,11 +84,11 @@ public class GameElement {
     }
 
     public void deBoost(){
-        boosted = false;
+
         if(gameEntity instanceof Damager){
+            boosted = false;
             this.damage = ((Damager) gameEntity).getDamage();
             this.hitSpeed = ((Damager) gameEntity).getHitSpeed();
-
         }
         if(gameEntity instanceof Troop){
             if(speed == Speed.medium){
@@ -166,6 +168,13 @@ public class GameElement {
         return speed;
     }
 
+    public String getImageAddress(){
+        if(gameEntity != null){
+            return gameEntity.getImageAddress();
+        }
+        return null;
+    }
+
     public void setLocation(Point2D location) {
         this.location = location;
     }
@@ -174,9 +183,16 @@ public class GameElement {
         this.direction = direction;
     }
 
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
     public boolean isBoosted() {
         return boosted;
     }
 
+    public GameElement copy(){
+        return new GameElement(gameEntity , location , owner , madeAtFrame , direction);
+    }
 
 }
