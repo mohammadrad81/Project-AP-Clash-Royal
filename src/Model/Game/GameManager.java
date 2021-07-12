@@ -459,7 +459,55 @@ public abstract class GameManager {
     }
 
     private void moveTroops(){
-        //implement later
+        GameElement[][][] newMap = new GameElement[19][33][2];
+        placeNoneMoveElements(newMap);
+        placeInRangeHunters(newMap);
+
+    }
+
+    private void placeNoneMoveElements(GameElement[][][] newMap){
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+
+                if(mapArray[i][j][0] instanceof Property) {
+                    newMap[i][j][0] = mapArray[i][j][0];
+                }
+
+                for (int k = 0; k < 2; k++) {
+
+                }
+            }
+        }
+    }
+
+    private void placeInRangeHunters(GameElement[][][] newMap){
+        GameElement gameElement = null;
+        GameElement targetElement = null;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                for (int k = 0; k < 2; k++) {
+                    gameElement = mapArray[i][j][k];
+                    targetElement = elementToTargetHashMap.get(gameElement);
+                    if(targetElement != null){
+                        Damager damager = (Damager) gameElement.getGameEntity();
+                        if(gameElement.getLocation().distance(gameElement.getLocation()) <= damager.getRange()){
+                            newMap[i][j][k] = mapArray[i][j][k];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void placeOutRangeHunters(){
+        // implement later
+    }
+
+    private boolean isPointInArea(int i , int j , int k){
+        if(i >= 0 && i <= 18 && j >= 0 && j <= 32 && k >= 0 && k <= 1){
+            return true;
+        }
+        return false;
     }
 
     private void removeDead(){
