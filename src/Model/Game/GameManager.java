@@ -3,14 +3,21 @@ package Model.Game;
 import Model.Cards.Card;
 import Model.Cards.Reals.Buildings.Building;
 import Model.Cards.Reals.Buildings.InfernoTower;
+import Model.Cards.Reals.Real;
 import Model.Cards.Reals.Troops.BabyDragon;
+import Model.Cards.Reals.Troops.Giant;
 import Model.Cards.Reals.Troops.Troop;
+import Model.Cards.Reals.Type;
 import Model.Cards.Spells.Arrows;
 import Model.Cards.Spells.Fireball;
 import Model.Cards.Spells.Rage;
 import Model.Cards.Spells.Spell;
+import Model.GameEntity;
+import Model.Interfaces.AirWarrior;
 import Model.Interfaces.Damager;
+import Model.Interfaces.GroundWarrior;
 import Model.Interfaces.HealthHaver;
+import Model.Property;
 import Model.Towers.KingTower;
 import Model.Towers.PrincessTower;
 import Model.Towers.Tower;
@@ -25,7 +32,7 @@ import java.util.List;
 public abstract class GameManager {
 //    private static final String team1Name = "team 1";
 //    private static final String team2Name = "team 2";
-
+    private static GameManager gameManager;
     private Player firstPlayer;
     private Player secondPlayer;
 
@@ -42,9 +49,13 @@ public abstract class GameManager {
     private HashMap<GameElement , GameElement> elementToTargetHashMap;
     private List<GameElement> activeSpells;
 
+    public static GameManager getInstance(){
+        return gameManager;
+    }
+
     private List<Command> commands;
 
-    public GameManager(Player firstPlayer, Player secondPlayer) {
+    private GameManager(Player firstPlayer, Player secondPlayer) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
 
@@ -61,6 +72,7 @@ public abstract class GameManager {
         this.playerToElementHashMap.put(secondPlayer, new ArrayList<>());
         this.mapArray = new GameElement[19][33][2];
         this.elementToTargetHashMap = new HashMap<>();
+        gameManager = this;
     }
 
     public void init(){
@@ -76,11 +88,11 @@ public abstract class GameManager {
 
     public void increaseFirstPlayerCrown(){
         firstPlayerCrown++;
-    }
+    }//done
 
     public void increaseSecondPlayerCrown(){
         secondPlayerCrown++;
-    }
+    }//done
 
     public void addElement(Player player , GameElement gameElement ){
         playerToElementHashMap.get(player).add(gameElement);
@@ -95,11 +107,11 @@ public abstract class GameManager {
             int count = troop.getCount();
             placeElement(gameElement , count);
         }
-    }
+    } //done
 
     private void placeElement(GameElement gameElement){
         placeElement(gameElement , gameElement.getLocation());
-    }
+    }//done
 
     private void placeElement(GameElement gameElement , int count){
         Point2D[] point2DS = new Point2D[count];
@@ -110,7 +122,7 @@ public abstract class GameManager {
             point2DS[i] = new Point(x + i , y);
             placeElement(gameElement , point2DS[i]);
         }
-    }
+    }//done
 
     private void placeElement(GameElement gameElement , Point2D point2D){
         gameElement = gameElement.copy();
@@ -124,11 +136,11 @@ public abstract class GameManager {
         else {
             mapArray[x][y][0] = gameElement;
         }
-    }
+    }//done
 
     public void removeElement(GameElement gameElement){
         removeElement(gameElement.getOwner() , gameElement);
-    }
+    } // done
 
     public void removeElement(Player player , GameElement gameElement){
         List<GameElement> playerElements = playerToElementHashMap.get(player);
@@ -159,7 +171,7 @@ public abstract class GameManager {
             activeSpells.remove(gameElement);
         }
 
-    }
+    } //done
 
     public void buyCard(Player player , Card card , Point2D point2D) {
         Command command = new Command(player, card, point2D);
@@ -192,13 +204,13 @@ public abstract class GameManager {
             addElement(player, gameElement);
             giveRandomCardToPlayer(player);
         }
-    }
+    } // done
 
     public void giveRandomCardToPlayer(Player player , int count){
         for(int i = 0; i < 4; i++){
             giveRandomCardToPlayer(player);
         }
-    }
+    } // done
 
     public void giveRandomCardToPlayer(Player player){
         boolean done = false;
@@ -336,7 +348,7 @@ public abstract class GameManager {
                 }
             }
         }
-    }
+    } // done
 
     private boolean isInRagedArea(GameElement gameElement){
         Point2D elementPoint = gameElement.getLocation();
@@ -352,7 +364,7 @@ public abstract class GameManager {
             }
         }
         return false;
-    }
+    } // done
 
     public boolean isGameOver(){
         if(frameCounter == 1800 ||
@@ -389,7 +401,7 @@ public abstract class GameManager {
                 return false;
             }
         }
-    }
+    } // done
 
     private boolean hasRightTower(Player player){
         if(player.equals(firstPlayer)){
@@ -408,17 +420,17 @@ public abstract class GameManager {
                 return false;
             }
         }
-    }
+    } // done
 
     private void doCommands(){
         for(Command command : commands){
             doTheCommand(command);
         }
-    }
+    } // done
 
     private void doTheCommand(Command command){
         buyCard(command.getPlayer() , command.getCard() , command.getPoint2D());
-    }
+    }// done
 
     private void activeKingTower(Player player){
         for(GameElement gameElement : playerToElementHashMap.get(player)){
@@ -475,7 +487,43 @@ public abstract class GameManager {
     } // done
 
     private void findTarget(){
-        //implement later
+        GameElement gameElement = null;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                for (int k = 0; k < 2; k++) {
+                    gameElement = mapArray[i][j][k];
+
+                    if(elementToTargetHashMap.get(gameElement) != null){
+                        continue;
+                    }
+
+                    else if(!(gameElement instanceof Damager)){
+                            continue;
+                    }
+                    else {
+                        findTargetForElement(gameElement);
+                    }
+                }
+            }
+        }
+    }
+
+    private void findTargetForElement(GameElement hunterElement){
+        GameElement targetElement = null;
+        for (int l = 0; l < 19; l++) {
+            for (int m = 0; m < 33; m++) {
+                for (int n = 0; n < 2; n++) {
+                    targetElement = mapArray[l][m][n];
+
+                    if(checkHunterTargetType(hunterElement ,targetElement) &&
+                        hunterElement.getLocation().distance(targetElement.getLocation()) <=
+                                ((Damager) hunterElement).getRange()){
+                        elementToTargetHashMap.put(hunterElement , targetElement);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     private void damageTargets(){
@@ -574,11 +622,11 @@ public abstract class GameManager {
 
     public void addCommand(Command command){
         commands.add(command);
-    }
+    }// done
 
     private boolean isAreaAllowed(Player player, Point2D point2D){
         return isAreaAllowed(new Command(player , null , point2D));
-    }
+    } // done
 
     private boolean isAreaAllowed(Command command, int count){
         int x = (int) command.getPoint2D().getX();
@@ -589,7 +637,7 @@ public abstract class GameManager {
             }
         }
         return true;
-    }
+    } // done
 
     private boolean isAreaAllowed(Command command){
         int x = (int) command.getPoint2D().getX();
@@ -659,7 +707,7 @@ public abstract class GameManager {
             }
         }
         return false;
-    }
+    } // done
 
     private void configureDamages(){
         int firstDamage = 0;
@@ -681,6 +729,49 @@ public abstract class GameManager {
                     gameElement.setDamage(currentDamage);
                 }
             }
+        }
+    } // done
+
+    private boolean checkHunterTargetType(GameElement hunter , GameElement target){
+        GameEntity hunterEntity = hunter.getGameEntity();
+        GameEntity targetEntity = target.getGameEntity();
+
+        if(hunterEntity instanceof Tower){
+            return true;
+        }
+        else if(hunterEntity instanceof Giant){
+            if(targetEntity instanceof Property){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if(hunterEntity instanceof Real){
+            Real real = (Real) hunterEntity;
+            Type hunterTargetType = real.getTargetType();
+            if(hunterTargetType ==  Type.airAndGround){
+                return true;
+            }
+            else {
+                if(hunterTargetType == Type.air && targetEntity instanceof AirWarrior){
+                    return true;
+                }
+                else if(hunterTargetType == Type.ground && targetEntity instanceof GroundWarrior){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isCommandAreaAllowed(Command command){
+        GameEntity  gameEntity = command.getCard();
+        if(gameEntity instanceof Troop){
+            return isAreaAllowed(command , ((Troop)gameEntity).getCount());
+        }
+        else{
+            return isAreaAllowed(command);
         }
     }
 }
