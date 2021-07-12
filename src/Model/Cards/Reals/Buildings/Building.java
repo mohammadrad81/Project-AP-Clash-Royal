@@ -2,6 +2,7 @@ package Model.Cards.Reals.Buildings;
 
 import Model.Cards.Reals.Real;
 import Model.Cards.Reals.Type;
+import Model.Interfaces.GroundWarrior;
 import Model.Property;
 
 /**
@@ -9,7 +10,7 @@ import Model.Property;
  * @version 1.0.0
  * @since 7.8.2021
  */
-public abstract class Building extends Real implements Property {
+public abstract class Building extends Real implements Property , GroundWarrior {
     private int lifeTime;
 
     /**
