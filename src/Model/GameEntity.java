@@ -15,4 +15,5 @@ public interface GameEntity {
      * @param level is the level of the player
      */
     public void upgrade(int level);
+    public String  getImageAddress();
 }
