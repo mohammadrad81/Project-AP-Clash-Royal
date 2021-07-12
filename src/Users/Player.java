@@ -45,6 +45,15 @@ public class Player implements Serializable {
         cards.add(new InfernoTower());
     }
 
+    protected Player(String username, int level){
+        this.username = username;
+        password = "";
+        this.level = level;
+        history = null;
+        cards = null;
+        hand = null;
+    }
+
     public String getUsername() {
         return username;
     }
