@@ -1,7 +1,10 @@
 package Model.Game;
 
 import Model.Cards.Card;
+import Model.Cards.Reals.Buildings.Building;
+import Model.Cards.Reals.Buildings.InfernoTower;
 import Model.Cards.Reals.Troops.BabyDragon;
+import Model.Cards.Reals.Troops.Troop;
 import Model.Cards.Spells.Arrows;
 import Model.Cards.Spells.Fireball;
 import Model.Cards.Spells.Rage;
@@ -80,18 +83,46 @@ public abstract class GameManager {
     }
 
     public void addElement(Player player , GameElement gameElement ){
-        List<GameElement> playerElements = playerToElementHashMap.get(player);
-        playerElements.add(gameElement);
-        playerToElementHashMap.put(player , playerElements);
-        if(gameElement.getGameEntity() instanceof BabyDragon){
-            mapArray[(int) gameElement.getLocation().getX()]
-                    [(int) gameElement.getLocation().getY()]
-                    [1] = gameElement;
+        playerToElementHashMap.get(player).add(gameElement);
+        if(gameElement.getGameEntity() instanceof Spell){
+            activeSpells.add(gameElement);
         }
-        else{
-            mapArray[(int) gameElement.getLocation().getX()]
-                    [(int) gameElement.getLocation().getY()]
-                    [0] = gameElement;
+        else if(gameElement.getGameEntity() instanceof Building){
+            placeElement(gameElement);
+        }
+        else if(gameElement.getGameEntity() instanceof Troop){
+            Troop troop = (Troop) gameElement.getGameEntity();
+            int count = troop.getCount();
+            placeElement(gameElement , count);
+        }
+    }
+
+    private void placeElement(GameElement gameElement){
+        placeElement(gameElement , gameElement.getLocation());
+    }
+
+    private void placeElement(GameElement gameElement , int count){
+        Point2D[] point2DS = new Point2D[count];
+        int x = (int) gameElement.getLocation().getX();
+        int y = (int) gameElement.getLocation().getY();
+        Point2D point = gameElement.getLocation();
+        for(int i = 0; i < count ; i ++){
+            point2DS[i] = new Point(x + i , y);
+            placeElement(gameElement , point2DS[i]);
+        }
+    }
+
+    private void placeElement(GameElement gameElement , Point2D point2D){
+        gameElement = gameElement.copy();
+        gameElement.setLocation(point2D);
+
+        int x = (int) gameElement.getLocation().getX();
+        int y = (int) gameElement.getLocation().getY();
+        if(gameElement.getGameEntity() instanceof BabyDragon){
+            mapArray[x][y][1] = gameElement;
+        }
+        else {
+            mapArray[x][y][0] = gameElement;
         }
     }
 
@@ -130,28 +161,37 @@ public abstract class GameManager {
 
     }
 
-    public void buyCard(Player player , Card card , Point2D point2D){
-        if(playerElixir.get(player) >= card.getCost()){
-            playerElixir.put(player , playerElixir.get(player) - card.getCost());
+    public void buyCard(Player player , Card card , Point2D point2D) {
+        Command command = new Command(player, card, point2D);
+        if (card instanceof Troop) {
+            if (!isAreaAllowed(command, ((Troop) card).getCount())) {
+                return; // or throw exception
+            }
+        } else if (!isAreaAllowed(command)) {
+            return; // or throw exception
+        }
+
+        if (playerElixir.get(player) >= card.getCost()) {
+            playerElixir.put(player, playerElixir.get(player) - card.getCost());
+
+
             GameElement gameElement = null;
             playerRandomCardsHashMap.get(player).remove(card);
 
-            if(player.equals(secondPlayer)){
+            if (player.equals(secondPlayer)) {
                 gameElement =
-                        new GameElement(card , point2D ,
-                                player , frameCounter,
+                        new GameElement(card, point2D,
+                                player, frameCounter,
                                 Direction.backward);
-            }
-            else if(player.equals(firstPlayer)){
+            } else if (player.equals(firstPlayer)) {
                 gameElement =
-                        new GameElement(card , point2D ,
-                                player , frameCounter,
+                        new GameElement(card, point2D,
+                                player, frameCounter,
                                 Direction.forward);
             }
-            addElement(player , gameElement);
+            addElement(player, gameElement);
             giveRandomCardToPlayer(player);
         }
-
     }
 
     public void giveRandomCardToPlayer(Player player , int count){
@@ -377,7 +417,7 @@ public abstract class GameManager {
     }
 
     private void doTheCommand(Command command){
-
+        // implement later
     }
 
     private void activeKingTower(Player player){
@@ -398,7 +438,7 @@ public abstract class GameManager {
         moveTroops();
 
         doSpells();
-
+        configureDamages();
         damageTargets();
 
         unRage();
@@ -524,6 +564,21 @@ public abstract class GameManager {
         commands.add(command);
     }
 
+    private boolean isAreaAllowed(Player player, Point2D point2D){
+        return isAreaAllowed(new Command(player , null , point2D));
+    }
+
+    private boolean isAreaAllowed(Command command, int count){
+        int x = (int) command.getPoint2D().getX();
+        int y = (int) command.getPoint2D().getY();
+        for(int i = 0; i < count ; i++){
+            if(! isAreaAllowed(new Command(command.getPlayer() , command.getCard() , new Point(x + i , y)))){
+                return false;
+            }
+        }
+        return true;
+    }
+
     private boolean isAreaAllowed(Command command){
         int x = (int) command.getPoint2D().getX();
         int y = (int) command.getPoint2D().getY();
@@ -592,6 +647,29 @@ public abstract class GameManager {
             }
         }
         return false;
+    }
+
+    private void configureDamages(){
+        int firstDamage = 0;
+        int lastDamage = 0;
+        int currentDamage = 0;
+        long lifeTimeFrameCount = 0;
+        long currentLifeFrame = 0;
+        GameElement gameElement = null;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                gameElement = mapArray[i][j][0];
+                if(gameElement.getGameEntity() instanceof InfernoTower){
+                    InfernoTower it = (InfernoTower) gameElement.getGameEntity();
+                    firstDamage = it.getDamage();
+                    lastDamage = it.getLastDamage();
+                    lifeTimeFrameCount = (long) it.getLifeTime() * fps;
+                    currentLifeFrame = frameCounter - gameElement.getMadeAtFrame();
+                    currentDamage = (int) ((currentLifeFrame * lastDamage) + ((lifeTimeFrameCount - currentLifeFrame) * firstDamage));
+                    gameElement.setDamage(currentDamage);
+                }
+            }
+        }
     }
 }
 
