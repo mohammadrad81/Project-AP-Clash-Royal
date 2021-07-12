@@ -42,8 +42,8 @@ public class IdiotBot extends Bot{
 
         if (selectedCard instanceof Spell) {
             do {
-                int x = random.nextInt(19);        // between 0 and 18
-                int y = random.nextInt(16) + 17 ;  // place spell in enemy area (between 17 and 32)
+                int x = random.nextInt(19);  // between 0 and 18
+                int y = random.nextInt(33);  // between 0 and 32
                 command = new Command(this, selectedCard, new Point(x, y));
             } while (gameManager.isCommandAreaAllowed(command));
         }
