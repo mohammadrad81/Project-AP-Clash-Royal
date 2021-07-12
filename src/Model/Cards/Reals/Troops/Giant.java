@@ -1,13 +1,14 @@
 package Model.Cards.Reals.Troops;
 
 import Model.Cards.Reals.Type;
+import Model.Interfaces.GroundWarrior;
 
 /**
  * giant card of the game
  * @since 7.8.2021
  * @version 1.0.0
  */
-public class Giant extends Troop{
+public class Giant extends Troop implements GroundWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/GiantCard.jpg";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {2000, 2200, 2420, 2660, 2920};

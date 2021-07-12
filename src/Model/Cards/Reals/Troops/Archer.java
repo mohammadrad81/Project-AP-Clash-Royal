@@ -1,13 +1,14 @@
 package Model.Cards.Reals.Troops;
 
 import Model.Cards.Reals.Type;
+import Model.Interfaces.GroundWarrior;
 
 /**
  * the archer card of the game
  * @since 7.8.2021
  * @version 1.0.0
  */
-public class Archer extends Troop{
+public class Archer extends Troop implements GroundWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/ArchersCard.jpg";
     private static final String imageAddress = ""; // will be written later
     private static final int[] healthByLevelArray = {125, 127, 151, 166, 182};

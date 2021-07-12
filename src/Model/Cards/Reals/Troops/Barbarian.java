@@ -1,13 +1,14 @@
 package Model.Cards.Reals.Troops;
 
 import Model.Cards.Reals.Type;
+import Model.Interfaces.GroundWarrior;
 
 /**
  * barbarian card of the game
  * @since 7.8.2021
  * @version 1.0.0
  */
-public class Barbarian extends Troop{
+public class Barbarian extends Troop implements GroundWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/BarbariansCard.jpg";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {300, 330, 363, 438, 480};

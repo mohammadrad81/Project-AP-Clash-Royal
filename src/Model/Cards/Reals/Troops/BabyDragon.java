@@ -1,13 +1,14 @@
 package Model.Cards.Reals.Troops;
 
 import Model.Cards.Reals.Type;
+import Model.Interfaces.AirWarrior;
 
 /**
  * baby dragon card of the game
  * @since 7.8.2021
  * @version 1.0.0
  */
-public class BabyDragon extends Troop{
+public class BabyDragon extends Troop implements AirWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/BabyDragonCard.jpg";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {800, 880, 968, 1064, 1168};

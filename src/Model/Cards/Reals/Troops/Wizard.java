@@ -1,11 +1,12 @@
 package Model.Cards.Reals.Troops;
 
 import Model.Cards.Reals.Type;
+import Model.Interfaces.GroundWarrior;
 
 /**
  * wizard card of the game
  */
-public class Wizard extends Troop{
+public class Wizard extends Troop implements GroundWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/WizardCard.jpg";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {340, 374, 411, 452, 496};

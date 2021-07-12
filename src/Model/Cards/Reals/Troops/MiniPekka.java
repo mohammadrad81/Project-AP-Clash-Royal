@@ -1,13 +1,14 @@
 package Model.Cards.Reals.Troops;
 
 import Model.Cards.Reals.Type;
+import Model.Interfaces.GroundWarrior;
 
 /**
  * mini pekka card of the game
  * @since 7.8.2021
  * @version 1.0.0
  */
-public class MiniPekka extends Troop{
+public class MiniPekka extends Troop implements GroundWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/MiniPEKKACard.jpg";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {600, 660, 726, 798, 876};
