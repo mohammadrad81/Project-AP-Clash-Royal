@@ -19,6 +19,15 @@ public class Fireball extends Spell{
                 2.5 , Ability.fire);
         areaDamage = areaDamageByLevelArray[0];
     }
+    /**
+     * constructor for leveled card
+     * @param level is level of card
+     */
+    public Fireball(int level){
+        super(4 , fireBallCardImageAddress , null,
+                2.5 , Ability.fire);
+        upgrade(level);
+    }
 
     /**
      * upgrades the card ( area damage ) by level

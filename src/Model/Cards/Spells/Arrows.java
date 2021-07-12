@@ -12,12 +12,22 @@ public class Arrows extends Spell{
     private int areaDamage;
 
     /**
-     * constructor for card
+     * constructor for first level card
      */
     public Arrows() {
         super(3 , arrowsCardImageAddress , null,
                 4 , Ability.arrow);
         areaDamage = areaDamageByLevelArray[0];
+    }
+
+    /**
+     * constructor for leveled card
+     * @param level is level of card
+     */
+    public Arrows(int level){
+        super(3 , arrowsCardImageAddress , null,
+                4 , Ability.arrow);
+        upgrade(level);
     }
 
     /**

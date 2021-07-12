@@ -17,9 +17,20 @@ public class Cannon extends Building{
      * constructor for a first-level cannon
      */
     public Cannon() {
-        super(6, cannonCardImageAddress, cannonImageAddress,
+        super(3, cannonCardImageAddress, cannonImageAddress,
                 healthByLevelArray[0], damageByLevelArray[0],
                 5.5, 0.8, Type.ground, Type.ground, 30);
+    }
+
+    /**
+     * constructor for a new leveled cannon
+     * @param level is the level of cannon
+     */
+    public Cannon(int level){
+        super(3, cannonCardImageAddress, cannonImageAddress,
+                healthByLevelArray[0], damageByLevelArray[0],
+                5.5, 0.8, Type.ground, Type.ground, 30);
+        upgrade(level);
     }
 
     /**

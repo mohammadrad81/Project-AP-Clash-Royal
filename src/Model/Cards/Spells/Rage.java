@@ -18,6 +18,14 @@ public class Rage extends Spell{
         super(3, rageCardImageAddress, null, 5, Ability.boost);
         duration = durationByLevelArray[0];
     }
+    /**
+     * constructor for leveled rage spell
+     * @param level is level of card
+     */
+    public Rage(int level){
+        super(3, rageCardImageAddress, null, 5, Ability.boost);
+        upgrade(level);
+    }
 
     /**
      * upgrades the spell ( changes the duration )
