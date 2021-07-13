@@ -92,8 +92,18 @@ public class UserMenuController {
     }
 
     @FXML
-    void goTrainingCamp(ActionEvent event) {
+    void goTrainingCamp(ActionEvent event) throws Exception{
+        Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/View/SelectDifficulty.fxml"));
+        fxmlLoader.load();
+        SelectDifficultyController controller = fxmlLoader.getController();
+        controller.setPlayer(player);
 
+        Parent root = fxmlLoader.getRoot();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 
