@@ -516,6 +516,10 @@ public abstract class GameManager {
                     mapArray[i][j][k] = null;
                     targetElement = elementToTargetHashMap.get(gameElement);
                     if(targetElement != null){
+                        if(frameCounter % ((Troop)gameElement.getGameEntity()).getSpeed().getValue() != 0){
+                            stay(gameElement , newMap);
+                            continue;
+                        }
                         elementX = (int) gameElement.getLocation().getX();
                         elementY = (int) gameElement.getLocation().getY();
                         targetX = (int) targetElement.getLocation().getX();
