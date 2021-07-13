@@ -8,7 +8,7 @@ import Model.Interfaces.GroundWarrior;
  */
 public class Wizard extends Troop implements GroundWarrior{
     private static final String cardImageAddress = "/Pictures/CardImages/WizardCard.png";
-    private static final String imageAddress = "";// will be written later
+    private static final String imageAddress = "/Pictures/ElementImages/Wizard/color/";
     private static final int[] healthByLevelArray = {340, 374, 411, 452, 496};
     private static final int[] damageByLevel = {130, 143, 157, 172, 189};
 

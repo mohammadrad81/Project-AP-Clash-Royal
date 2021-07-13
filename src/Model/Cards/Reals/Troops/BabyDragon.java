@@ -11,7 +11,7 @@ import Model.Interfaces.GroundWarrior;
  */
 public class BabyDragon extends Troop implements AirWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/BabyDragonCard.png";
-    private static final String imageAddress = "";// will be written later
+    private static final String imageAddress = "/Pictures/ElementImages/BabyDragon/color/";
     private static final int[] healthByLevelArray = {800, 880, 968, 1064, 1168};
     private static final int[] damageByLevel = {100, 110, 121, 133, 146};
 

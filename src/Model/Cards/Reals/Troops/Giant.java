@@ -11,7 +11,7 @@ import Model.Interfaces.GroundWarrior;
  */
 public class Giant extends Troop implements GroundWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/GiantCard.png";
-    private static final String imageAddress = "";// will be written later
+    private static final String imageAddress = "/Pictures/ElementImages/Giant/color/";
     private static final int[] healthByLevelArray = {2000, 2200, 2420, 2660, 2920};
     private static final int[] damageByLevel = {126, 138, 152, 167, 183};
 

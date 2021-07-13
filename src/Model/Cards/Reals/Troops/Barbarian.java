@@ -10,7 +10,7 @@ import Model.Interfaces.GroundWarrior;
  */
 public class Barbarian extends Troop implements GroundWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/BarbariansCard.png";
-    private static final String imageAddress = "";// will be written later
+    private static final String imageAddress = "/Pictures/ElementImages/Barbarian/color/";
     private static final int[] healthByLevelArray = {300, 330, 363, 438, 480};
     private static final int[] damageByLevel = {75, 82, 90, 99, 109};
 

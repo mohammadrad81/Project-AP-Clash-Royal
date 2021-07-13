@@ -10,7 +10,7 @@ import Model.Interfaces.GroundWarrior;
  */
 public class Valkyrie extends Troop implements GroundWarrior{
     private static final String cardImageAddress = "/Pictures/CardImages/ValkyrieCard.png";
-    private static final String imageAddress = "";// will be written later
+    private static final String imageAddress = "/Pictures/ElementImages/Valkyrie/color/";
     private static final int[] healthByLevelArray = {880, 968, 1064, 1170, 1280};
     private static final int[] damageByLevel = {120, 132, 145, 159, 175};
 

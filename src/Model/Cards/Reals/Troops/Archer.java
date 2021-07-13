@@ -10,7 +10,7 @@ import Model.Interfaces.GroundWarrior;
  */
 public class Archer extends Troop implements  GroundWarrior{
     private static final String cardImageAddress = "/Pictures/CardImages/ArchersCard.png";
-    private static final String imageAddress = ""; // will be written later
+    private static final String imageAddress = "/Pictures/ElementImages/Archer/color/";
     private static final int[] healthByLevelArray = {125, 127, 151, 166, 182};
     private static final int[] damageByLevelArray = {33, 44, 48, 53, 58};
 

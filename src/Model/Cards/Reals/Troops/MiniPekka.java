@@ -10,7 +10,7 @@ import Model.Interfaces.GroundWarrior;
  */
 public class MiniPekka extends Troop implements GroundWarrior{
     private static final String cardImageAddress = "/Pictures/CardImages/MiniPEKKACard.png";
-    private static final String imageAddress = "";// will be written later
+    private static final String imageAddress = "/Pictures/ElementImages/MiniPekka/color/";
     private static final int[] healthByLevelArray = {600, 660, 726, 798, 876};
     private static final int[] damageByLevel = {325, 357, 393, 432, 474};
 
