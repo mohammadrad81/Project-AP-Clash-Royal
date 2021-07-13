@@ -91,6 +91,11 @@ public class UserMenuController {
         stage.show();
     }
 
+    @FXML
+    void goTrainingCamp(ActionEvent event) {
+
+    }
+
 
 }
 
