@@ -18,21 +18,22 @@ import Model.Interfaces.Damager;
 import Model.Interfaces.GroundWarrior;
 import Model.Interfaces.HealthHaver;
 import Model.Property;
+import Model.Stats.Match;
 import Model.Towers.KingTower;
 import Model.Towers.PrincessTower;
 import Model.Towers.Tower;
+import Users.Bot;
 import Users.Player;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
+
 import java.awt.geom.Point2D;
-import java.io.DataInput;
-import java.lang.annotation.Target;
+
 import java.util.*;
 import java.util.List;
 
 
-public abstract class GameManager {
+public class GameManager {
 //    private static final String team1Name = "team 1";
 //    private static final String team2Name = "team 2";
     private static GameManager gameManager;
@@ -51,6 +52,7 @@ public abstract class GameManager {
     private HashMap<Player , List<Card>> playerRandomCardsHashMap;
     private HashMap<GameElement , GameElement> elementToTargetHashMap;
     private List<GameElement> activeSpells;
+    private List<Shoot> shoots;
 
     public static GameManager getInstance(){
         return gameManager;
@@ -75,6 +77,7 @@ public abstract class GameManager {
         this.playerToElementHashMap.put(secondPlayer, new ArrayList<>());
         this.mapArray = new GameElement[19][33][2];
         this.elementToTargetHashMap = new HashMap<>();
+        this.shoots = new ArrayList<>();
         gameManager = this;
     }
 
@@ -444,8 +447,9 @@ public abstract class GameManager {
     } // done
 
     public void update(){
+        resetShoots();
         increaseElixirs();
-
+        botsDecisions();
         doCommands();
 
         removeDead();
@@ -970,7 +974,7 @@ public abstract class GameManager {
                             if(frameCounter % (int) (10.0 *  ((Damager) gameElement.getGameEntity()).getHitSpeed()) == 0){
                                 if(gameElement.getGameEntity() instanceof KingTower){
                                     if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
-                                        damageAnimation(gameElement.getLocation() , targetElement.getLocation());
+                                        damageShoot(gameElement.getLocation() , targetElement.getLocation());
                                         targetElement.hurt(gameElement.getDamage());
                                         if(targetElement.getGameEntity() instanceof KingTower){
                                             activeKingTower(targetElement.getOwner());
@@ -978,7 +982,7 @@ public abstract class GameManager {
                                     }
                                 }
                                 else {
-                                    damageAnimation(gameElement.getLocation() , targetElement.getLocation());
+                                    damageShoot(gameElement.getLocation() , targetElement.getLocation());
                                     targetElement.hurt(gameElement.getDamage());
                                     if(targetElement.getGameEntity() instanceof KingTower){
                                         activeKingTower(targetElement.getOwner());
@@ -1047,8 +1051,12 @@ public abstract class GameManager {
         }
     } // done
 
-    public void damageAnimation(Point2D src , Point2D dest){
-        // implement later
+    private void damageShoot(Point2D src , Point2D dest){
+        shoots.add(new Shoot(src , dest));
+    }
+
+    private void resetShoots(){
+        shoots = new ArrayList<>();
     }
 
     public void addCommand(Command command){
@@ -1204,6 +1212,91 @@ public abstract class GameManager {
         else{
             return isAreaAllowed(command);
         }
+    }
+
+    public Match gameResult(){
+        String winnerName = null;
+        String looserName = null;
+        int winnerCrown = 0;
+        int looserCrown = 0;
+        if(firstPlayerCrown > secondPlayerCrown){
+            winnerName = firstPlayer.getUsername();
+            looserName = secondPlayer.getUsername();
+            winnerCrown = firstPlayerCrown;
+            looserCrown = secondPlayerCrown;
+        }
+        else if(firstPlayerCrown < secondPlayerCrown){
+            winnerName = secondPlayer.getUsername();
+            looserName = firstPlayer.getUsername();
+            winnerCrown = secondPlayerCrown;
+            looserCrown = firstPlayerCrown;
+        }
+        else {
+            if(sumTowersHealth(firstPlayer) >= sumTowersHealth(secondPlayer)){
+                winnerName = firstPlayer.getUsername();
+                looserName = secondPlayer.getUsername();
+                winnerCrown = firstPlayerCrown;
+                looserCrown = secondPlayerCrown;
+            }
+            else {
+                winnerName = secondPlayer.getUsername();
+                looserName = firstPlayer.getUsername();
+                winnerCrown = secondPlayerCrown;
+                looserCrown = firstPlayerCrown;
+            }
+        }
+        return new Match(winnerName , looserName , winnerCrown , looserCrown);
+    }
+
+    private int sumTowersHealth(Player player){
+        List<GameElement> elements = playerToElementHashMap.get(player);
+        int sumTowersHealth = 0;
+        for(GameElement gameElement : elements){
+            if(gameElement.getGameEntity() instanceof Tower){
+                Tower tower = (Tower) gameElement.getGameEntity();
+                sumTowersHealth += tower.getHealth();
+            }
+        }
+        return sumTowersHealth;
+    }
+
+    private void botsDecisions(){
+        if(firstPlayer instanceof Bot){
+            Command botCommand = ((Bot)firstPlayer).decision(mapArray,
+                    playerRandomCardsHashMap.get(firstPlayer),
+                    playerElixir.get(firstPlayer));
+            addCommand(botCommand);
+        }
+        if(secondPlayer instanceof Bot){
+            Command botCommand = ((Bot) secondPlayer).decision(mapArray ,
+                    playerRandomCardsHashMap.get(secondPlayer),
+                    playerElixir.get(secondPlayer));
+            addCommand(botCommand);
+        }
+    }
+
+    public GameElement[][][] getMapArray() {
+        return mapArray;
+    }
+
+    public long getFrameCounter() {
+        return frameCounter;
+    }
+
+    public int getFps() {
+        return fps;
+    }
+
+    public HashMap<Player, List<Card>> getPlayerRandomCardsHashMap() {
+        return playerRandomCardsHashMap;
+    }
+
+    public List<GameElement> getActiveSpells() {
+        return activeSpells;
+    }
+
+    public List<Shoot> getShoots() {
+        return shoots;
     }
 }
 
