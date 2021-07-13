@@ -9,7 +9,7 @@ import Model.Interfaces.GroundWarrior;
  * @since 7.8.2021
  * @version 1.0.0
  */
-public class BabyDragon extends Troop implements GroundWarrior {
+public class BabyDragon extends Troop implements AirWarrior {
     private static final String cardImageAddress = "/Pictures/CardImages/BabyDragonCard.png";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {800, 880, 968, 1064, 1168};
