@@ -60,7 +60,7 @@ public class GameManager {
 
     private List<Command> commands;
 
-    private GameManager(Player firstPlayer, Player secondPlayer) {
+    public GameManager(Player firstPlayer, Player secondPlayer) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
 
@@ -103,15 +103,15 @@ public class GameManager {
         }
     }
 
-    public void increaseFirstPlayerCrown(){
+    private void increaseFirstPlayerCrown(){
         firstPlayerCrown++;
     }//done
 
-    public void increaseSecondPlayerCrown(){
+    private void increaseSecondPlayerCrown(){
         secondPlayerCrown++;
     }//done
 
-    public void addElement(Player player , GameElement gameElement ){
+    private void addElement(Player player , GameElement gameElement ){
         playerToElementHashMap.get(player).add(gameElement);
         if(gameElement.getGameEntity() instanceof Spell){
             activeSpells.add(gameElement);
@@ -155,11 +155,11 @@ public class GameManager {
         }
     }//done
 
-    public void removeElement(GameElement gameElement){
+    private void removeElement(GameElement gameElement){
         removeElement(gameElement.getOwner() , gameElement);
     } // done
 
-    public void removeElement(Player player , GameElement gameElement){
+    private void removeElement(Player player , GameElement gameElement){
         List<GameElement> playerElements = playerToElementHashMap.get(player);
         playerElements.remove(gameElement);
         if(gameElement.getGameEntity() instanceof BabyDragon){
@@ -254,7 +254,7 @@ public class GameManager {
         }
     } // done
 
-    public void givePlayerTowers(Player player){
+    private void givePlayerTowers(Player player){
         List<GameElement> gameElements = playerToElementHashMap.get(player);
         GameElement kingTowerElement = null;
         GameElement leftPrincessTower = null;
