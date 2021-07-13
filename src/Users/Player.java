@@ -11,6 +11,7 @@ import Model.Stats.Match;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Player implements Serializable {
@@ -43,6 +44,35 @@ public class Player implements Serializable {
         cards.add(new Arrows());
         cards.add(new Cannon());
         cards.add(new InfernoTower());
+    }
+
+    protected Player(String username, int level){ // used for create bots
+        this.username = username;
+        password = "";
+        this.level = level;
+        history = null;
+        cards = new ArrayList<>();
+
+        cards.add(new Barbarian(level));
+        cards.add(new Archer(level));
+        cards.add(new BabyDragon(level));
+        cards.add(new Wizard(level));
+        cards.add(new MiniPekka(level));
+        cards.add(new Giant(level));
+        cards.add(new Valkyrie(level));
+        cards.add(new Rage(level));
+        cards.add(new Fireball(level));
+        cards.add(new Arrows(level));
+        cards.add(new Cannon(level));
+        cards.add(new InfernoTower(level));
+
+        Collections.shuffle(cards);
+
+        hand = new ArrayList<>();
+        for (int i = 0; i < 8; i++){
+            hand.add(cards.get(0));
+            cards.remove(0);
+        }
     }
 
     public String getUsername() {

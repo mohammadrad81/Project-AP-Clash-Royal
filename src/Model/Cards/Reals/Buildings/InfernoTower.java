@@ -27,6 +27,18 @@ public class InfernoTower extends Building{
     }
 
     /**
+     * constructor for a new leveled inferno tower
+     * @param level is the level of inferno tower
+     */
+    public InfernoTower(int level){
+        super(5, infernoCardImageAddress, infernoImageAddress,
+                healthByLevel[0], firstDamageByLevel[0], 6,
+                0.4, Type.ground, Type.airAndGround,
+                40);
+        upgrade(level);
+    }
+
+    /**
      * upgrades the inferno tower by the level of the player
      * @param level is the level of the player
      */

@@ -1,13 +1,14 @@
 package Model.Cards.Reals.Troops;
 
 import Model.Cards.Reals.Type;
+import Model.Interfaces.GroundWarrior;
 
 /**
  * the valkyrie card of the game
  * @since 7.8.2021
  * @version 1.0.0
  */
-public class Valkyrie extends Troop{
+public class Valkyrie extends Troop implements GroundWarrior{
     private static final String cardImageAddress = "/Pictures/CardImages/ValkyrieCard.png";
     private static final String imageAddress = "";// will be written later
     private static final int[] healthByLevelArray = {880, 968, 1064, 1170, 1280};
