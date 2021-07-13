@@ -79,17 +79,28 @@ public class GameManager {
         this.elementToTargetHashMap = new HashMap<>();
         this.shoots = new ArrayList<>();
         gameManager = this;
+        init();
     }
 
-    public void init(){
+    private void init(){
         givePlayerTowers(firstPlayer);
         givePlayerTowers(secondPlayer);
-        giveRandomCardToPlayer(firstPlayer, 4);
-        giveRandomCardToPlayer(secondPlayer, 4);
+        giveRandomCardToPlayer(firstPlayer, 5);
+        giveRandomCardToPlayer(secondPlayer, 5);
         playerElixir.put(firstPlayer , 4);
         playerElixir.put(secondPlayer , 4);
-        // implement later :
+        putBlocks();
 
+    }
+
+    private void putBlocks(){
+
+        for(int i = 0 ; i < 19; i ++){
+            if(i == 3 || i == 15){
+                continue;
+            }
+            mapArray[i][16][0] = new Block(new Point(i , 16));
+        }
     }
 
     public void increaseFirstPlayerCrown(){
