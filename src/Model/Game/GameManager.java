@@ -176,11 +176,22 @@ public class GameManager {
         if(gameElement.getGameEntity() instanceof Tower){
             if(player.equals(firstPlayer)){
                 activeKingTower(firstPlayer);
-                increaseSecondPlayerCrown();
+                if(gameElement.getGameEntity() instanceof KingTower){
+                   secondPlayerCrown = 3;
+                }
+                else {
+                    increaseSecondPlayerCrown();
+                }
             }
             else {
                 activeKingTower(secondPlayer);
-                increaseFirstPlayerCrown();
+                if(gameElement.getGameEntity() instanceof KingTower){
+                    firstPlayerCrown = 3;
+                }
+                else {
+                    increaseFirstPlayerCrown();
+                }
+
             }
         }
 
@@ -224,7 +235,7 @@ public class GameManager {
     } // done
 
     public void giveRandomCardToPlayer(Player player , int count){
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < count; i++){
             giveRandomCardToPlayer(player);
         }
     } // done
