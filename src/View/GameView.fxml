@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameController">
    <right>
       <VBox alignment="CENTER" prefHeight="373.0" prefWidth="66.0" style="-fx-background-color: #1234;" BorderPane.alignment="CENTER">
          <children>
-            <Label text="0">
+            <Label fx:id="enemyCrowns" text="0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -26,7 +26,7 @@
                   <Image url="@../Pictures/GameImages/enemyCrown.png" />
                </image>
             </ImageView>
-            <Label text="0">
+            <Label fx:id="yourCrowns" text="0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -42,12 +42,12 @@
    <top>
       <HBox alignment="CENTER" prefHeight="24.0" prefWidth="500.0" spacing="200.0" style="-fx-background-color: #1234;" BorderPane.alignment="CENTER">
          <children>
-            <Label text="ENEMY NAME">
+            <Label fx:id="enemyUsernameLabel" text="ENEMY NAME">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label text="3:00">
+            <Label fx:id="timeLabel" text="3:00">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -56,7 +56,7 @@
       </HBox>
    </top>
    <center>
-      <StackPane alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <StackPane fx:id="arenaPane" alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <StackPane prefHeight="133.0" prefWidth="559.0" BorderPane.alignment="CENTER">
@@ -84,10 +84,10 @@
                               </Label>
                            </children>
                         </VBox>
-                        <ListView prefHeight="78.0" prefWidth="290.0" />
+                        <ListView fx:id="handListView" prefHeight="78.0" prefWidth="290.0" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="566.0">
+                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="566.0" spacing="4.0">
                      <children>
                         <ImageView fitHeight="27.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -97,7 +97,12 @@
                               <Insets right="4.0" />
                            </HBox.margin>
                         </ImageView>
-                        <ProgressBar prefWidth="200.0" progress="0.5" />
+                        <ProgressBar fx:id="elixirProgressBar" prefWidth="200.0" progress="0.5" />
+                        <Label fx:id="elixirNumber" text="0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
                      </children>
                      <VBox.margin>
                         <Insets bottom="2.0" top="4.0" />
