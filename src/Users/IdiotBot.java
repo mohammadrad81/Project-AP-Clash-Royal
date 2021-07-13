@@ -7,7 +7,7 @@ import Model.Game.GameElement;
 import Model.Game.GameManager;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class IdiotBot extends Bot{
@@ -18,7 +18,7 @@ public class IdiotBot extends Bot{
     }
 
     @Override
-    public Command decision(GameElement[][][] mapArray, ArrayList<Card> cards, int elixir) {
+    public Command decision(GameElement[][][] mapArray, List<Card> cards, int elixir) {
         if (gameManager == null)
             gameManager = GameManager.getInstance();
 
