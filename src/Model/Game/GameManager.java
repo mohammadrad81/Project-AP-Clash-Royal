@@ -201,7 +201,7 @@ public class GameManager {
 
     } //done
 
-    public void buyCard(Player player , Card card , Point2D point2D) {
+    private void buyCard(Player player , Card card , Point2D point2D) {
         Command command = new Command(player, card, point2D);
         if (card instanceof Troop) {
             if (!isAreaAllowed(command, ((Troop) card).getCount())) {
@@ -234,13 +234,13 @@ public class GameManager {
         }
     } // done
 
-    public void giveRandomCardToPlayer(Player player , int count){
+    private void giveRandomCardToPlayer(Player player , int count){
         for(int i = 0; i < count; i++){
             giveRandomCardToPlayer(player);
         }
     } // done
 
-    public void giveRandomCardToPlayer(Player player){
+    private void giveRandomCardToPlayer(Player player){
         boolean done = false;
         List<Card> hand = player.getHand();
         Random random = new Random();
@@ -303,7 +303,7 @@ public class GameManager {
         gameElements.add(rightPrincessTower);
     } // done
 
-    public void spellArea(GameElement spellElement){
+    private void spellArea(GameElement spellElement){
         activeSpells.add(spellElement);
         if(spellElement.getGameEntity() instanceof Rage){
             rageArea(spellElement);
