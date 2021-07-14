@@ -198,7 +198,7 @@ public class GameManager {
         }
 
         if(gameElement.getGameEntity() instanceof Spell){
-            activeSpells.remove(gameElement);
+//            activeSpells.remove(gameElement);
         }
 
     } //done
@@ -306,7 +306,7 @@ public class GameManager {
     } // done
 
     private void spellArea(GameElement spellElement){
-        activeSpells.add(spellElement);
+//        activeSpells.add(spellElement);
         if(spellElement.getGameEntity() instanceof Rage){
             rageArea(spellElement);
         }
@@ -1137,7 +1137,6 @@ public class GameManager {
         }
 
         if(command.getPlayer().equals(firstPlayer)){
-
 
             if(hasLeftTower(secondPlayer) && hasRightTower(secondPlayer)){
                 if(y >= 17 && y <= 32){
