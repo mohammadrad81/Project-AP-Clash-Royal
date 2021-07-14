@@ -46,7 +46,7 @@ public class Player implements Serializable {
         cards.add(new InfernoTower());
     }
 
-    protected Player(String username, int level){ // used for create bots
+    public Player(String username, int level){ // used for create bots
         this.username = username;
         password = "";
         this.level = level;
