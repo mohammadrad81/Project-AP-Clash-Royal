@@ -923,6 +923,8 @@ public class GameManager {
             for(int j = 0; j < 33; j++){
                 for(int k = 0; k < 2; k ++){
                     gameElement = mapArray[i][j][k];
+                    if (gameElement == null)
+                        continue;
                     if(gameElement.getGameEntity() instanceof HealthHaver){
                         healthHaver = (HealthHaver) gameElement.getGameEntity();
                         if(healthHaver.getHealth() <= 0){
@@ -1042,6 +1044,8 @@ public class GameManager {
             for (int j = 0; j < 33; j++) {
                 for (int k = 0; k < 2; k++) {
                     gameElement = mapArray[i][j][k];
+                    if (gameElement == null)
+                        continue;
                     if(gameElement.isBoosted()){
                         gameElement.deBoost();
                     }
@@ -1180,6 +1184,8 @@ public class GameManager {
         for (int i = 0; i < 19; i++) {
             for (int j = 0; j < 33; j++) {
                 gameElement = mapArray[i][j][0];
+                if (gameElement == null)
+                    continue;
                 if(gameElement.getGameEntity() instanceof InfernoTower){
                     InfernoTower it = (InfernoTower) gameElement.getGameEntity();
                     firstDamage = it.getDamage();
@@ -1320,5 +1326,11 @@ public class GameManager {
     public List<Shoot> getShoots() {
         return shoots;
     }
+
+    public int getFirstPlayerCrown(){ return firstPlayerCrown; }
+
+    public int getSecondPlayerCrown(){ return secondPlayerCrown; }
+
+    public int getFirstPlayerElixir(){ return playerElixir.get(firstPlayer); }
 }
 
