@@ -12,7 +12,6 @@ import Model.Stats.Match;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 public class Player implements Serializable {
     private String username;

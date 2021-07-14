@@ -5,6 +5,7 @@ import Model.Game.Command;
 import Model.Game.GameManager;
 import Users.Player;
 import View.CardView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,6 +24,8 @@ import javafx.util.Callback;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameController {
     private double cellWidth;
@@ -32,6 +35,7 @@ public class GameController {
     private Player player1;
     private Player player2;
     private ObservableList<Card> cardObservableList;
+    private Timer timer;
 
     @FXML
     private BorderPane border;
@@ -76,7 +80,8 @@ public class GameController {
         System.out.println(x + " " + y);
 
         Command command = new Command(player1, selectedCard, new Point(x, y));
-        model.addCommand(command);
+        if (model.isCommandAreaAllowed(command))
+            model.addCommand(command);
         model.update();
         updateView();
     }
@@ -114,9 +119,31 @@ public class GameController {
         enemyUsernameLabel.setText(player2.getUsername());
         model = new GameManager(player1, player2);
         updateView();
+        startTimer();
+    }
 
+    public void startTimer(){
+        timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        update();
+                    }
+                });
+            }
+        };
+        long frameTimeInMilliseconds = (long) (1000.0 / model.getFps());
+        timer.schedule(timerTask,0, frameTimeInMilliseconds);
+    }
 
-
+    public void update(){
+        model.update();
+        updateView();
+        if (model.isGameOver())
+            timer.cancel();
     }
 
     public void updateView(){
@@ -130,9 +157,24 @@ public class GameController {
 
         cardObservableList = FXCollections.observableList(cardList);
         handListView.setItems(cardObservableList);
+
         int elixir = model.getFirstPlayerElixir();
         elixirProgressBar.setProgress(elixir/10.0);
         elixirNumber.setText(Integer.toString(elixir));
+
+        enemyCrowns.setText(Integer.toString(model.getSecondPlayerCrown()));
+        yourCrowns.setText(Integer.toString(model.getFirstPlayerCrown()));
+
+        long frameCount = 1800 - model.getFrameCounter();
+        String seconds = "";
+        String minutes = "" + frameCount/600;
+        if ((frameCount % 600)/10 < 10)
+            seconds = "0" + (frameCount % 600)/10;
+        else
+            seconds = "" + (frameCount % 600)/10;
+
+        timeLabel.setText("" + minutes + ":" + seconds);
+
 //        model.update();
     }
 
