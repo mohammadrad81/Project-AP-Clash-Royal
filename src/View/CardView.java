@@ -9,7 +9,7 @@ public class CardView extends ListCell<Card> {
     private ImageView image = new ImageView();
 
     public CardView(){
-        image.setFitHeight(95.0);
+        image.setFitHeight(90.0);
         image.setFitWidth(80.0);
         setPrefHeight(USE_COMPUTED_SIZE);
         setPrefWidth(USE_COMPUTED_SIZE);
