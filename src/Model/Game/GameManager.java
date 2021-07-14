@@ -162,36 +162,38 @@ public class GameManager {
     private void removeElement(Player player , GameElement gameElement){
         List<GameElement> playerElements = playerToElementHashMap.get(player);
         playerElements.remove(gameElement);
-        if(gameElement.getGameEntity() instanceof BabyDragon){
-            mapArray[(int) gameElement.getLocation().getX()]
-                    [(int) gameElement.getLocation().getY()]
-                    [1] = null;
-        }
-        else{
-            mapArray[(int) gameElement.getLocation().getX()]
-                    [(int) gameElement.getLocation().getY()]
-                    [0] = null;
-        }
-
-        if(gameElement.getGameEntity() instanceof Tower){
-            if(player.equals(firstPlayer)){
-                activeKingTower(firstPlayer);
-                if(gameElement.getGameEntity() instanceof KingTower){
-                   secondPlayerCrown = 3;
-                }
-                else {
-                    increaseSecondPlayerCrown();
-                }
+        if(!(gameElement.getGameEntity() instanceof Spell)){
+            if(gameElement.getGameEntity() instanceof BabyDragon){
+                mapArray[(int) gameElement.getLocation().getX()]
+                        [(int) gameElement.getLocation().getY()]
+                        [1] = null;
             }
-            else {
-                activeKingTower(secondPlayer);
-                if(gameElement.getGameEntity() instanceof KingTower){
-                    firstPlayerCrown = 3;
+            else{
+                mapArray[(int) gameElement.getLocation().getX()]
+                        [(int) gameElement.getLocation().getY()]
+                        [0] = null;
+            }
+
+            if(gameElement.getGameEntity() instanceof Tower){
+                if(player.equals(firstPlayer)){
+                    activeKingTower(firstPlayer);
+                    if(gameElement.getGameEntity() instanceof KingTower){
+                        secondPlayerCrown = 3;
+                    }
+                    else {
+                        increaseSecondPlayerCrown();
+                    }
                 }
                 else {
-                    increaseFirstPlayerCrown();
-                }
+                    activeKingTower(secondPlayer);
+                    if(gameElement.getGameEntity() instanceof KingTower){
+                        firstPlayerCrown = 3;
+                    }
+                    else {
+                        increaseFirstPlayerCrown();
+                    }
 
+                }
             }
         }
 
@@ -451,8 +453,12 @@ public class GameManager {
     } // done
 
     private void doCommands(){
-        for(Command command : commands){
+        Iterator<Command> commandIterator = commands.iterator();
+        Command command = null;
+        while(commandIterator.hasNext()){
+            command = commandIterator.next();
             doTheCommand(command);
+            commandIterator.remove();
         }
     } // done
 
@@ -1033,10 +1039,12 @@ public class GameManager {
                 Rage rage = (Rage) gameElement.getGameEntity();
                 int decaSecDuration = (int) (10 * rage.getDuration());
                 if(frameCounter - gameElement.getMadeAtFrame() > decaSecDuration){
+                    iterator.remove();
                     removeElement(gameElement);
                 }
             }
             else {
+                iterator.remove();
                 removeElement(gameElement);
             }
         }
