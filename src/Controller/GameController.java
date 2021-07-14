@@ -13,6 +13,8 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -153,12 +155,18 @@ public class GameController {
         List<GameElement> firstPlayerElements = gameElementHashMap.get(player1);
         for (GameElement element: firstPlayerElements){
             if (element.getGameEntity() instanceof Troop) {
-                ImageView imageView = new ImageView(new Image(element.getImageAddress().replace("color","red") + "backward.png"));
-                imageView.setX((int)element.getLocation().getX() * cellWidth);
-                imageView.setY((int)element.getLocation().getY() * cellHeight);
-                imageView.setFitWidth(cellWidth*10);
-                imageView.setFitHeight(cellHeight*10);
-                arenaPane.getChildren().add(imageView);
+                Canvas canvas = new Canvas();
+                canvas.setHeight(arenaPane.getHeight());
+                canvas.setWidth(arenaPane.getWidth());
+//                ImageView imageView = new ImageView(new Image(element.getImageAddress().replace("color","red") + "backward.png"));
+//                imageView.setX((int)element.getLocation().getX() * cellWidth);
+//                imageView.setY((int)element.getLocation().getY() * cellHeight);
+
+                GraphicsContext gc = canvas.getGraphicsContext2D();
+//                imageView.setFitWidth(cellWidth);
+//                imageView.setFitHeight(cellHeight);
+                gc.drawImage(new Image(element.getImageAddress().replace("color","red") + "backward.png"), cellWidth * element.getLocation().getX() , cellHeight * element.getLocation().getY() , cellWidth , cellHeight);
+                arenaPane.getChildren().add(canvas);
             }
             else if (element.getGameEntity() instanceof Tower){
 
