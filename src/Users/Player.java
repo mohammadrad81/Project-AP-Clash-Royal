@@ -143,5 +143,9 @@ public class Player implements Serializable {
         Player player = (Player) o;
         return username.equals(player.username) && password.equals(player.password);
     }
+    @Override
+    public int hashCode(){
+        return (username.hashCode() + password.hashCode());
+    }
 
 }
