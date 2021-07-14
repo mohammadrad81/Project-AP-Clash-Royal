@@ -1,8 +1,12 @@
 package Controller;
 
 import Model.Cards.Card;
+import Model.Cards.Reals.Troops.Troop;
+import Model.Cards.Spells.Spell;
 import Model.Game.Command;
+import Model.Game.GameElement;
 import Model.Game.GameManager;
+import Model.Towers.Tower;
 import Users.Player;
 import View.CardView;
 import javafx.application.Platform;
@@ -22,10 +26,8 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameController {
     private double cellWidth;
@@ -146,7 +148,30 @@ public class GameController {
             timer.cancel();
     }
 
+    public void showElements(){
+        HashMap<Player, List<GameElement>> gameElementHashMap = model.getPlayerToElementHashMap();
+        List<GameElement> firstPlayerElements = gameElementHashMap.get(player1);
+        for (GameElement element: firstPlayerElements){
+            if (element.getGameEntity() instanceof Troop) {
+                ImageView imageView = new ImageView(new Image(element.getImageAddress().replace("color","red") + "backward.png"));
+                imageView.setX((int)element.getLocation().getX() * cellWidth);
+                imageView.setY((int)element.getLocation().getY() * cellHeight);
+                imageView.setFitWidth(cellWidth*10);
+                imageView.setFitHeight(cellHeight*10);
+                arenaPane.getChildren().add(imageView);
+            }
+            else if (element.getGameEntity() instanceof Tower){
+
+            }
+
+        }
+
+    }
+
     public void updateView(){
+        if (arenaPane.getChildren().size() > 1) //clear old elements
+            arenaPane.getChildren().remove(1,arenaPane.getChildren().size()-1);
+
         List<Card> hand = model.getPlayerRandomCardsHashMap().get(player1);
         nextCardImage.setImage(new Image(hand.get(4).getCardImageAddress()));
 //        cardList.remove(4);
@@ -154,6 +179,8 @@ public class GameController {
         for (int i = 0; i < 4; i++){
             cardList.add(hand.get(i));
         }
+
+        showElements();
 
         cardObservableList = FXCollections.observableList(cardList);
         handListView.setItems(cardObservableList);
