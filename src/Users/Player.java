@@ -12,7 +12,6 @@ import Model.Stats.Match;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 
 public class Player implements Serializable {
     private String username;
@@ -142,6 +141,10 @@ public class Player implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
         return username.equals(player.username) && password.equals(player.password);
+    }
+    @Override
+    public int hashCode(){
+        return (username.hashCode() + password.hashCode());
     }
 
 }
