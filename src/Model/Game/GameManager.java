@@ -205,12 +205,17 @@ public class GameManager {
 
     private void buyCard(Player player , Card card , Point2D point2D) {
         Command command = new Command(player, card, point2D);
-        if (card instanceof Troop) {
-            if (!isAreaAllowed(command, ((Troop) card).getCount())) {
-                return; // or throw exception
-            }
-        } else if (!isAreaAllowed(command)) {
-            return; // or throw exception
+        int x = (int) point2D.getX();
+        int y = (int) point2D.getY();
+//        if (card instanceof Troop) {
+//            if (!isAreaAllowed(command, ((Troop) card).getCount())) {
+//                return; // or throw exception
+//            }
+//        } else if (!isAreaAllowed(command)) {
+//            return; // or throw exception
+//        }
+        if(! isCommandAreaAllowed(command)){
+            return;
         }
 
         if (playerElixir.get(player) >= card.getCost()) {
@@ -219,19 +224,23 @@ public class GameManager {
 
             GameElement gameElement = null;
             playerRandomCardsHashMap.get(player).remove(card);
-
+            Direction direction = null;
             if (player.equals(secondPlayer)) {
-                gameElement =
-                        new GameElement(card, point2D,
-                                player, frameCounter,
-                                Direction.backward);
+                direction = Direction.backward;
             } else if (player.equals(firstPlayer)) {
-                gameElement =
-                        new GameElement(card, point2D,
-                                player, frameCounter,
-                                Direction.forward);
+                direction = Direction.forward;
             }
-            addElement(player, gameElement);
+
+            if(card instanceof Troop){
+                for(int i = 0; i < ((Troop)card).getCount() ; i++){
+                    gameElement = new GameElement(card , new Point(x+i , y), player, frameCounter, direction );
+                    addElement(player , gameElement);
+                }
+            }
+            else {
+                gameElement = new GameElement(card , new Point(x , y), player, frameCounter, direction );
+                addElement(player , gameElement);
+            }
             giveRandomCardToPlayer(player);
         }
     } // done
@@ -267,18 +276,21 @@ public class GameManager {
                             new Point(9 , 31),
                             player , frameCounter ,
                             Direction.forward);
+            mapArray[9][31][0] = kingTowerElement;
             leftPrincessTower =
                     new GameElement(new PrincessTower(player.getLevel()) ,
                             new Point(3, 28),
                             player,
                             frameCounter,
                             Direction.forward);
+            mapArray[3][28][0] = leftPrincessTower;
             rightPrincessTower =
                     new GameElement(new PrincessTower(player.getLevel()),
                             new Point(15, 28),
                             player,
                             frameCounter,
                             Direction.forward);
+            mapArray[15][28][0] = rightPrincessTower;
         }
         else {
             kingTowerElement =
@@ -287,18 +299,21 @@ public class GameManager {
                             player,
                             frameCounter,
                             Direction.backward);
+            mapArray[9][1][0] = kingTowerElement;
             rightPrincessTower =
                     new GameElement(new PrincessTower(player.getLevel()),
                             new Point(3, 4),
                             player,
                             frameCounter,
                             Direction.backward);
+            mapArray[3][4][0] = rightPrincessTower;
             leftPrincessTower =
                     new GameElement(new PrincessTower(player.getLevel()),
                             new Point(15, 4),
                             player,
                             frameCounter,
                             Direction.backward);
+            mapArray[14][4][0] = leftPrincessTower;
         }
         gameElements.add(kingTowerElement);
         gameElements.add(leftPrincessTower);
