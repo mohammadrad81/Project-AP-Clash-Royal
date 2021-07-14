@@ -1,6 +1,6 @@
 package Controller;
 
-import Users.IdiotBot;
+import Users.Bots.IdiotBot;
 import Users.Player;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

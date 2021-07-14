@@ -1,4 +1,4 @@
-package Users;
+package Users.Bots;
 
 import Model.Cards.Card;
 import Model.Cards.Spells.Spell;
@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
-public class IdiotBot extends Bot{
+public class IdiotBot extends Bot {
     private GameManager gameManager = null;
 
     public IdiotBot(int level){
@@ -52,7 +52,7 @@ public class IdiotBot extends Bot{
                 int x = random.nextInt(19);  // between 0 and 18
                 int y = random.nextInt(21);  // between 0 and 20 (enemy towers may be destroyed)
                 command = new Command(this, selectedCard, new Point(x, y));
-            } while (gameManager.isCommandAreaAllowed(command));
+            } while (! gameManager.isCommandAreaAllowed(command));
         }
 
         return command;

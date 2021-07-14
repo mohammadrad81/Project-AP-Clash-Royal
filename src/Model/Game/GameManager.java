@@ -22,7 +22,7 @@ import Model.Stats.Match;
 import Model.Towers.KingTower;
 import Model.Towers.PrincessTower;
 import Model.Towers.Tower;
-import Users.Bot;
+import Users.Bots.Bot;
 import Users.Player;
 
 import java.awt.*;
@@ -457,7 +457,9 @@ public class GameManager {
     } // done
 
     private void doTheCommand(Command command){
-        buyCard(command.getPlayer() , command.getCard() , command.getPoint2D());
+        if(command != null){
+            buyCard(command.getPlayer() , command.getCard() , command.getPoint2D());
+        }
     }// done
 
     private void activeKingTower(Player player){
@@ -1021,8 +1023,10 @@ public class GameManager {
     } // done
 
     private void doSpells(){
-        for(GameElement gameElement : activeSpells){
-
+        Iterator<GameElement> iterator = activeSpells.iterator();
+        GameElement gameElement = null;
+        while(iterator.hasNext()){
+            gameElement = iterator.next();
             spellArea(gameElement);
 
             if(gameElement.getGameEntity() instanceof Rage){
@@ -1332,5 +1336,13 @@ public class GameManager {
     public int getSecondPlayerCrown(){ return secondPlayerCrown; }
 
     public int getFirstPlayerElixir(){ return playerElixir.get(firstPlayer); }
+
+    public HashMap<Player, List<GameElement>> getPlayerToElementHashMap() {
+        return playerToElementHashMap;
+    }
+
+    public HashMap<GameElement, GameElement> getElementToTargetHashMap() {
+        return elementToTargetHashMap;
+    }
 }
 

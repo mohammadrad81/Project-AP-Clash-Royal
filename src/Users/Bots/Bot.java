@@ -1,13 +1,13 @@
-package Users;
+package Users.Bots;
 
 import Model.Cards.Card;
 import Model.Game.Command;
 import Model.Game.GameElement;
+import Users.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Bot extends Player{
+public abstract class Bot extends Player {
     protected Bot(String username, int level){
         super(username, level);
     }
