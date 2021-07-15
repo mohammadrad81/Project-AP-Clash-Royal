@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -22,12 +23,17 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
 
@@ -75,6 +81,9 @@ public class GameController {
     private Label elixirNumber;
 
     @FXML
+    private Pane elementPane;
+
+    @FXML
     void addElement(MouseEvent event) {
         Card selectedCard = handListView.getSelectionModel().getSelectedItem();
         if (selectedCard == null)
@@ -102,15 +111,32 @@ public class GameController {
     }
 
     private void initialMap(){
-        for (int i = 0; i < 19; i++){
-            for (int j = 0; j < 33; j++){
-                ImageView image = new ImageView(new Image("/Pictures/Tiles/1.png"));
-                image.setX(i*cellWidth);
-                image.setY(j*cellHeight);
-                image.setFitHeight(cellHeight);
-                image.setFitWidth(cellWidth);
-                mapPane.getChildren().add(image);
+        try {
+
+            FileInputStream mapFile = new FileInputStream("src/View/map.txt");
+//        if (!mapFile.exists())
+//            return;
+            Scanner lineReader = null;
+            lineReader = new Scanner(mapFile);
+
+            for (int i = 0; i < 33; i++) {
+                String line = lineReader.nextLine();
+                for (int j = 0; j < 19; j++) {
+                    char[] str = line.toCharArray();
+                    //String tileNumber = scanner.next();
+                    Character tileNumber = str[2*j];
+                    System.out.println(tileNumber);
+                    ImageView image = new ImageView(new Image("/Pictures/Tiles/" + tileNumber.toString() + ".png"));
+                    image.setX(j * cellWidth);
+                    image.setY(i * cellHeight);
+                    image.setFitHeight(cellHeight);
+                    image.setFitWidth(cellWidth);
+                    mapPane.getChildren().add(image);
+                }
             }
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -155,18 +181,18 @@ public class GameController {
         List<GameElement> firstPlayerElements = gameElementHashMap.get(player1);
         for (GameElement element: firstPlayerElements){
             if (element.getGameEntity() instanceof Troop) {
-                Canvas canvas = new Canvas();
-                canvas.setHeight(arenaPane.getHeight());
-                canvas.setWidth(arenaPane.getWidth());
-//                ImageView imageView = new ImageView(new Image(element.getImageAddress().replace("color","red") + "backward.png"));
-//                imageView.setX((int)element.getLocation().getX() * cellWidth);
-//                imageView.setY((int)element.getLocation().getY() * cellHeight);
-
-                GraphicsContext gc = canvas.getGraphicsContext2D();
-//                imageView.setFitWidth(cellWidth);
-//                imageView.setFitHeight(cellHeight);
-                gc.drawImage(new Image(element.getImageAddress().replace("color","red") + "backward.png"), cellWidth * element.getLocation().getX() , cellHeight * element.getLocation().getY() , cellWidth , cellHeight);
-                arenaPane.getChildren().add(canvas);
+                ImageView imageView = new ImageView(new Image(element.getImageAddress().replace("color","red") + "backward.png"));
+                imageView.setX(element.getLocation().getX() * cellWidth);
+                imageView.setY(element.getLocation().getY() * cellHeight);
+                imageView.setFitHeight(cellHeight);
+                imageView.setFitWidth(cellWidth);
+                mapPane.getChildren().add(imageView);
+//                group.getChildren().add(imageView);
+//                canvas.setHeight(arenaPane.getHeight());
+//                canvas.setWidth(arenaPane.getWidth());
+//
+//                GraphicsContext gc = canvas.getGraphicsContext2D();
+//                gc.drawImage(new Image(element.getImageAddress().replace("color","red") + "backward.png"), cellWidth * element.getLocation().getX() , cellHeight * element.getLocation().getY() , cellWidth * 3 , cellHeight * 3);
             }
             else if (element.getGameEntity() instanceof Tower){
 
@@ -177,8 +203,31 @@ public class GameController {
     }
 
     public void updateView(){
-        if (arenaPane.getChildren().size() > 1) //clear old elements
-            arenaPane.getChildren().remove(1,arenaPane.getChildren().size()-1);
+//            canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//            canvas.getGraphicsContext2D().strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//            try {
+//                Thread.sleep(100);
+//
+//            }
+//            catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        while (elementPane.getChildren().size() > 0) {
+//            ((ImageView)elementPane.getChildren().get(1)).setVisible(false);
+//            elementPane.getChildren().remove(0);
+//            try {
+//                Thread.sleep(100);
+//            }
+//            catch (Exception e){
+//
+//            }
+//        }
+//        while (elementPane.getChildren().size()>0)
+//            elementPane.getChildren().remove(0);
+//        mapPane.getChildren().clear();
+//        initialMap();
+        elementPane.getChildren().clear();
+
 
         List<Card> hand = model.getPlayerRandomCardsHashMap().get(player1);
         nextCardImage.setImage(new Image(hand.get(4).getCardImageAddress()));
