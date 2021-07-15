@@ -60,7 +60,7 @@
       <StackPane fx:id="arenaPane" alignment="CENTER_RIGHT" onMouseClicked="#addElement" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Pane fx:id="mapPane" prefHeight="418.0" prefWidth="433.0" style="-fx-background-color: #123;" />
-            <Pane fx:id="elementPane" prefHeight="200.0" prefWidth="200.0" />
+            <Pane fx:id="elementPane" prefHeight="418.0" prefWidth="433.0" />
          </children></StackPane>
    </center>
    <bottom>

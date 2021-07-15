@@ -1,11 +1,14 @@
 package Controller;
 
 import Model.Cards.Card;
+import Model.Cards.Reals.Buildings.Building;
+import Model.Cards.Reals.Buildings.Cannon;
 import Model.Cards.Reals.Troops.Troop;
 import Model.Cards.Spells.Spell;
 import Model.Game.Command;
 import Model.Game.GameElement;
 import Model.Game.GameManager;
+import Model.Towers.KingTower;
 import Model.Towers.Tower;
 import Users.Player;
 import View.CardView;
@@ -95,8 +98,8 @@ public class GameController {
         Command command = new Command(player1, selectedCard, new Point(x, y));
         if (model.isCommandAreaAllowed(command))
             model.addCommand(command);
-        model.update();
-        updateView();
+//        model.update();
+//        updateView();
     }
 
 
@@ -180,25 +183,70 @@ public class GameController {
         HashMap<Player, List<GameElement>> gameElementHashMap = model.getPlayerToElementHashMap();
         List<GameElement> firstPlayerElements = gameElementHashMap.get(player1);
         for (GameElement element: firstPlayerElements){
-            if (element.getGameEntity() instanceof Troop) {
-                ImageView imageView = new ImageView(new Image(element.getImageAddress().replace("color","red") + "backward.png"));
-                imageView.setX(element.getLocation().getX() * cellWidth);
-                imageView.setY(element.getLocation().getY() * cellHeight);
-                imageView.setFitHeight(cellHeight);
-                imageView.setFitWidth(cellWidth);
-                mapPane.getChildren().add(imageView);
+            ImageView imageView = new ImageView(new Image(findImage(element)));
+            imageView.setX(element.getLocation().getX() * cellWidth);
+            imageView.setY(element.getLocation().getY() * cellHeight);
+            imageView.setFitHeight(cellHeight);
+            imageView.setFitWidth(cellWidth);
+            mapPane.getChildren().add(imageView);
 //                group.getChildren().add(imageView);
 //                canvas.setHeight(arenaPane.getHeight());
 //                canvas.setWidth(arenaPane.getWidth());
 //
 //                GraphicsContext gc = canvas.getGraphicsContext2D();
 //                gc.drawImage(new Image(element.getImageAddress().replace("color","red") + "backward.png"), cellWidth * element.getLocation().getX() , cellHeight * element.getLocation().getY() , cellWidth * 3 , cellHeight * 3);
-            }
-            else if (element.getGameEntity() instanceof Tower){
-
-            }
 
         }
+        List<GameElement> secondPlayerElements = gameElementHashMap.get(player2);
+        for (GameElement element: secondPlayerElements){
+            ImageView imageView = new ImageView(new Image(findImage(element)));
+            imageView.setX(element.getLocation().getX() * cellWidth);
+            imageView.setY(element.getLocation().getY() * cellHeight);
+            imageView.setFitHeight(cellHeight);
+            imageView.setFitWidth(cellWidth);
+            mapPane.getChildren().add(imageView);
+        }
+
+    }
+
+    public String findImage(GameElement element){
+        String imageAddress = element.getImageAddress();
+        if (element.getOwner().equals(player1))
+            imageAddress = imageAddress.replace("color", "blue");
+        else
+            imageAddress = imageAddress.replace("color", "red");
+
+        String direction = "";
+        if (element.getGameEntity() instanceof Troop){
+            switch (element.getDirection()){
+                case left:
+                    direction = "left";
+                    break;
+                case right:
+                    direction = "right";
+                    break;
+                case forward:
+                    direction = "forward";
+                    break;
+                case backward:
+                    direction = "backward";
+            }
+            return imageAddress + direction + ".png";
+        }
+        else if (element.getGameEntity() instanceof Tower){
+            if (element.getGameEntity() instanceof KingTower){
+                if (((KingTower)element.getGameEntity()).isActiveToShoot())
+                    return imageAddress + "active.png";
+                else
+                    return imageAddress + "idle.png";
+            }
+            else
+                return imageAddress + "PrincesTower.png";
+        }
+        else if (element.getGameEntity() instanceof Building){
+            return imageAddress;
+        }
+        return null;
 
     }
 
@@ -226,7 +274,10 @@ public class GameController {
 //            elementPane.getChildren().remove(0);
 //        mapPane.getChildren().clear();
 //        initialMap();
-        elementPane.getChildren().clear();
+        while (elementPane.getChildren().size() > 0){
+            ((ImageView) elementPane.getChildren().get(0)).setImage(null);
+            elementPane.getChildren().remove(0);
+        }
 
 
         List<Card> hand = model.getPlayerRandomCardsHashMap().get(player1);

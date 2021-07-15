@@ -9,7 +9,7 @@ import Model.Cards.Reals.Type;
  */
 public class Cannon extends Building{
     private static final String cannonCardImageAddress = "/Pictures/CardImages/CannonCard.png";
-    private static final String cannonImageAddress = "/Pictures/ElementImages/Cannon/color/";
+    private static final String cannonImageAddress = "/Pictures/ElementImages/Cannon/color/cannon.png";
     private static final int[] damageByLevelArray ={380, 418, 459, 505, 554};
     private static final int[] healthByLevelArray ={60, 66, 72, 79, 87};
 
