@@ -2,7 +2,6 @@ package Controller;
 
 import Model.Cards.Card;
 import Model.Cards.Reals.Buildings.Building;
-import Model.Cards.Reals.Buildings.Cannon;
 import Model.Cards.Reals.Troops.Troop;
 import Model.Cards.Spells.Spell;
 import Model.Game.Block;
@@ -17,9 +16,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -27,17 +23,13 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 
 import java.awt.*;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
 
@@ -129,7 +121,6 @@ public class GameController {
                     char[] str = line.toCharArray();
                     //String tileNumber = scanner.next();
                     Character tileNumber = str[2*j];
-                    System.out.println(tileNumber);
                     ImageView image = new ImageView(new Image("/Pictures/Tiles/" + tileNumber.toString() + ".png"));
                     image.setX(j * cellWidth);
                     image.setY(i * cellHeight);
@@ -218,27 +209,27 @@ public class GameController {
                     element = mapArray[i][j][k];
                     if(element != null){
                         if(!(element instanceof Block)){
-                            if(element.getOwner().equals(player1)){
-                                ImageView imageView = new ImageView(new Image(findImage(element)));
-                                imageView.setX(element.getLocation().getX() * cellWidth);
-                                imageView.setY(element.getLocation().getY() * cellHeight);
-                                imageView.setFitHeight(cellHeight);
-                                imageView.setFitWidth(cellWidth);
-                                mapPane.getChildren().add(imageView);
-                            }
-                            else {
-                                ImageView imageView = new ImageView(new Image(findImage(element)));
-                                imageView.setX(element.getLocation().getX() * cellWidth);
-                                imageView.setY(element.getLocation().getY() * cellHeight);
-                                imageView.setFitHeight(cellHeight);
-                                imageView.setFitWidth(cellWidth);
-                                mapPane.getChildren().add(imageView);
-                            }
+                            if (! (element.getGameEntity() instanceof Spell))
+                                showNonSpell(element);
+                            else
+                                showSpell(element);
                         }
                     }
                 }
             }
         }
+    }
+    private void showNonSpell(GameElement element){
+        ImageView imageView = new ImageView(new Image(findImage(element)));
+        imageView.setX(element.getLocation().getX() * cellWidth);
+        imageView.setY(element.getLocation().getY() * cellHeight);
+        imageView.setFitHeight(cellHeight);
+        imageView.setFitWidth(cellWidth);
+        mapPane.getChildren().add(imageView);
+    }
+
+    private void showSpell(GameElement element){
+
     }
 
     public String findImage(GameElement element){
@@ -306,9 +297,9 @@ public class GameController {
 //            elementPane.getChildren().remove(0);
 //        mapPane.getChildren().clear();
 //        initialMap();
-        while (elementPane.getChildren().size() > 0){
-            ((ImageView) elementPane.getChildren().get(0)).setImage(null);
-            elementPane.getChildren().remove(0);
+        while (mapPane.getChildren().size() > 627){
+//            ((ImageView) elementPane.getChildren().get(0)).setImage(null);
+            mapPane.getChildren().remove(627);
         }
 
 
