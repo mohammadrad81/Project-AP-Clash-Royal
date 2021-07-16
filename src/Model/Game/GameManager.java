@@ -313,7 +313,7 @@ public class GameManager {
                             player,
                             frameCounter,
                             Direction.backward);
-            mapArray[14][4][0] = leftPrincessTower;
+            mapArray[15][4][0] = leftPrincessTower;
         }
         gameElements.add(kingTowerElement);
         gameElements.add(leftPrincessTower);
@@ -432,39 +432,37 @@ public class GameManager {
     private boolean hasLeftTower(Player player){
         if(player.equals(firstPlayer)){
             if(mapArray[3][28][0] != null){
-                return true;
-            }
-            else {
-                return false;
+                if(mapArray[3][28][0].getGameEntity() instanceof PrincessTower){
+                    return true;
+                }
             }
         }
         else {
             if(mapArray[15][4][0] != null){
-                return true;
-            }
-            else{
-                return false;
+                if(mapArray[15][4][0].getGameEntity() instanceof PrincessTower){
+                    return true;
+                }
             }
         }
+        return false;
     } // done
 
     private boolean hasRightTower(Player player){
         if(player.equals(firstPlayer)){
             if(mapArray[15][28][0] != null){
-                return true;
-            }
-            else {
-                return false;
+                if(mapArray[15][28][0].getGameEntity() instanceof PrincessTower){
+                    return true;
+                }
             }
         }
         else{
-            if(mapArray[3][4][0] != null){
-                return true;
-            }
-            else {
-                return false;
+            if(mapArray[3][4][0] != null) {
+                if (mapArray[3][4][0].getGameEntity() instanceof PrincessTower) {
+                    return true;
+                }
             }
         }
+        return false;
     } // done
 
     private void doCommands(){
@@ -949,8 +947,7 @@ public class GameManager {
                     if (gameElement == null)
                         continue;
                     if(gameElement.getGameEntity() instanceof HealthHaver){
-                        healthHaver = (HealthHaver) gameElement.getGameEntity();
-                        if(healthHaver.getHealth() <= 0){
+                        if(gameElement.getHealth() <= 0){
                             removeElement(gameElement);
                         }
                     }
