@@ -163,6 +163,7 @@ public class GameManager {
         List<GameElement> playerElements = playerToElementHashMap.get(player);
         playerElements.remove(gameElement);
         if(!(gameElement.getGameEntity() instanceof Spell)){
+            removeFromTargetMap(gameElement);
             if(gameElement.getGameEntity() instanceof BabyDragon){
                 mapArray[(int) gameElement.getLocation().getX()]
                         [(int) gameElement.getLocation().getY()]
@@ -197,11 +198,24 @@ public class GameManager {
             }
         }
 
-        if(gameElement.getGameEntity() instanceof Spell){
-//            activeSpells.remove(gameElement);
-        }
+//        if(gameElement.getGameEntity() instanceof Spell){
+////            activeSpells.remove(gameElement);
+//        }
 
     } //done
+
+    private void removeFromTargetMap(GameElement deadElement){
+        Iterator<GameElement> it = elementToTargetHashMap.keySet().iterator();
+        GameElement gameElement = null;
+        GameElement targetElement = null;
+        while(it.hasNext()){
+            gameElement = it.next();
+            targetElement = elementToTargetHashMap.get(gameElement);
+            if(targetElement.equals(deadElement)){
+                it.remove();
+            }
+        }
+    }
 
     private void buyCard(Player player , Card card , Point2D point2D) {
         Command command = new Command(player, card, point2D);
@@ -1045,24 +1059,25 @@ public class GameManager {
             for (int j = 0; j < 33; j++) {
                 for (int k = 0; k < 2; k++) {
                     gameElement = mapArray[i][j][k];
-                    if(gameElement instanceof Damager){
-                        targetElement = elementToTargetHashMap.get(gameElement);
-                        if(targetElement != null){
-                            if(frameCounter % (int) (10.0 *  ((Damager) gameElement.getGameEntity()).getHitSpeed()) == 0){
-                                if(gameElement.getGameEntity() instanceof KingTower){
-                                    if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
-                                        damageShoot(gameElement.getLocation() , targetElement.getLocation());
-                                        targetElement.hurt(gameElement.getDamage());
-                                        if(targetElement.getGameEntity() instanceof KingTower){
-                                            activeKingTower(targetElement.getOwner());
+                    if(gameElement != null && !(gameElement instanceof Block)){
+                        if(gameElement.getGameEntity() instanceof Damager){
+                            targetElement = elementToTargetHashMap.get(gameElement);
+                            if(targetElement != null){
+                                if(gameElement.getLocation().distance(targetElement.getLocation()) <= ((Damager)gameElement.getGameEntity()).getRange()){
+                                    if(frameCounter % (int) (10.0 *  ((Damager) gameElement.getGameEntity()).getHitSpeed()) == 0){
+                                        if(gameElement.getGameEntity() instanceof KingTower){
+                                            if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
+                                                damageShoot(gameElement.getLocation() , targetElement.getLocation());
+                                                targetElement.hurt(gameElement.getDamage());
+                                            }
                                         }
-                                    }
-                                }
-                                else {
-                                    damageShoot(gameElement.getLocation() , targetElement.getLocation());
-                                    targetElement.hurt(gameElement.getDamage());
-                                    if(targetElement.getGameEntity() instanceof KingTower){
-                                        activeKingTower(targetElement.getOwner());
+                                        else {
+                                            damageShoot(gameElement.getLocation() , targetElement.getLocation());
+                                            targetElement.hurt(gameElement.getDamage());
+                                            if(targetElement.getGameEntity() instanceof KingTower){
+                                                activeKingTower(targetElement.getOwner());
+                                            }
+                                        }
                                     }
                                 }
                             }
