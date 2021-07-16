@@ -509,8 +509,13 @@ public class GameManager {
     }
 
     private void moveTroops(){
+        GameElement[][][] newMap = new GameElement[19][33][2];
 
-        placeOutRangeHunters();
+        placeProperties(newMap);
+        placeInRangeHunters(newMap);
+        placeOutRangeHunters(newMap);
+
+        mapArray = newMap;
 
     }
 
@@ -532,7 +537,50 @@ public class GameManager {
         return counter;
     }
 
-    private void placeOutRangeHunters(){
+    private void placeProperties(GameElement[][][] newMap){
+        GameElement gameElement = null;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                for (int k = 0; k < 2; k++) {
+                    gameElement = mapArray[i][j][k];
+                    if(gameElement != null){
+                        if(gameElement instanceof Block){
+                            newMap[i][j][k] = gameElement;
+                            mapArray[i][j][k] = null;
+                        }
+                        else if(gameElement.getGameEntity() instanceof Property){
+                            newMap[i][j][k] = gameElement;
+                            mapArray[i][j][k] = null;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void placeInRangeHunters(GameElement[][][] newMap){
+        GameElement gameElement = null;
+        GameElement targetElement = null;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                for (int k = 0; k < 2; k++) {
+                    gameElement = mapArray[i][j][k];
+                    if(gameElement!= null){
+                        if(gameElement.getGameEntity() instanceof Troop){
+                            targetElement = elementToTargetHashMap.get(gameElement);
+                            if(gameElement.getLocation().distance(targetElement.getLocation()) <=
+                                    ((Troop)gameElement.getGameEntity()).getRange()){
+                                newMap[i][j][k] = mapArray[i][j][k];
+                                mapArray[i][j][k] = null;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void placeOutRangeHunters(GameElement[][][] newMap){
         GameElement gameElement = null;
         GameElement targetElement = null;
         int elementX , elementY , targetX , targetY;
@@ -545,7 +593,7 @@ public class GameManager {
                         if(gameElement.getGameEntity() instanceof Troop){
 
                             if(frameCounter % ((Troop)gameElement.getGameEntity()).getSpeed().getValue() != 0){
-                                stay(gameElement);
+                                stay(gameElement , newMap);
                                 continue;
                             }
                             elementX = (int) gameElement.getLocation().getX();
@@ -555,101 +603,101 @@ public class GameManager {
                             if(k == 0){
                                 if(targetY < 16 && elementY == 17){
                                     if(elementX <= 2){
-                                        if(mapArray[i+1][j][k] == null){
-                                            moveRight(gameElement);
+                                        if(mapArray[i+1][j][k] == null && newMap[i+1][j][k] == null){
+                                            moveRight(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i][j+1][k] == null){
-                                            moveBackward(gameElement);
+                                        else if(mapArray[i][j+1][k] == null && newMap[i][j+1][k] == null){
+                                            moveBackward(gameElement , newMap);
                                             continue;
                                         }
                                         else if(i > 0){
-                                            if(mapArray[i-1][j][k] == null){
-                                                moveLeft(gameElement);
+                                            if(mapArray[i-1][j][k] == null && newMap[i-1][j][k] == null){
+                                                moveLeft(gameElement , newMap);
                                                 continue;
                                             }
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
 
                                     else if(elementX == 3){
-                                        if(mapArray[i][j-1][k] == null ){
-                                            moveForward(gameElement);
+                                        if(mapArray[i][j-1][k] == null && newMap[i][j-1][k] == null){
+                                            moveForward(gameElement , newMap);
                                             continue;
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
                                     else if(elementX >= 4 && elementX <= 9){
-                                        if(mapArray[i-1][j][k] == null){
-                                            moveLeft(gameElement);
+                                        if(mapArray[i-1][j][k] == null && newMap[i-1][j][k] == null){
+                                            moveLeft(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i+1][j][k] == null){
-                                            moveRight(gameElement );
+                                        else if(mapArray[i+1][j][k] == null && newMap[i+1][j][k] == null){
+                                            moveRight(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i][j+1][k] == null){
-                                            moveBackward(gameElement);
+                                        else if(mapArray[i][j+1][k] == null && newMap[i][j+1][k] == null){
+                                            moveBackward(gameElement, newMap);
                                             continue;
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
                                     else if(elementX > 9 && elementX < 15){
-                                        if(mapArray[i+1][j][k] == null){
-                                            moveRight(gameElement );
+                                        if(mapArray[i+1][j][k] == null && newMap[i+1][j][k] == null){
+                                            moveRight(gameElement ,  newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i-1][j][k] == null){
-                                            moveLeft(gameElement);
+                                        else if(mapArray[i-1][j][k] == null && newMap[i-1][j][k] == null){
+                                            moveLeft(gameElement,  newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i][j+1][k] == null){
-                                            moveBackward(gameElement);
+                                        else if(mapArray[i][j+1][k] == null && newMap[i][j+1][k] == null){
+                                            moveBackward(gameElement,  newMap);
                                             continue;
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
 
                                     else if(elementX == 15){
-                                        if(mapArray[i][j-1][k] == null){
-                                            moveForward(gameElement);
+                                        if(mapArray[i][j-1][k] == null && newMap[i][j-1][k] == null){
+                                            moveForward(gameElement , newMap);
                                             continue;
                                         }
                                         else {
-                                            stay(gameElement);
+                                            stay(gameElement ,  newMap);
                                             continue;
                                         }
                                     }
 
                                     else if(elementX >= 16){
-                                        if(mapArray[i-1][j][k] == null){
-                                            moveLeft(gameElement);
+                                        if(mapArray[i-1][j][k] == null && newMap[i-1][j][k] == null){
+                                            moveLeft(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i][j+1][k] == null){
-                                            moveBackward(gameElement);
+                                        else if(mapArray[i][j+1][k] == null && newMap[i][j+1][k] == null){
+                                            moveBackward(gameElement , newMap);
                                             continue;
                                         }
                                         else if(i < 18){
-                                            if(mapArray[i+1][j][k] == null){
-                                                moveRight(gameElement);
+                                            if(mapArray[i+1][j][k] == null && newMap[i+1][j][k] == null){
+                                                moveRight(gameElement , newMap);
                                                 continue;
                                             }
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
@@ -657,102 +705,102 @@ public class GameManager {
 
                                 else if(targetY > 16 && elementY == 15){
                                     if(elementX <= 2){
-                                        if(mapArray[i+1][j][k] == null){
-                                            moveRight(gameElement);
+                                        if(mapArray[i+1][j][k] == null && newMap[i+1][j][k] == null){
+                                            moveRight(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i][j-1][k] == null){
-                                            moveForward(gameElement);
+                                        else if(mapArray[i][j-1][k] == null && newMap[i][j-1][k] == null){
+                                            moveForward(gameElement , newMap);
                                             continue;
                                         }
                                         else if(i > 0){
-                                            if(mapArray[i-1][j][k] == null){
-                                                moveLeft(gameElement);
+                                            if(mapArray[i-1][j][k] == null && newMap[i-1][j][k] == null){
+                                                moveLeft(gameElement , newMap);
                                                 continue;
                                             }
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
 
                                     else if(elementX == 3){
-                                        if(mapArray[i][j+1][k] == null){
-                                            moveBackward(gameElement);
+                                        if(mapArray[i][j+1][k] == null && newMap[i][j+1][k] == null){
+                                            moveBackward(gameElement , newMap);
                                             continue;
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
 
                                     else if(elementX >= 4 && elementX <= 9){
-                                        if(mapArray[i-1][j][k] == null){
-                                            moveLeft(gameElement);
+                                        if(mapArray[i-1][j][k] == null && newMap[i-1][j][k] == null){
+                                            moveLeft(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i][j-1][k] == null){
-                                            moveForward(gameElement);
+                                        else if(mapArray[i][j-1][k] == null && newMap[i][j-1][k] == null){
+                                            moveForward(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i+1][j][k] == null){
-                                            moveRight(gameElement);
+                                        else if(mapArray[i+1][j][k] == null && newMap[i+1][j][k] == null){
+                                            moveRight(gameElement , newMap);
                                             continue;
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
                                     else if(elementX > 9 && elementX < 15){
-                                        if(mapArray[i+1][j][k] == null){
-                                            moveRight(gameElement);
+                                        if(mapArray[i+1][j][k] == null && newMap[i+1][j][k] == null){
+                                            moveRight(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i][j-1][k] == null){
-                                            moveForward(gameElement);
+                                        else if(mapArray[i][j-1][k] == null && newMap[i][j-1][k] == null){
+                                            moveForward(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i-1][j][k] == null){
-                                            moveLeft(gameElement );
+                                        else if(mapArray[i-1][j][k] == null && newMap[i-1][j][k] == null){
+                                            moveLeft(gameElement , newMap);
                                             continue;
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
 
                                     else if(elementX == 15){
-                                        if(mapArray[i][j+1][k] == null){
-                                            moveBackward(gameElement);
+                                        if(mapArray[i][j+1][k] == null && newMap[i][j+1][k] == null){
+                                            moveBackward(gameElement , newMap);
                                             continue;
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
 
                                     else if(elementX >= 16){
-                                        if(mapArray[i-1][j][k] == null){
-                                            moveLeft(gameElement);
+                                        if(mapArray[i-1][j][k] == null && newMap[i-1][j][k] == null){
+                                            moveLeft(gameElement , newMap);
                                             continue;
                                         }
-                                        else if(mapArray[i][j-1][k] == null){
-                                            moveForward(gameElement);
+                                        else if(mapArray[i][j-1][k] == null && newMap[i][j-1][k] == null){
+                                            moveForward(gameElement , newMap);
                                             continue;
                                         }
                                         else if(i < 18){
-                                            if(mapArray[i +1][j][k] == null){
-                                                moveRight(gameElement);
+                                            if(mapArray[i +1][j][k] == null && newMap[i +1][j][k] == null){
+                                                moveRight(gameElement , newMap);
                                                 continue;
                                             }
                                         }
                                         else{
-                                            stay(gameElement);
+                                            stay(gameElement , newMap);
                                             continue;
                                         }
                                     }
@@ -765,41 +813,41 @@ public class GameManager {
                             Point2D right = null;
 
                             if(isPointInArea(i , j + 1 , k)){
-                                if(mapArray[i][j + 1][k] == null){
+                                if(mapArray[i][j + 1][k] == null && newMap[i][j + 1][k] == null){
                                     backward = new Point(i , j+1);
                                 }
                             }
                             if(isPointInArea(i , j - 1 , k)){
-                                if(mapArray[i][j-1][k] == null ){
+                                if(mapArray[i][j-1][k] == null && newMap[i][j-1][k] == null ){
                                     forward = new Point(i , j - 1);
                                 }
                             }
                             if(isPointInArea(i + 1 , j , k)){
-                                if(mapArray[i + 1][j][k] == null){
+                                if(mapArray[i + 1][j][k] == null && newMap[i + 1][j][k] == null){
                                     right = new Point(i + 1 , j);
                                 }
                             }
                             if(isPointInArea(i - 1 , j , k)){
-                                if(mapArray[i - 1][j][k] == null ){
+                                if(mapArray[i - 1][j][k] == null && newMap[i - 1][j][k] == null){
                                     left = new Point(i - 1 , j);
                                 }
                             }
                             Direction direction = whichWayCloserToTarget(gameElement.getLocation(),
                                     targetElement.getLocation(), forward , backward , left , right );
                             if(direction == null){
-                                stay(gameElement);
+                                stay(gameElement , newMap);
                             }
                             else if(direction == Direction.backward){
-                                moveBackward(gameElement );
+                                moveBackward(gameElement ,newMap);
                             }
                             else if(direction == Direction.forward){
-                                moveForward(gameElement );
+                                moveForward(gameElement , newMap);
                             }
                             else if(direction == Direction.left){
-                                moveLeft(gameElement);
+                                moveLeft(gameElement , newMap);
                             }
                             else if(direction == Direction.right){
-                                moveRight(gameElement);
+                                moveRight(gameElement , newMap);
                             }
                         }
                     }
@@ -808,64 +856,67 @@ public class GameManager {
         }
     }
 
-    private void stay(GameElement gameElement){
+    private void stay(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
 
         if(gameElement.getGameEntity() instanceof AirWarrior){
-            mapArray[x][y][1] = gameElement;
+            newMap[x][y][1] = gameElement;
+            mapArray[x][y][1] = null;
+
         }
         else{
-            mapArray[x][y][0] = gameElement;
+            newMap[x][y][0] = gameElement;
+            mapArray[x][y][0] = null;
         }
     }
 
-    private void moveRight(GameElement gameElement){
+    private void moveRight(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
         gameElement.setLocation(new Point(x + 1 , y));
         gameElement.setDirection(Direction.right);
         if(gameElement.getGameEntity() instanceof AirWarrior){
             mapArray[x][y][1] = null;
-            mapArray[x + 1][y][1] = gameElement;
+            newMap[x + 1][y][1] = gameElement;
         }
         else{
             mapArray[x][y][0] = null;
-            mapArray[x + 1][y][0] = gameElement;
+            newMap[x + 1][y][0] = gameElement;
         }
     }
 
-    private void moveLeft(GameElement gameElement){
+    private void moveLeft(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
         gameElement.setLocation(new Point(x - 1 , y));
         gameElement.setDirection(Direction.left);
         if(gameElement.getGameEntity() instanceof AirWarrior){
             mapArray[x][y][1] = null;
-            mapArray[x - 1][y][1] = gameElement;
+            newMap[x - 1][y][1] = gameElement;
         }
         else{
             mapArray[x][y][0] = null;
-            mapArray[x - 1][y][0] = gameElement;
+            newMap[x - 1][y][0] = gameElement;
         }
     }
 
-    private void moveForward(GameElement gameElement ){
+    private void moveForward(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
         gameElement.setLocation(new Point(x , y - 1));
         gameElement.setDirection(Direction.forward);
         if(gameElement.getGameEntity() instanceof AirWarrior){
             mapArray[x][y][1] = null;
-            mapArray[x][y - 1][1] = gameElement;
+            newMap[x][y - 1][1] = gameElement;
         }
         else{
             mapArray[x][y][0] = null;
-            mapArray[x][y - 1][0] = gameElement;
+            newMap[x][y - 1][0] = gameElement;
         }
     }
 
-    private void moveBackward(GameElement gameElement){
+    private void moveBackward(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
         gameElement.setLocation(new Point(x , y + 1));
@@ -873,14 +924,12 @@ public class GameManager {
 
         if(gameElement.getGameEntity() instanceof AirWarrior){
             mapArray[x][y][1] = null;
-            mapArray[x][y + 1][1] = gameElement;
+            newMap[x][y + 1][1] = gameElement;
         }
         else{
             mapArray[x][y][0] = null;
-            mapArray[x][y + 1][0] = gameElement;
+            newMap[x][y + 1][0] = gameElement;
         }
-
-
     }
 
     private Direction whichWayCloserToTarget(Point2D hunterPosition , Point2D targetPosition , Point2D... points){
