@@ -45,7 +45,7 @@ public class IdiotBot extends Bot {
                 int x = random.nextInt(19);  // between 0 and 18
                 int y = random.nextInt(33);  // between 0 and 32
                 command = new Command(this, selectedCard, new Point(x, y));
-            } while (gameManager.isCommandAreaAllowed(command));
+            } while (! gameManager.isCommandAreaAllowed(command));
         }
         else{
             do {
