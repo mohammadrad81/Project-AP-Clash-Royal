@@ -3,6 +3,7 @@ package Controller;
 import Model.Cards.Card;
 import Model.Cards.Reals.Buildings.Building;
 import Model.Cards.Reals.Troops.Troop;
+import Model.Cards.Spells.Rage;
 import Model.Cards.Spells.Spell;
 import Model.Game.Block;
 import Model.Game.Command;
@@ -26,6 +27,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 
 import java.awt.*;
@@ -89,7 +92,7 @@ public class GameController {
         System.out.println(x + " " + y);
 
         Command command = new Command(player1, selectedCard, new Point(x, y));
-        if (model.isCommandAreaAllowed(command))
+//        if (model.isCommandAreaAllowed(command))
             model.addCommand(command);
 //        model.update();
 //        updateView();
@@ -166,9 +169,10 @@ public class GameController {
 
     public void update(){
         model.update();
-        updateView();
         if (model.isGameOver())
             timer.cancel();
+        updateView();
+
     }
 
     public void showElements(){
@@ -211,8 +215,6 @@ public class GameController {
                         if(!(element instanceof Block)){
                             if (! (element.getGameEntity() instanceof Spell))
                                 showNonSpell(element);
-                            else
-                                showSpell(element);
                         }
                     }
                 }
@@ -228,8 +230,18 @@ public class GameController {
         mapPane.getChildren().add(imageView);
     }
 
-    private void showSpell(GameElement element){
-
+    private void showSpells(){
+        List<GameElement> activeSpells = model.getActiveSpells();
+        for (GameElement element: activeSpells) {
+            if (element.getGameEntity() instanceof Rage) {
+                Rage rage = (Rage) element.getGameEntity();
+                Circle circle = new Circle(rage.getRadius() * cellHeight);
+                circle.setCenterX(element.getLocation().getX() * cellWidth + cellWidth/2);
+                circle.setCenterY(element.getLocation().getY() * cellHeight + cellHeight/2);
+                circle.setFill(Color.rgb(185,86,255,0.5));
+                mapPane.getChildren().add(circle);
+            }
+        }
     }
 
     public String findImage(GameElement element){
@@ -312,6 +324,7 @@ public class GameController {
         }
 
         showElements();
+        showSpells();
 
         cardObservableList = FXCollections.observableList(cardList);
         handListView.setItems(cardObservableList);
