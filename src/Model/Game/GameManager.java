@@ -245,16 +245,9 @@ public class GameManager {
                 direction = Direction.forward;
             }
 
-            if(card instanceof Troop){
-                for(int i = 0; i < ((Troop)card).getCount() ; i++){
-                    gameElement = new GameElement(card , new Point(x+i , y), player, frameCounter, direction );
+                    gameElement = new GameElement(card , new Point(x, y), player, frameCounter, direction );
                     addElement(player , gameElement);
-                }
-            }
-            else {
-                gameElement = new GameElement(card , new Point(x , y), player, frameCounter, direction );
-                addElement(player , gameElement);
-            }
+
             giveRandomCardToPlayer(player);
         }
     } // done
@@ -506,7 +499,7 @@ public class GameManager {
     public void update(){
         resetShoots();
         increaseElixirs();
-        botsDecisions();
+//        botsDecisions();
         doCommands();
 
         removeDead();
@@ -1061,21 +1054,23 @@ public class GameManager {
                     gameElement = mapArray[i][j][k];
                     if(gameElement != null && !(gameElement instanceof Block)){
                         if(gameElement.getGameEntity() instanceof Damager){
-                            targetElement = elementToTargetHashMap.get(gameElement);
-                            if(targetElement != null){
-                                if(gameElement.getLocation().distance(targetElement.getLocation()) <= ((Damager)gameElement.getGameEntity()).getRange()){
-                                    if(frameCounter % (int) (10.0 *  ((Damager) gameElement.getGameEntity()).getHitSpeed()) == 0){
-                                        if(gameElement.getGameEntity() instanceof KingTower){
-                                            if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
+                            if(frameCounter % (int)(((Damager)gameElement.getGameEntity()).getHitSpeed() * 10) == 0){
+                                targetElement = elementToTargetHashMap.get(gameElement);
+                                if(targetElement != null){
+                                    if(gameElement.getLocation().distance(targetElement.getLocation()) <= ((Damager)gameElement.getGameEntity()).getRange()){
+                                        if(frameCounter % (int) (10.0 *  ((Damager) gameElement.getGameEntity()).getHitSpeed()) == 0){
+                                            if(gameElement.getGameEntity() instanceof KingTower){
+                                                if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
+                                                    damageShoot(gameElement.getLocation() , targetElement.getLocation());
+                                                    targetElement.hurt(gameElement.getDamage());
+                                                }
+                                            }
+                                            else {
                                                 damageShoot(gameElement.getLocation() , targetElement.getLocation());
                                                 targetElement.hurt(gameElement.getDamage());
-                                            }
-                                        }
-                                        else {
-                                            damageShoot(gameElement.getLocation() , targetElement.getLocation());
-                                            targetElement.hurt(gameElement.getDamage());
-                                            if(targetElement.getGameEntity() instanceof KingTower){
-                                                activeKingTower(targetElement.getOwner());
+                                                if(targetElement.getGameEntity() instanceof KingTower){
+                                                    activeKingTower(targetElement.getOwner());
+                                                }
                                             }
                                         }
                                     }
@@ -1263,7 +1258,7 @@ public class GameManager {
                     lastDamage = it.getLastDamage();
                     lifeTimeFrameCount = (long) it.getLifeTime() * fps;
                     currentLifeFrame = frameCounter - gameElement.getMadeAtFrame();
-                    currentDamage = (int) ((currentLifeFrame * lastDamage) + ((lifeTimeFrameCount - currentLifeFrame) * firstDamage));
+                    currentDamage = (int) (((currentLifeFrame * lastDamage) + ((lifeTimeFrameCount - currentLifeFrame) * firstDamage)) / lifeTimeFrameCount);
                     gameElement.setDamage(currentDamage);
                 }
             }
