@@ -339,12 +339,12 @@ public class GameManager {
         Point2D gameElementLocation = null;
         for(int i = 0 ; i < 19; i++){
             for(int j = 0; j < 33; j ++){
-                for(int z = 0; z < 2; z++){
+                for(int k = 0; k < 2; k++){
                     gameElementLocation = new Point(i , j);
-                    if(mapArray[i][j][z] != null){
-                        if(mapArray[i][j][z].getOwner() != arrowElement.getOwner()){
+                    if(mapArray[i][j][k] != null && !(mapArray[i][j][k] instanceof Block)){
+                        if(mapArray[i][j][k].getOwner() != arrowElement.getOwner()){
                             if(arrowPoint.distance(gameElementLocation) <= arrows.getRadius()){
-                                mapArray[i][j][z].hurt(arrows.getAreaDamage());
+                                mapArray[i][j][k].hurt(arrows.getAreaDamage());
                             }
                         }
                     }
@@ -360,12 +360,12 @@ public class GameManager {
 
         for(int i = 0 ; i < 19; i++){
             for(int j = 0; j < 33; j ++){
-                for(int z = 0; z < 2; z++){
+                for(int k = 0; k < 2; k++){
                     gameElementLocation = new Point(i , j);
-                    if(mapArray[i][j][z] != null){
-                        if(mapArray[i][j][z].getOwner() != fireBallElement.getOwner()){
+                    if(mapArray[i][j][k] != null && !(mapArray[i][j][k] instanceof Block)){
+                        if(mapArray[i][j][k].getOwner() != fireBallElement.getOwner()){
                             if(fireballPoint.distance(gameElementLocation) <= fireball.getRadius()){
-                                mapArray[i][j][z].hurt(fireball.getAreaDamage());
+                                mapArray[i][j][k].hurt(fireball.getAreaDamage());
                             }
                         }
                     }
@@ -381,12 +381,12 @@ public class GameManager {
 
         for(int i = 0 ; i < 19; i++){
             for(int j = 0; j < 33; j ++){
-                for(int z = 0; z < 2; z++){
+                for(int k = 0; k < 2; k++){
                     gameElementLocation = new Point(i , j);
-                    if(mapArray[i][j][z] != null){
-                        if(mapArray[i][j][z].getOwner().equals(rageElement.getOwner())){
+                    if(mapArray[i][j][k] != null && !(mapArray[i][j][k] instanceof Block) ){
+                        if(mapArray[i][j][k].getOwner().equals(rageElement.getOwner())){
                             if(ragePoint.distance(gameElementLocation) <= rage.getRadius()){
-                                mapArray[i][j][z].boost();
+                                mapArray[i][j][k].boost();
                             }
                         }
                     }
