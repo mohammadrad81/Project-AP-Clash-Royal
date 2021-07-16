@@ -4,13 +4,14 @@ import Model.Cards.Reals.Type;
 import Model.GameEntity;
 import Model.Interfaces.Damager;
 import Model.Interfaces.HealthHaver;
+import Model.Property;
 
 /**
  * the towers of the game
  * @since 7.8.2021
  * @version 1.0.0
  */
-public abstract class Tower implements GameEntity , HealthHaver , Damager {
+public abstract class Tower implements Property,  GameEntity , HealthHaver , Damager {
     private Type myType , targetType;
     private String imageAddress;
     private int[] healthByLevelArray , damageByLevelArray;
