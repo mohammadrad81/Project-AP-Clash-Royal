@@ -1,11 +1,15 @@
 package Controller;
 
 import Model.Cards.Card;
+import Model.Cards.Reals.Buildings.Building;
 import Model.Cards.Reals.Troops.Troop;
+import Model.Cards.Spells.Rage;
 import Model.Cards.Spells.Spell;
+import Model.Game.Block;
 import Model.Game.Command;
 import Model.Game.GameElement;
 import Model.Game.GameManager;
+import Model.Towers.KingTower;
 import Model.Towers.Tower;
 import Users.Player;
 import View.CardView;
@@ -23,9 +27,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Callback;
 
 import java.awt.*;
+import java.io.FileInputStream;
 import java.util.*;
 import java.util.List;
 
@@ -73,6 +80,9 @@ public class GameController {
     private Label elixirNumber;
 
     @FXML
+    private Pane elementPane;
+
+    @FXML
     void addElement(MouseEvent event) {
         Card selectedCard = handListView.getSelectionModel().getSelectedItem();
         if (selectedCard == null)
@@ -82,10 +92,10 @@ public class GameController {
         System.out.println(x + " " + y);
 
         Command command = new Command(player1, selectedCard, new Point(x, y));
-        if (model.isCommandAreaAllowed(command))
+//        if (model.isCommandAreaAllowed(command))
             model.addCommand(command);
-        model.update();
-        updateView();
+//        model.update();
+//        updateView();
     }
 
 
@@ -100,15 +110,31 @@ public class GameController {
     }
 
     private void initialMap(){
-        for (int i = 0; i < 19; i++){
-            for (int j = 0; j < 33; j++){
-                ImageView image = new ImageView(new Image("/Pictures/Tiles/1.png"));
-                image.setX(i*cellWidth);
-                image.setY(j*cellHeight);
-                image.setFitHeight(cellHeight);
-                image.setFitWidth(cellWidth);
-                mapPane.getChildren().add(image);
+        try {
+
+            FileInputStream mapFile = new FileInputStream("src/View/map.txt");
+//        if (!mapFile.exists())
+//            return;
+            Scanner lineReader = null;
+            lineReader = new Scanner(mapFile);
+
+            for (int i = 0; i < 33; i++) {
+                String line = lineReader.nextLine();
+                for (int j = 0; j < 19; j++) {
+                    char[] str = line.toCharArray();
+                    //String tileNumber = scanner.next();
+                    Character tileNumber = str[2*j];
+                    ImageView image = new ImageView(new Image("/Pictures/Tiles/" + tileNumber.toString() + ".png"));
+                    image.setX(j * cellWidth);
+                    image.setY(i * cellHeight);
+                    image.setFitHeight(cellHeight);
+                    image.setFitWidth(cellWidth);
+                    mapPane.getChildren().add(image);
+                }
             }
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -143,34 +169,151 @@ public class GameController {
 
     public void update(){
         model.update();
-        updateView();
         if (model.isGameOver())
             timer.cancel();
+        updateView();
+
     }
 
     public void showElements(){
-        HashMap<Player, List<GameElement>> gameElementHashMap = model.getPlayerToElementHashMap();
-        List<GameElement> firstPlayerElements = gameElementHashMap.get(player1);
-        for (GameElement element: firstPlayerElements){
-            if (element.getGameEntity() instanceof Troop) {
-                ImageView imageView = new ImageView(new Image(element.getImageAddress().replace("color","red") + "backward.png"));
-                imageView.setX((int)element.getLocation().getX() * cellWidth);
-                imageView.setY((int)element.getLocation().getY() * cellHeight);
-                imageView.setFitWidth(cellWidth*10);
-                imageView.setFitHeight(cellHeight*10);
-                arenaPane.getChildren().add(imageView);
-            }
-            else if (element.getGameEntity() instanceof Tower){
+//        HashMap<Player, List<GameElement>> gameElementHashMap = model.getPlayerToElementHashMap();
+//        List<GameElement> firstPlayerElements = gameElementHashMap.get(player1);
+//        for (GameElement element: firstPlayerElements){
+//            ImageView imageView = new ImageView(new Image(findImage(element)));
+//            imageView.setX(element.getLocation().getX() * cellWidth);
+//            imageView.setY(element.getLocation().getY() * cellHeight);
+//            System.out.println("element at : " + element.getLocation().getX() + " , " + element.getLocation().getY());
+//            imageView.setFitHeight(cellHeight);
+//            imageView.setFitWidth(cellWidth);
+//            mapPane.getChildren().add(imageView);
+////                group.getChildren().add(imageView);
+////                canvas.setHeight(arenaPane.getHeight());
+////                canvas.setWidth(arenaPane.getWidth());
+////
+////                GraphicsContext gc = canvas.getGraphicsContext2D();
+////                gc.drawImage(new Image(element.getImageAddress().replace("color","red") + "backward.png"), cellWidth * element.getLocation().getX() , cellHeight * element.getLocation().getY() , cellWidth * 3 , cellHeight * 3);
+//
+//        }
+//        List<GameElement> secondPlayerElements = gameElementHashMap.get(player2);
+//        for (GameElement element: secondPlayerElements){
+//            ImageView imageView = new ImageView(new Image(findImage(element)));
+//            imageView.setX(element.getLocation().getX() * cellWidth);
+//            imageView.setY(element.getLocation().getY() * cellHeight);
+//            imageView.setFitHeight(cellHeight);
+//            imageView.setFitWidth(cellWidth);
+//            mapPane.getChildren().add(imageView);
+//        }
 
-            }
 
+        GameElement[][][] mapArray = model.getMapArray();
+        GameElement element = null;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                for (int k = 0; k < 2; k++) {
+                    element = mapArray[i][j][k];
+                    if(element != null){
+                        if(!(element instanceof Block)){
+                            if (! (element.getGameEntity() instanceof Spell))
+                                showNonSpell(element);
+                        }
+                    }
+                }
+            }
         }
+    }
+    private void showNonSpell(GameElement element){
+        ImageView imageView = new ImageView(new Image(findImage(element)));
+        imageView.setX(element.getLocation().getX() * cellWidth);
+        imageView.setY(element.getLocation().getY() * cellHeight);
+        imageView.setFitHeight(cellHeight);
+        imageView.setFitWidth(cellWidth);
+        mapPane.getChildren().add(imageView);
+    }
+
+    private void showSpells(){
+        List<GameElement> activeSpells = model.getActiveSpells();
+        for (GameElement element: activeSpells) {
+            if (element.getGameEntity() instanceof Rage) {
+                Rage rage = (Rage) element.getGameEntity();
+                Circle circle = new Circle(rage.getRadius() * cellHeight);
+                circle.setCenterX(element.getLocation().getX() * cellWidth + cellWidth/2);
+                circle.setCenterY(element.getLocation().getY() * cellHeight + cellHeight/2);
+                circle.setFill(Color.rgb(185,86,255,0.5));
+                mapPane.getChildren().add(circle);
+            }
+        }
+    }
+
+    public String findImage(GameElement element){
+        String imageAddress = element.getImageAddress();
+        if (element.getOwner().equals(player1))
+            imageAddress = imageAddress.replace("color", "blue");
+        else
+            imageAddress = imageAddress.replace("color", "red");
+
+        String direction = "";
+        if (element.getGameEntity() instanceof Troop){
+            switch (element.getDirection()){
+                case left:
+                    direction = "left";
+                    break;
+                case right:
+                    direction = "right";
+                    break;
+                case forward:
+                    direction = "forward";
+                    break;
+                case backward:
+                    direction = "backward";
+            }
+            return imageAddress + direction + ".png";
+        }
+        else if (element.getGameEntity() instanceof Tower){
+            if (element.getGameEntity() instanceof KingTower){
+                if (((KingTower)element.getGameEntity()).isActiveToShoot())
+                    return imageAddress + "active.png";
+                else
+                    return imageAddress + "idle.png";
+            }
+            else
+                return imageAddress + "PrincesTower.png";
+        }
+        else if (element.getGameEntity() instanceof Building){
+            return imageAddress;
+        }
+        return null;
 
     }
 
     public void updateView(){
-        if (arenaPane.getChildren().size() > 1) //clear old elements
-            arenaPane.getChildren().remove(1,arenaPane.getChildren().size()-1);
+//            canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//            canvas.getGraphicsContext2D().strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//            try {
+//                Thread.sleep(100);
+//
+//            }
+//            catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        while (elementPane.getChildren().size() > 0) {
+//            ((ImageView)elementPane.getChildren().get(1)).setVisible(false);
+//            elementPane.getChildren().remove(0);
+//            try {
+//                Thread.sleep(100);
+//            }
+//            catch (Exception e){
+//
+//            }
+//        }
+//        while (elementPane.getChildren().size()>0)
+//            elementPane.getChildren().remove(0);
+//        mapPane.getChildren().clear();
+//        initialMap();
+        while (mapPane.getChildren().size() > 627){
+//            ((ImageView) elementPane.getChildren().get(0)).setImage(null);
+            mapPane.getChildren().remove(627);
+        }
+
 
         List<Card> hand = model.getPlayerRandomCardsHashMap().get(player1);
         nextCardImage.setImage(new Image(hand.get(4).getCardImageAddress()));
@@ -181,6 +324,7 @@ public class GameController {
         }
 
         showElements();
+        showSpells();
 
         cardObservableList = FXCollections.observableList(cardList);
         handListView.setItems(cardObservableList);

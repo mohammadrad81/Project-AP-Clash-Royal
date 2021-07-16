@@ -28,7 +28,7 @@ public class TestGame extends Application {
 //        primaryStage.getIcons().add(new Image("/Pictures/icon.png"));
 //        primaryStage.setResizable(false);
 
-        primaryStage.setScene(new Scene(root,600,800));
+        primaryStage.setScene(new Scene(root,600,1000));
         primaryStage.show();
         GameController controller = loader.getController();
         controller.setPlayers(new Player("Ali",1), new IdiotBot(1));

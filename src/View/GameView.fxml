@@ -13,53 +13,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameController">
-   <right>
-      <VBox alignment="CENTER" prefHeight="373.0" prefWidth="66.0" style="-fx-background-color: #1234;" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="enemyCrowns" text="0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Pictures/GameImages/enemyCrown.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="yourCrowns" text="0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Pictures/GameImages/UserCrown.png" />
-               </image>
-            </ImageView>
-         </children>
-      </VBox>
-   </right>
-   <top>
-      <HBox alignment="CENTER" prefHeight="24.0" prefWidth="500.0" spacing="200.0" style="-fx-background-color: #1234;" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="enemyUsernameLabel" text="ENEMY NAME">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label fx:id="timeLabel" text="3:00">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-   </top>
+<BorderPane fx:id="border" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameController">
    <center>
       <StackPane fx:id="arenaPane" alignment="CENTER_RIGHT" onMouseClicked="#addElement" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Pane fx:id="mapPane" prefHeight="418.0" prefWidth="433.0" style="-fx-background-color: #123;" />
+            <Pane fx:id="elementPane" prefHeight="826.0" prefWidth="544.0" />
          </children></StackPane>
    </center>
    <bottom>
@@ -117,4 +76,64 @@
          </children>
       </StackPane>
    </bottom>
+   <right>
+      <StackPane prefHeight="150.0" prefWidth="66.4" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="826.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Pictures/backgrounds/001.png" />
+               </image>
+            </ImageView>
+            <VBox alignment="CENTER" prefHeight="826.0" prefWidth="75.0" style="-fx-background-color: #1234;">
+               <children>
+                  <Label fx:id="enemyCrowns" text="0" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Pictures/GameImages/enemyCrown.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="yourCrowns" text="0" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Pictures/GameImages/UserCrown.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </right>
+   <top>
+      <StackPane prefHeight="24.0" prefWidth="606.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="24.0" fitWidth="627.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Pictures/backgrounds/002.png" />
+               </image>
+            </ImageView>
+            <HBox alignment="CENTER" prefHeight="24.0" prefWidth="500.0" spacing="200.0" style="-fx-background-color: #1234;">
+               <children>
+                  <Label fx:id="enemyUsernameLabel" text="ENEMY NAME" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="timeLabel" text="3:00" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </StackPane>
+   </top>
 </BorderPane>
