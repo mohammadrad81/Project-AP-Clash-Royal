@@ -5,6 +5,7 @@ import Model.Cards.Reals.Buildings.Building;
 import Model.Cards.Reals.Buildings.Cannon;
 import Model.Cards.Reals.Troops.Troop;
 import Model.Cards.Spells.Spell;
+import Model.Game.Block;
 import Model.Game.Command;
 import Model.Game.GameElement;
 import Model.Game.GameManager;
@@ -180,33 +181,64 @@ public class GameController {
     }
 
     public void showElements(){
-        HashMap<Player, List<GameElement>> gameElementHashMap = model.getPlayerToElementHashMap();
-        List<GameElement> firstPlayerElements = gameElementHashMap.get(player1);
-        for (GameElement element: firstPlayerElements){
-            ImageView imageView = new ImageView(new Image(findImage(element)));
-            imageView.setX(element.getLocation().getX() * cellWidth);
-            imageView.setY(element.getLocation().getY() * cellHeight);
-            imageView.setFitHeight(cellHeight);
-            imageView.setFitWidth(cellWidth);
-            mapPane.getChildren().add(imageView);
-//                group.getChildren().add(imageView);
-//                canvas.setHeight(arenaPane.getHeight());
-//                canvas.setWidth(arenaPane.getWidth());
+//        HashMap<Player, List<GameElement>> gameElementHashMap = model.getPlayerToElementHashMap();
+//        List<GameElement> firstPlayerElements = gameElementHashMap.get(player1);
+//        for (GameElement element: firstPlayerElements){
+//            ImageView imageView = new ImageView(new Image(findImage(element)));
+//            imageView.setX(element.getLocation().getX() * cellWidth);
+//            imageView.setY(element.getLocation().getY() * cellHeight);
+//            System.out.println("element at : " + element.getLocation().getX() + " , " + element.getLocation().getY());
+//            imageView.setFitHeight(cellHeight);
+//            imageView.setFitWidth(cellWidth);
+//            mapPane.getChildren().add(imageView);
+////                group.getChildren().add(imageView);
+////                canvas.setHeight(arenaPane.getHeight());
+////                canvas.setWidth(arenaPane.getWidth());
+////
+////                GraphicsContext gc = canvas.getGraphicsContext2D();
+////                gc.drawImage(new Image(element.getImageAddress().replace("color","red") + "backward.png"), cellWidth * element.getLocation().getX() , cellHeight * element.getLocation().getY() , cellWidth * 3 , cellHeight * 3);
 //
-//                GraphicsContext gc = canvas.getGraphicsContext2D();
-//                gc.drawImage(new Image(element.getImageAddress().replace("color","red") + "backward.png"), cellWidth * element.getLocation().getX() , cellHeight * element.getLocation().getY() , cellWidth * 3 , cellHeight * 3);
+//        }
+//        List<GameElement> secondPlayerElements = gameElementHashMap.get(player2);
+//        for (GameElement element: secondPlayerElements){
+//            ImageView imageView = new ImageView(new Image(findImage(element)));
+//            imageView.setX(element.getLocation().getX() * cellWidth);
+//            imageView.setY(element.getLocation().getY() * cellHeight);
+//            imageView.setFitHeight(cellHeight);
+//            imageView.setFitWidth(cellWidth);
+//            mapPane.getChildren().add(imageView);
+//        }
 
-        }
-        List<GameElement> secondPlayerElements = gameElementHashMap.get(player2);
-        for (GameElement element: secondPlayerElements){
-            ImageView imageView = new ImageView(new Image(findImage(element)));
-            imageView.setX(element.getLocation().getX() * cellWidth);
-            imageView.setY(element.getLocation().getY() * cellHeight);
-            imageView.setFitHeight(cellHeight);
-            imageView.setFitWidth(cellWidth);
-            mapPane.getChildren().add(imageView);
-        }
 
+        GameElement[][][] mapArray = model.getMapArray();
+        GameElement element = null;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                for (int k = 0; k < 2; k++) {
+                    element = mapArray[i][j][k];
+                    if(element != null){
+                        if(!(element instanceof Block)){
+                            if(element.getOwner().equals(player1)){
+                                ImageView imageView = new ImageView(new Image(findImage(element)));
+                                imageView.setX(element.getLocation().getX() * cellWidth);
+                                imageView.setY(element.getLocation().getY() * cellHeight);
+                                imageView.setFitHeight(cellHeight);
+                                imageView.setFitWidth(cellWidth);
+                                mapPane.getChildren().add(imageView);
+                            }
+                            else {
+                                ImageView imageView = new ImageView(new Image(findImage(element)));
+                                imageView.setX(element.getLocation().getX() * cellWidth);
+                                imageView.setY(element.getLocation().getY() * cellHeight);
+                                imageView.setFitHeight(cellHeight);
+                                imageView.setFitWidth(cellWidth);
+                                mapPane.getChildren().add(imageView);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public String findImage(GameElement element){
