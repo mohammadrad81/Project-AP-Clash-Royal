@@ -1083,6 +1083,7 @@ public class GameManager {
                                             if(((Damager)gameElement.getGameEntity()).getRange() > 1){
                                                 damageShoot(gameElement.getLocation() , targetElement.getLocation());
                                             }
+                                            correctDirection(gameElement , targetElement);
                                             if(gameElement.getGameEntity() instanceof KingTower){
                                                 if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
                                                     targetElement.hurt(gameElement.getDamage());
@@ -1114,6 +1115,29 @@ public class GameManager {
             }
         }
     } // done
+
+    private void correctDirection(GameElement hunter, GameElement target){
+        if(hunter.getLocation().getX() > target.getLocation().getX()){
+            if(hunter.getDirection() == Direction.right){
+                hunter.setDirection(Direction.left);
+            }
+        }
+        else if(hunter.getLocation().getX() < target.getLocation().getX()){
+            if(hunter.getDirection() == Direction.left){
+                hunter.setDirection(Direction.right);
+            }
+        }
+        else if(hunter.getLocation().getY() > target.getLocation().getY()){
+            if(hunter.getDirection() == Direction.forward){
+                hunter.setDirection(Direction.backward);
+            }
+        }
+        else if(hunter.getLocation().getY() < target.getLocation().getY()){
+            if(hunter.getDirection() == Direction.backward){
+                hunter.setDirection(Direction.forward);
+            }
+        }
+    }
 
     private void damageAreaSplash(GameElement hunter , GameElement target){
         int x = (int) target.getLocation().getX();
