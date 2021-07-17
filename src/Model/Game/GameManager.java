@@ -1080,7 +1080,9 @@ public class GameManager {
                                 if(targetElement != null){
                                     if(gameElement.getLocation().distance(targetElement.getLocation()) <= ((Damager)gameElement.getGameEntity()).getRange()){
                                         if(frameCounter % (int) (10.0 *  ((Damager) gameElement.getGameEntity()).getHitSpeed()) == 0){
-                                            damageShoot(gameElement.getLocation() , targetElement.getLocation());
+                                            if(((Damager)gameElement.getGameEntity()).getRange() > 1){
+                                                damageShoot(gameElement.getLocation() , targetElement.getLocation());
+                                            }
                                             if(gameElement.getGameEntity() instanceof KingTower){
                                                 if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
                                                     targetElement.hurt(gameElement.getDamage());
