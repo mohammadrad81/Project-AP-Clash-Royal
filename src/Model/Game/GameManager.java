@@ -1116,12 +1116,16 @@ public class GameManager {
     private void damageAreaSplash(GameElement hunter , GameElement target){
         int x = (int) target.getLocation().getX();
         int y = (int) target.getLocation().getY();
+        int k = 0;
         GameElement gameElement = null;
         int damage = hunter.getDamage();
         for (int i = -1; i <= 1 ; i++) {
             for (int j = -1; j <= 1 ; j++) {
-                if(isPointInArea(x + i , y + j , 0)){
-                    gameElement = mapArray[x+i][y+j][0];
+                if(target.getGameEntity() instanceof AirWarrior){
+                    k = 1;
+                }
+                if(isPointInArea(x + i , y + j , k)){
+                    gameElement = mapArray[x+i][y+j][k];
                     if(gameElement != null && !(gameElement instanceof Block)){
                         if(gameElement.getOwner().equals(target.getOwner())){
                             gameElement.hurt(damage);
