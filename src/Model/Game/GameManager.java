@@ -1211,16 +1211,16 @@ public class GameManager {
         int x = (int) command.getPoint2D().getX();
         int y = (int) command.getPoint2D().getY();
 
-        if(y == 16){ // no spawn on the bridge
-            return false;
-        }
-
         if( !(x >= 0 && x <= 18) || !(y >= 0 && y <= 32)){
             return false;
         }
 
         if(command.getCard() instanceof Spell){
             return true;
+        }
+
+        if(y == 16){ // no spawn on the bridge
+            return false;
         }
 
         if(mapArray[x][y][0] != null || mapArray[x][y][1]!= null ){ // no multiple spawn in one place
