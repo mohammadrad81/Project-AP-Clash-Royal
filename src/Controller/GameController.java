@@ -10,6 +10,7 @@ import Model.Game.Block;
 import Model.Game.Command;
 import Model.Game.GameElement;
 import Model.Game.GameManager;
+import Model.Interfaces.HealthHaver;
 import Model.Towers.KingTower;
 import Model.Towers.Tower;
 import Users.Player;
@@ -28,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
@@ -223,12 +225,42 @@ public class GameController {
         }
     }
     private void showNonSpell(GameElement element){
+//        ImageView imageView = new ImageView(new Image(findImage(element)));
+//        imageView.setX(element.getLocation().getX() * cellWidth);
+//        imageView.setY(element.getLocation().getY() * cellHeight);
+//        imageView.setFitHeight(cellHeight);
+//        imageView.setFitWidth(cellWidth);
+//        mapPane.getChildren().add(imageView);
+        VBox view = elementView(element);
+        view.setLayoutX(element.getLocation().getX() * cellWidth);
+        view.setLayoutY(((element.getLocation().getY()) - 0.2) * cellHeight);
+        view.setMaxHeight(cellHeight);
+        view.setMaxWidth(cellWidth);
+
+        mapPane.getChildren().add(view);
+
+    }
+
+    private VBox elementView(GameElement element){
+        VBox vBox = new VBox(1);
+        ProgressBar healthBar = new ProgressBar();
+        int maxHealth;
+        if (element.getGameEntity() instanceof HealthHaver)
+            maxHealth = ((HealthHaver)element.getGameEntity()).getHealth();
+        else
+            return vBox;
+        int currentHealth = element.getHealth();
+        healthBar.setProgress((double) currentHealth / maxHealth);
+        healthBar.setMaxWidth(cellWidth);
+        healthBar.getStylesheets().add(getClass().getResource("/Styles/HealthBarStyles.css").toExternalForm());
+        vBox.getChildren().add(healthBar);
         ImageView imageView = new ImageView(new Image(findImage(element)));
-        imageView.setX(element.getLocation().getX() * cellWidth);
-        imageView.setY(element.getLocation().getY() * cellHeight);
         imageView.setFitHeight(cellHeight);
         imageView.setFitWidth(cellWidth);
-        mapPane.getChildren().add(imageView);
+        vBox.getChildren().add(imageView);
+
+        return vBox;
+
     }
 
     private void showSpells(){
