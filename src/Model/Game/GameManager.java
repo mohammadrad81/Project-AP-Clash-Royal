@@ -499,7 +499,7 @@ public class GameManager {
     public void update(){
         resetShoots();
         increaseElixirs();
-//        botsDecisions();
+        botsDecisions();
         doCommands();
 
         removeDead();
@@ -1059,15 +1059,24 @@ public class GameManager {
                                 if(targetElement != null){
                                     if(gameElement.getLocation().distance(targetElement.getLocation()) <= ((Damager)gameElement.getGameEntity()).getRange()){
                                         if(frameCounter % (int) (10.0 *  ((Damager) gameElement.getGameEntity()).getHitSpeed()) == 0){
+                                            damageShoot(gameElement.getLocation() , targetElement.getLocation());
                                             if(gameElement.getGameEntity() instanceof KingTower){
                                                 if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
-                                                    damageShoot(gameElement.getLocation() , targetElement.getLocation());
                                                     targetElement.hurt(gameElement.getDamage());
                                                 }
                                             }
                                             else {
-                                                damageShoot(gameElement.getLocation() , targetElement.getLocation());
-                                                targetElement.hurt(gameElement.getDamage());
+                                                if(gameElement.getGameEntity() instanceof Troop){
+                                                    if(((Troop)gameElement.getGameEntity()).isAreaSplash()){
+                                                          damageAreaSplash(gameElement , targetElement);
+                                                    }
+                                                    else{
+                                                        targetElement.hurt(gameElement.getDamage());
+                                                    }
+                                                }
+                                                else {
+                                                    targetElement.hurt(gameElement.getDamage());
+                                                }
                                                 if(targetElement.getGameEntity() instanceof KingTower){
                                                     activeKingTower(targetElement.getOwner());
                                                 }
@@ -1082,6 +1091,25 @@ public class GameManager {
             }
         }
     } // done
+
+    private void damageAreaSplash(GameElement hunter , GameElement target){
+        int x = (int) target.getLocation().getX();
+        int y = (int) target.getLocation().getY();
+        GameElement gameElement = null;
+        int damage = hunter.getDamage();
+        for (int i = -1; i <= 1 ; i++) {
+            for (int j = -1; j <= 1 ; j++) {
+                if(isPointInArea(x + i , y + j , 0)){
+                    gameElement = mapArray[x+i][y+j][0];
+                    if(gameElement != null && !(gameElement instanceof Block)){
+                        if(gameElement.getOwner().equals(target.getOwner())){
+                            gameElement.hurt(damage);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private void doSpells(){
         Iterator<GameElement> iterator = activeSpells.iterator();
