@@ -1185,7 +1185,7 @@ public class GameManager {
     } // done
 
     private void damageShoot(Point2D src , Point2D dest){
-        shoots.add(new Shoot(src , dest));
+        shoots.add(new Shoot(src , dest, frameCounter));
     }
 
     private void resetShoots(){

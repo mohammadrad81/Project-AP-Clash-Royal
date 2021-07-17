@@ -6,18 +6,18 @@ import Model.Cards.Reals.Troops.Troop;
 import Model.Cards.Spells.Fireball;
 import Model.Cards.Spells.Rage;
 import Model.Cards.Spells.Spell;
-import Model.Game.Block;
-import Model.Game.Command;
-import Model.Game.GameElement;
-import Model.Game.GameManager;
+import Model.Game.*;
+import Model.Interfaces.HealthHaver;
 import Model.Towers.KingTower;
 import Model.Towers.Tower;
 import Users.Player;
 import View.CardView;
+import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -28,9 +28,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.util.Callback;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -47,6 +50,7 @@ public class GameController {
     private ObservableList<Card> cardObservableList;
     private Timer timer;
     private List<GameElement> spells = new ArrayList<>();
+    private List<Shoot> shootList = new ArrayList<>();
 
     @FXML
     private BorderPane border;
@@ -223,12 +227,75 @@ public class GameController {
         }
     }
     private void showNonSpell(GameElement element){
+//        ImageView imageView = new ImageView(new Image(findImage(element)));
+//        imageView.setX(element.getLocation().getX() * cellWidth);
+//        imageView.setY(element.getLocation().getY() * cellHeight);
+//        imageView.setFitHeight(cellHeight);
+//        imageView.setFitWidth(cellWidth);
+//        mapPane.getChildren().add(imageView);
+        VBox view = elementView(element);
+        view.setLayoutX(element.getLocation().getX() * cellWidth);
+        view.setLayoutY(((element.getLocation().getY()) - 0.2) * cellHeight);
+        view.setMaxHeight(cellHeight);
+        view.setMaxWidth(cellWidth);
+
+        mapPane.getChildren().add(view);
+
+    }
+
+    private void showShoots(){
+
+        List<Shoot> shoots = model.getShoots();
+        for (Shoot shoot: shoots){
+            shootList.add(shoot);
+        }
+
+        Iterator<Shoot> iterator = shootList.iterator();
+        while (iterator.hasNext()){
+            Shoot shoot = iterator.next();
+            if (shoot.getMadeAtFrame() + 4 == model.getFrameCounter()) {
+                iterator.remove();
+                continue;
+            }
+            ImageView imageView = new ImageView(new Image("/Pictures/SpellEffects/Fireball.png"));
+            imageView.setFitWidth(cellWidth);
+            imageView.setFitHeight(cellHeight);
+            long delta = model.getFrameCounter() - shoot.getMadeAtFrame();
+            double x = shoot.getSrc().getX() + (delta * (shoot.getDest().getX() - shoot.getSrc().getX()))/4.0;
+            double y = shoot.getSrc().getY() + (delta * (shoot.getDest().getY() - shoot.getSrc().getY()))/4.0;
+            imageView.setX(x * cellWidth);
+            imageView.setY(y * cellHeight);
+
+            mapPane.getChildren().add(imageView);
+
+        }
+
+    }
+
+    private VBox elementView(GameElement element){
+        VBox vBox = new VBox(1);
+        ProgressBar healthBar = new ProgressBar();
+        int maxHealth;
+        if (element.getGameEntity() instanceof HealthHaver)
+            maxHealth = ((HealthHaver)element.getGameEntity()).getHealth();
+        else
+            return vBox;
+        int currentHealth = element.getHealth();
+        healthBar.setProgress((double) currentHealth / maxHealth);
+        healthBar.setMaxWidth(cellWidth);
+        healthBar.getStylesheets().add(getClass().getResource("/Styles/HealthBarStyles.css").toExternalForm());
+        if (element.getOwner().equals(player1))
+            healthBar.setStyle("-fx-accent: blue;");
+        else
+            healthBar.setStyle("-fx-accent: red;");
+        vBox.getChildren().add(healthBar);
         ImageView imageView = new ImageView(new Image(findImage(element)));
-        imageView.setX(element.getLocation().getX() * cellWidth);
-        imageView.setY(element.getLocation().getY() * cellHeight);
         imageView.setFitHeight(cellHeight);
         imageView.setFitWidth(cellWidth);
-        mapPane.getChildren().add(imageView);
+        vBox.getChildren().add(imageView);
+
+        return vBox;
+
     }
 
     private void showSpells(){
@@ -345,6 +412,8 @@ public class GameController {
 //            ((ImageView) elementPane.getChildren().get(0)).setImage(null);
             mapPane.getChildren().remove(627);
         }
+
+        showShoots();
 
 
         List<Card> hand = model.getPlayerRandomCardsHashMap().get(player1);

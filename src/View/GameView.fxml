@@ -60,7 +60,7 @@
                               <Insets right="4.0" />
                            </HBox.margin>
                         </ImageView>
-                        <ProgressBar fx:id="elixirProgressBar" prefWidth="200.0" progress="0.5" />
+                        <ProgressBar fx:id="elixirProgressBar" prefWidth="200.0" progress="0.5" style="-fx-accent: #ff1add;" />
                         <Label fx:id="elixirNumber" text="0" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="12.0" />
