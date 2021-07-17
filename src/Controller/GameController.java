@@ -253,6 +253,10 @@ public class GameController {
         healthBar.setProgress((double) currentHealth / maxHealth);
         healthBar.setMaxWidth(cellWidth);
         healthBar.getStylesheets().add(getClass().getResource("/Styles/HealthBarStyles.css").toExternalForm());
+        if (element.getOwner().equals(player1))
+            healthBar.setStyle("-fx-accent: blue;");
+        else
+            healthBar.setStyle("-fx-accent: red;");
         vBox.getChildren().add(healthBar);
         ImageView imageView = new ImageView(new Image(findImage(element)));
         imageView.setFitHeight(cellHeight);
