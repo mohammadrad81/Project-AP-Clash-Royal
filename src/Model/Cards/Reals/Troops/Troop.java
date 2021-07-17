@@ -42,6 +42,9 @@ public abstract class Troop extends Real {
                 hitSpeed, myType, targetType);
         this.healthByLevelArray = healthByLevelArray;
         this.damageByLevel = damageByLevel;
+        this.speed = speed;
+        this.areaSplash = areaSplash;
+        this.count = count;
     }
 
     /**

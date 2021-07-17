@@ -21,7 +21,7 @@ public class Archer extends Troop implements  GroundWarrior{
         super(3, cardImageAddress, imageAddress,
                 5, 1.2, Type.ground, Type.airAndGround,
                 healthByLevelArray, damageByLevelArray, Speed.fast ,
-                true , 1);
+                true , 2);
     }
 
     /**
@@ -32,7 +32,7 @@ public class Archer extends Troop implements  GroundWarrior{
         super(3, cardImageAddress, imageAddress,
                 5, 1.2, Type.ground, Type.airAndGround,
                 healthByLevelArray, damageByLevelArray, Speed.fast ,
-                true , 1);
+                true , 2);
 
         upgrade(level);
     }
