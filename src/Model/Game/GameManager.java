@@ -499,6 +499,7 @@ public class GameManager {
     public void update(){
         resetShoots();
         increaseElixirs();
+        removeExpiredSpells();
         botsDecisions();
         doCommands();
 
@@ -524,6 +525,26 @@ public class GameManager {
 
         mapArray = newMap;
 
+    }
+
+    private void removeExpiredSpells(){
+       Iterator<GameElement> spellIterator = activeSpells.iterator();
+       GameElement spellElement = null;
+       while(spellIterator.hasNext()){
+           spellElement = spellIterator.next();
+           if(spellElement.getGameEntity() instanceof Rage){
+               Rage rage = (Rage) spellElement.getGameEntity();
+               int decaSecDuration = (int) (10 * rage.getDuration());
+               if(frameCounter - spellElement.getMadeAtFrame() > decaSecDuration){
+                   spellIterator.remove();
+                   removeElement(spellElement);
+               }
+           }
+           else{
+               spellIterator.remove();
+               removeElement(spellElement);
+           }
+       }
     }
 
     private int howManyHaveTargets(){
@@ -1117,19 +1138,6 @@ public class GameManager {
         while(iterator.hasNext()){
             gameElement = iterator.next();
             spellArea(gameElement);
-
-            if(gameElement.getGameEntity() instanceof Rage){
-                Rage rage = (Rage) gameElement.getGameEntity();
-                int decaSecDuration = (int) (10 * rage.getDuration());
-                if(frameCounter - gameElement.getMadeAtFrame() > decaSecDuration){
-                    iterator.remove();
-                    removeElement(gameElement);
-                }
-            }
-            else {
-                iterator.remove();
-                removeElement(gameElement);
-            }
         }
     } // done
 
