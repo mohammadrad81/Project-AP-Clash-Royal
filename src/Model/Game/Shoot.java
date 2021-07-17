@@ -24,4 +24,12 @@ public class Shoot {
     public long getMadeAtFrame(){
         return madeAtFrame;
     }
+
+    public void setSrc(Point2D src) {
+        this.src = src;
+    }
+
+    public void setDest(Point2D dest) {
+        this.dest = dest;
+    }
 }
