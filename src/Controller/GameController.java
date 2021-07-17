@@ -3,6 +3,7 @@ package Controller;
 import Model.Cards.Card;
 import Model.Cards.Reals.Buildings.Building;
 import Model.Cards.Reals.Troops.Troop;
+import Model.Cards.Spells.Fireball;
 import Model.Cards.Spells.Rage;
 import Model.Cards.Spells.Spell;
 import Model.Game.Block;
@@ -45,6 +46,7 @@ public class GameController {
     private Player player2;
     private ObservableList<Card> cardObservableList;
     private Timer timer;
+    private List<GameElement> spells = new ArrayList<>();
 
     @FXML
     private BorderPane border;
@@ -92,10 +94,7 @@ public class GameController {
         System.out.println(x + " " + y);
 
         Command command = new Command(player1, selectedCard, new Point(x, y));
-//        if (model.isCommandAreaAllowed(command))
-            model.addCommand(command);
-//        model.update();
-//        updateView();
+        model.addCommand(command);
     }
 
 
@@ -113,8 +112,6 @@ public class GameController {
         try {
 
             FileInputStream mapFile = new FileInputStream("src/View/map.txt");
-//        if (!mapFile.exists())
-//            return;
             Scanner lineReader = null;
             lineReader = new Scanner(mapFile);
 
@@ -169,8 +166,12 @@ public class GameController {
 
     public void update(){
         model.update();
-        if (model.isGameOver())
+        if (model.isGameOver()) {
             timer.cancel();
+            enemyCrowns.setText(Integer.toString(model.getSecondPlayerCrown()));
+            yourCrowns.setText(Integer.toString(model.getFirstPlayerCrown()));
+            return;
+        }
         updateView();
 
     }
@@ -241,7 +242,38 @@ public class GameController {
                 circle.setFill(Color.rgb(185,86,255,0.5));
                 mapPane.getChildren().add(circle);
             }
+            else{
+                spells.add(element); // arrows and fireball
+            }
         }
+
+        Iterator<GameElement> iterator = spells.iterator();
+        while (iterator.hasNext()){
+            GameElement spellElement = iterator.next();
+            if (spellElement.getMadeAtFrame() + 10 == model.getFrameCounter()){
+                iterator.remove();
+                continue;
+            }
+            else{
+                String imageAddress = "/Pictures/SpellEffects/";
+                if (spellElement.getGameEntity() instanceof Fireball){
+                    imageAddress += "Fireball.png";
+                }
+                else{
+                    imageAddress += "Arrows.png";
+                }
+
+                ImageView imageView = new ImageView(new Image(imageAddress));
+                double radius = ((Spell)spellElement.getGameEntity()).getRadius();
+                imageView.setX((spellElement.getLocation().getX() - radius ) * cellWidth + cellWidth/2);
+                imageView.setY((spellElement.getLocation().getY() - radius ) * cellHeight + cellHeight/2);
+                imageView.setFitHeight(cellHeight * radius * 2);
+                imageView.setFitWidth(cellWidth * radius * 2);
+                mapPane.getChildren().add(imageView);
+            }
+        }
+
+
     }
 
     public String findImage(GameElement element){
