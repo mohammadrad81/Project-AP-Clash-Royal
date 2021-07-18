@@ -1129,13 +1129,13 @@ public class GameManager implements Serializable {
             }
         }
         else if(hunter.getLocation().getY() > target.getLocation().getY()){
-            if(hunter.getDirection() == Direction.forward){
-                hunter.setDirection(Direction.backward);
+            if(hunter.getDirection() == Direction.backward){
+                hunter.setDirection(Direction.forward);
             }
         }
         else if(hunter.getLocation().getY() < target.getLocation().getY()){
-            if(hunter.getDirection() == Direction.backward){
-                hunter.setDirection(Direction.forward);
+            if(hunter.getDirection() == Direction.forward){
+                hunter.setDirection(Direction.backward);
             }
         }
     }
