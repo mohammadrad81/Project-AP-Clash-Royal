@@ -23,6 +23,10 @@ public class SmartBot extends Bot {
         super("SMART BOT", level);
     }
 
+    public SmartBot(String username, int level) {
+        super(username, level);
+    }
+
     @Override
     public Command decision(GameElement[][][] mapArray, List<Card> cards, int elixir) {
         Random random = new Random();
