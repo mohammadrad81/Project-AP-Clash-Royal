@@ -29,11 +29,12 @@ import java.awt.*;
 
 import java.awt.geom.Point2D;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 
 
-public class GameManager {
+public class GameManager implements Serializable {
 //    private static final String team1Name = "team 1";
 //    private static final String team2Name = "team 2";
     private static GameManager gameManager;
@@ -1471,6 +1472,101 @@ public class GameManager {
 
     public HashMap<GameElement, GameElement> getElementToTargetHashMap() {
         return elementToTargetHashMap;
+    }
+
+    public Player getFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public Player getSecondPlayer() {
+        return secondPlayer;
+    }
+
+    public void reverse(){
+        reversePlayers();
+        reverseCrowns();
+        reverseMap();
+        reverseSpells();
+        reverseShoots();
+    }
+
+    private void reverseMap(){
+        GameElement[][][] newMap = new GameElement[19][33][2];
+        GameElement gameElement = null;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                for (int k = 0; k < 2; k++) {
+                    gameElement = mapArray[i][j][k];
+                    if(gameElement != null){
+                        reverseElementLocation(gameElement);
+                        reverseElementDirection(gameElement);
+                    }
+                    newMap[18 - i][32 - j][k] = gameElement;
+                }
+            }
+        }
+        mapArray = newMap;
+    }
+
+    private void reverseSpells(){
+        for(GameElement spellElement : activeSpells){
+            reverseElementLocation(spellElement);
+        }
+    }
+
+    private void reverseShoots(){
+        for(Shoot shoot : shoots){
+            shoot.setSrc(reversePoint(shoot.getSrc()));
+            shoot.setDest(reversePoint(shoot.getDest()));
+        }
+    }
+
+    private void reverseElementLocation(GameElement gameElement){
+        gameElement.setLocation(reversePoint(gameElement.getLocation()));
+    }
+
+    public static Point2D reversePoint(Point2D point2D){
+        int newX = (int) (18 - point2D.getX());
+        int newY = (int) (32 - point2D.getY());
+        return new Point(newX , newY);
+    }
+
+    public static Command reverseCommand (Command command){
+        return new Command(command.getPlayer(),
+                command.getCard(),
+                reversePoint(command.getPoint2D()));
+    }
+
+    private void reverseCrowns(){
+        int tmp = firstPlayerCrown;
+        firstPlayerCrown = secondPlayerCrown;
+        secondPlayerCrown = tmp;
+    }
+
+    private void reversePlayers(){
+        Player tmp = firstPlayer;
+        firstPlayer = secondPlayer;
+        secondPlayer = tmp;
+    }
+
+    private void reverseElementDirection(GameElement gameElement){
+        gameElement.setDirection(reverseDirection(gameElement.getDirection()));
+    }
+
+    private Direction reverseDirection(Direction direction){
+        if(direction == Direction.backward){
+            return Direction.forward;
+        }
+        else if(direction == Direction.forward){
+            return Direction.backward;
+        }
+        else if(direction == Direction.right){
+            return Direction.left;
+        }
+        else if(direction == Direction.left){
+            return Direction.right;
+        }
+        return null;
     }
 }
 
