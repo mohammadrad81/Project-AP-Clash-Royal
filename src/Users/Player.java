@@ -21,6 +21,7 @@ public class Player implements Serializable {
     private ArrayList<Match> history;
     private ArrayList<Card> cards;
     private ArrayList<Card> hand;
+    private final int[] needXpForLevelUp = {300, 500, 900, 1700, 2500};
 
     public Player(String username, String password){
         this.username = username;
@@ -49,7 +50,7 @@ public class Player implements Serializable {
         this.username = username;
         password = "";
         this.level = level;
-        history = null;
+        history = new ArrayList<>();
         cards = new ArrayList<>();
 
         cards.add(new Barbarian(level));
@@ -112,6 +113,16 @@ public class Player implements Serializable {
 
     public void setXp(int xp) {
         this.xp = xp;
+        if (this.xp > needXpForLevelUp[level - 1]){
+            this.xp -= needXpForLevelUp[level - 1];
+            setLevel(level + 1);
+            for (Card card : cards){
+                card.upgrade(level);
+            }
+            for (Card card: hand){
+                card.upgrade(level);
+            }
+        }
     }
 
     public void addMatchToHistory(Match match){
