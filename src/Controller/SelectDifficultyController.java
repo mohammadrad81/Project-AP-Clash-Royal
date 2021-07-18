@@ -1,5 +1,7 @@
 package Controller;
 
+import Users.Bots.IdiotBot;
+import Users.Bots.SmartBot;
 import Users.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,17 +38,38 @@ public class SelectDifficultyController {
     }
 
     @FXML
-    void startGameIdiotBot(ActionEvent event) {
-
+    void startGameIdiotBot(ActionEvent event) throws Exception{
+        startGame(player, new IdiotBot(player.getLevel()));
     }
 
     @FXML
-    void startGameSmartBot(ActionEvent event) {
-
+    void startGameSmartBot(ActionEvent event) throws Exception{
+        startGame(player,new SmartBot(player.getLevel()));
     }
 
     public void setPlayer(Player player){
         this.player = player;
+    }
+
+    private void startGame(Player user, Player bot) throws Exception{
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/View/GameView.fxml"));
+        fxmlLoader.load();
+
+        Media media = new Media(new File("src/SoundTracks/battle1.mp3").toURI().toString());
+        ((MediaPlayer) stage.getUserData()).pause();
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        stage.setUserData(mediaPlayer);
+
+        Parent root = fxmlLoader.getRoot();
+        Scene scene = new Scene(root,600,1000);
+        stage.setScene(scene);
+        stage.show();
+
+        GameController controller = fxmlLoader.getController();
+        controller.setPlayers(user, bot);
     }
 
 }
