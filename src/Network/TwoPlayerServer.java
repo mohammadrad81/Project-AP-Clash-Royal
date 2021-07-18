@@ -2,6 +2,7 @@ package Network;
 
 import Model.Game.Command;
 import Model.Game.GameManager;
+import Model.Stats.Match;
 import Users.Player;
 
 import java.io.IOException;
@@ -40,7 +41,8 @@ public class TwoPlayerServer {
                 i--;
                 continue;
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
+                System.err.println("! wrong object sent by player !");
             }
         }
 
@@ -57,7 +59,7 @@ public class TwoPlayerServer {
             gameManager.update();
             sendGameManagerToPlayers();
             try {
-                Thread.sleep(90);
+                Thread.sleep(95);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 // never happens
@@ -70,7 +72,7 @@ public class TwoPlayerServer {
             try {
                 serverSidePlayer.sendToPlayer(gameManager.gameResult());
             } catch (IOException e) {
-                e.printStackTrace();
+                playerDisconnected(serverSidePlayer);
             }
         }
     }
@@ -81,7 +83,7 @@ public class TwoPlayerServer {
                 try {
                     serverSidePlayer.sendToPlayer(gameManager);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    playerDisconnected(serverSidePlayer);
                 }
             }
             else{
@@ -89,7 +91,7 @@ public class TwoPlayerServer {
                 try {
                     serverSidePlayer.sendToPlayer(gameManager);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    playerDisconnected(serverSidePlayer);
                 }
                 gameManager.reverse();
             }
@@ -108,6 +110,25 @@ public class TwoPlayerServer {
     }
 
     public synchronized static void playerDisconnected(ServerSidePlayer disconnectedPlayer){
-        // implement later
+        if(disconnectedPlayer.equals(serverSidePlayers[0])){
+            try {
+                serverSidePlayers[1].sendToPlayer(new Match(serverSidePlayers[1].getPlayer().getUsername(),
+                        serverSidePlayers[0].getPlayer().getUsername() ,
+                        3, 0));
+            } catch (IOException e) {
+//                e.printStackTrace();
+                System.err.println("! seems like both players are disconnected !");
+            }
+        }
+        else{
+            try {
+                serverSidePlayers[0].sendToPlayer(new Match(serverSidePlayers[0].getPlayer().getUsername(),
+                        serverSidePlayers[1].getPlayer().getUsername() , 3 , 0));
+            } catch (IOException e) {
+                //e.printStackTrace();
+                System.err.println("! seems like both players are disconnected !");
+            }
+        }
+        System.exit(-2);
     }
 }
