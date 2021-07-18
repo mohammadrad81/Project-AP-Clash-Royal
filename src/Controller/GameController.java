@@ -82,7 +82,7 @@ public class GameController {
     protected Pane mapPane;
 
     @FXML
-    private ListView<Card> handListView;
+    protected ListView<Card> handListView;
 
     @FXML
     private ImageView nextCardImage;
