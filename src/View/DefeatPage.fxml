@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="504.0" prefWidth="282.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameResultController">
+<StackPane prefHeight="900.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.GameResultController">
     <children>
-        <ImageView fitHeight="518.0" fitWidth="298.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="900.0" fitWidth="563.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../Pictures/backgrounds/Defeat.jpg" />
             </image>
@@ -33,7 +33,7 @@
             <center>
                 <Label fx:id="resultLabel" text="Result" textFill="WHITE" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
-                        <Insets bottom="200.0" />
+                        <Insets bottom="300.0" />
                     </BorderPane.margin>
                     <font>
                         <Font name="System Bold" size="34.0" />

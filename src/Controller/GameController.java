@@ -223,7 +223,7 @@ public class GameController {
         GameResultController controller = fxmlLoader.getController();
         controller.setPlayers(player1, model.getFirstPlayerCrown(), model.getSecondPlayerCrown());
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,500,900);
         stage.setScene(scene);
         stage.show();
 
