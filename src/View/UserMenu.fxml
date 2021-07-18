@@ -22,7 +22,7 @@
                 </ImageView>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
-                      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="345.0" prefWidth="234.0" spacing="10.0" BorderPane.alignment="CENTER">
+                      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="370.0" prefWidth="234.0" spacing="10.0" BorderPane.alignment="CENTER">
                           <children>
                         <Label fx:id="welcomeLabel" alignment="CENTER" style="-fx-background-color: #2d2323;" textFill="WHITE">
                            <font>
@@ -45,6 +45,11 @@
                               <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goTrainingCamp" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="TRAINING CAMP" />
                         <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="1V1" />
                         <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="2V2" />
+                        <Label fx:id="errorLabel" style="-fx-background-color: #FF0000FF;" visible="false">
+                           <padding>
+                              <Insets left="4.0" right="4.0" />
+                           </padding>
+                        </Label>
                           </children>
                      <BorderPane.margin>
                         <Insets top="100.0" />

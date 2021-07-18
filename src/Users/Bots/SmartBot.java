@@ -19,8 +19,8 @@ import java.util.*;
 import java.util.List;
 
 public class SmartBot extends Bot {
-    protected SmartBot(String username, int level) {
-        super(username, level);
+    public SmartBot(int level) {
+        super("SMART BOT", level);
     }
 
     @Override

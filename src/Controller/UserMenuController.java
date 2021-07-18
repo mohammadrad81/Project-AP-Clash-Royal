@@ -23,6 +23,9 @@ public class UserMenuController {
     private Label welcomeLabel;
 
     @FXML
+    private Label errorLabel;
+
+    @FXML
     private Button logoutButton;
 
     @FXML
@@ -93,6 +96,8 @@ public class UserMenuController {
 
     @FXML
     void goTrainingCamp(ActionEvent event) throws Exception{
+        if (!validHand())
+            return;
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/View/SelectDifficulty.fxml"));
@@ -104,6 +109,16 @@ public class UserMenuController {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private boolean validHand(){
+        if (player.getHand().size() < 8){
+            errorLabel.setText("FIRST SET HAND IN BATTLE DECK");
+            errorLabel.setVisible(true);
+            return false;
+        }
+        else
+            return true;
     }
 
 

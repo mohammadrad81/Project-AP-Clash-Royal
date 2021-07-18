@@ -8,16 +8,18 @@ import Model.Cards.Spells.Rage;
 import Model.Cards.Spells.Spell;
 import Model.Game.*;
 import Model.Interfaces.HealthHaver;
+import Model.Stats.Match;
 import Model.Towers.KingTower;
 import Model.Towers.Tower;
 import Users.Player;
 import View.CardView;
-import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -29,14 +31,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.util.Duration;
 
 import java.awt.*;
-import java.io.FileInputStream;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -51,6 +54,8 @@ public class GameController {
     private Timer timer;
     private List<GameElement> spells = new ArrayList<>();
     private List<Shoot> shootList = new ArrayList<>();
+
+    private final String directoryAddress = "./Users/"; //must append with 'username'.bin
 
     @FXML
     private BorderPane border;
@@ -174,41 +179,80 @@ public class GameController {
             timer.cancel();
             enemyCrowns.setText(Integer.toString(model.getSecondPlayerCrown()));
             yourCrowns.setText(Integer.toString(model.getFirstPlayerCrown()));
+
+            goResultPage();
             return;
+        }
+        if (model.getFrameCounter() == 1200){
+            changeMusic("battle2.mp3");
         }
         updateView();
 
     }
 
-    public void showElements(){
-//        HashMap<Player, List<GameElement>> gameElementHashMap = model.getPlayerToElementHashMap();
-//        List<GameElement> firstPlayerElements = gameElementHashMap.get(player1);
-//        for (GameElement element: firstPlayerElements){
-//            ImageView imageView = new ImageView(new Image(findImage(element)));
-//            imageView.setX(element.getLocation().getX() * cellWidth);
-//            imageView.setY(element.getLocation().getY() * cellHeight);
-//            System.out.println("element at : " + element.getLocation().getX() + " , " + element.getLocation().getY());
-//            imageView.setFitHeight(cellHeight);
-//            imageView.setFitWidth(cellWidth);
-//            mapPane.getChildren().add(imageView);
-////                group.getChildren().add(imageView);
-////                canvas.setHeight(arenaPane.getHeight());
-////                canvas.setWidth(arenaPane.getWidth());
-////
-////                GraphicsContext gc = canvas.getGraphicsContext2D();
-////                gc.drawImage(new Image(element.getImageAddress().replace("color","red") + "backward.png"), cellWidth * element.getLocation().getX() , cellHeight * element.getLocation().getY() , cellWidth * 3 , cellHeight * 3);
-//
-//        }
-//        List<GameElement> secondPlayerElements = gameElementHashMap.get(player2);
-//        for (GameElement element: secondPlayerElements){
-//            ImageView imageView = new ImageView(new Image(findImage(element)));
-//            imageView.setX(element.getLocation().getX() * cellWidth);
-//            imageView.setY(element.getLocation().getY() * cellHeight);
-//            imageView.setFitHeight(cellHeight);
-//            imageView.setFitWidth(cellWidth);
-//            mapPane.getChildren().add(imageView);
-//        }
+    private void goResultPage() {
+        Match matchResult = model.gameResult();
+        player1.addMatchToHistory(matchResult);
+        player2.addMatchToHistory(matchResult);
 
+        String address = "/View/";
+        if (matchResult.getWinnerName().equals(player1.getUsername())){
+            address += "VictoryPage.fxml";
+            changeMusic("victory.mp3");
+            player1.setXp(player1.getXp() + 200);
+        }
+        else {
+            address += "DefeatPage.fxml";
+            changeMusic("defeat.mp3");
+            player1.setXp(player1.getXp() + 70);
+        }
+
+        saveChanges();
+
+        Stage stage = (Stage) border.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(address));
+
+        try {
+            fxmlLoader.load();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        Parent root = fxmlLoader.getRoot();
+        GameResultController controller = fxmlLoader.getController();
+        controller.setPlayers(player1, model.getFirstPlayerCrown(), model.getSecondPlayerCrown());
+
+        Scene scene = new Scene(root,500,900);
+        stage.setScene(scene);
+        stage.show();
+
+
+    }
+
+    private void saveChanges(){
+        File file = new File(directoryAddress + player1.getUsername() + ".bin");
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)){
+
+            objectOutputStream.writeObject(player1);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void changeMusic(String name){
+        Stage stage = (Stage) border.getScene().getWindow();
+        Media media = new Media(new File("src/SoundTracks/" + name).toURI().toString());
+        ((MediaPlayer) stage.getUserData()).pause();
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        stage.setUserData(mediaPlayer);
+    }
+
+    public void showElements(){
 
         GameElement[][][] mapArray = model.getMapArray();
         GameElement element = null;
@@ -227,12 +271,7 @@ public class GameController {
         }
     }
     private void showNonSpell(GameElement element){
-//        ImageView imageView = new ImageView(new Image(findImage(element)));
-//        imageView.setX(element.getLocation().getX() * cellWidth);
-//        imageView.setY(element.getLocation().getY() * cellHeight);
-//        imageView.setFitHeight(cellHeight);
-//        imageView.setFitWidth(cellWidth);
-//        mapPane.getChildren().add(imageView);
+
         VBox view = elementView(element);
         view.setLayoutX(element.getLocation().getX() * cellWidth);
         view.setLayoutY(((element.getLocation().getY()) - 0.2) * cellHeight);
@@ -385,31 +424,8 @@ public class GameController {
     }
 
     public void updateView(){
-//            canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-//            canvas.getGraphicsContext2D().strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
-//            try {
-//                Thread.sleep(100);
-//
-//            }
-//            catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        while (elementPane.getChildren().size() > 0) {
-//            ((ImageView)elementPane.getChildren().get(1)).setVisible(false);
-//            elementPane.getChildren().remove(0);
-//            try {
-//                Thread.sleep(100);
-//            }
-//            catch (Exception e){
-//
-//            }
-//        }
-//        while (elementPane.getChildren().size()>0)
-//            elementPane.getChildren().remove(0);
-//        mapPane.getChildren().clear();
-//        initialMap();
+
         while (mapPane.getChildren().size() > 627){
-//            ((ImageView) elementPane.getChildren().get(0)).setImage(null);
             mapPane.getChildren().remove(627);
         }
 
@@ -418,7 +434,6 @@ public class GameController {
 
         List<Card> hand = model.getPlayerRandomCardsHashMap().get(player1);
         nextCardImage.setImage(new Image(hand.get(4).getCardImageAddress()));
-//        cardList.remove(4);
         List<Card> cardList = new ArrayList<>();
         for (int i = 0; i < 4; i++){
             cardList.add(hand.get(i));
@@ -447,7 +462,6 @@ public class GameController {
 
         timeLabel.setText("" + minutes + ":" + seconds);
 
-//        model.update();
     }
 
 }
