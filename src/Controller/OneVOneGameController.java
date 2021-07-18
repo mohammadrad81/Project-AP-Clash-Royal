@@ -1,9 +1,15 @@
 package Controller;
 
+import Model.Cards.Card;
+import Model.Game.Command;
 import Model.Game.GameManager;
 import Model.Stats.Match;
 import Users.Player;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 
+import java.awt.*;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -11,6 +17,24 @@ import java.net.Socket;
 public class OneVOneGameController extends GameController{
     private ObjectInputStream in;
     private ObjectOutputStream out;
+
+    @FXML
+    void addElement(MouseEvent event) {
+        Card selectedCard = handListView.getSelectionModel().getSelectedItem();
+        if (selectedCard == null)
+            return;
+        int x = (int) (event.getX()/cellWidth);
+        int y = (int) (event.getY()/cellHeight);
+        System.out.println(x + " " + y);
+
+        Command command = new Command(player1, selectedCard, new Point(x, y));
+        try {
+            out.writeObject(command);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void update() {
