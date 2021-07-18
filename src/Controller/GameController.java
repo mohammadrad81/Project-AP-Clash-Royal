@@ -44,14 +44,14 @@ import java.util.*;
 import java.util.List;
 
 public class GameController {
-    private double cellWidth;
-    private double cellHeight;
+    protected double cellWidth;
+    protected double cellHeight;
 
-    private GameManager model;
-    private Player player1;
+    protected GameManager model;
+    protected Player player1;
     private Player player2;
     private ObservableList<Card> cardObservableList;
-    private Timer timer;
+    protected Timer timer;
     private List<GameElement> spells = new ArrayList<>();
     private List<Shoot> shootList = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class GameController {
     private Label yourCrowns;
 
     @FXML
-    private Label enemyUsernameLabel;
+    protected Label enemyUsernameLabel;
 
     @FXML
     private Label timeLabel;
@@ -76,7 +76,7 @@ public class GameController {
     private StackPane arenaPane;
 
     @FXML
-    private Pane mapPane;
+    protected Pane mapPane;
 
     @FXML
     private ListView<Card> handListView;
@@ -117,7 +117,7 @@ public class GameController {
 
     }
 
-    private void initialMap(){
+    protected void initialMap(){
         try {
 
             FileInputStream mapFile = new FileInputStream("src/View/map.txt");
@@ -180,7 +180,7 @@ public class GameController {
             enemyCrowns.setText(Integer.toString(model.getSecondPlayerCrown()));
             yourCrowns.setText(Integer.toString(model.getFirstPlayerCrown()));
 
-            goResultPage();
+            goResultPage(model.gameResult());
             return;
         }
         if (model.getFrameCounter() == 1200){
@@ -190,18 +190,25 @@ public class GameController {
 
     }
 
-    private void goResultPage() {
-        Match matchResult = model.gameResult();
+    protected void goResultPage(Match matchResult) {
+//        Match matchResult = model.gameResult();
         player1.addMatchToHistory(matchResult);
-        player2.addMatchToHistory(matchResult);
+//        player2.addMatchToHistory(matchResult);
 
         String address = "/View/";
+        int firstPlayerCrowns;
+        int secondPlayerCrowns;
         if (matchResult.getWinnerName().equals(player1.getUsername())){
+            firstPlayerCrowns = matchResult.getWinnerCrown();
+            secondPlayerCrowns = matchResult.getLooserCrown();
+
             address += "VictoryPage.fxml";
             changeMusic("victory.mp3");
             player1.setXp(player1.getXp() + 200);
         }
         else {
+            firstPlayerCrowns = matchResult.getLooserCrown();;
+            secondPlayerCrowns = matchResult.getWinnerCrown();
             address += "DefeatPage.fxml";
             changeMusic("defeat.mp3");
             player1.setXp(player1.getXp() + 70);
@@ -221,7 +228,7 @@ public class GameController {
         }
         Parent root = fxmlLoader.getRoot();
         GameResultController controller = fxmlLoader.getController();
-        controller.setPlayers(player1, model.getFirstPlayerCrown(), model.getSecondPlayerCrown());
+        controller.setPlayers(player1, firstPlayerCrowns, secondPlayerCrowns);
 
         Scene scene = new Scene(root,500,900);
         stage.setScene(scene);
@@ -243,7 +250,7 @@ public class GameController {
         }
     }
 
-    private void changeMusic(String name){
+    protected void changeMusic(String name){
         Stage stage = (Stage) border.getScene().getWindow();
         Media media = new Media(new File("src/SoundTracks/" + name).toURI().toString());
         ((MediaPlayer) stage.getUserData()).pause();
@@ -423,7 +430,7 @@ public class GameController {
 
     }
 
-    public void updateView(){
+    protected void updateView(){
 
         while (mapPane.getChildren().size() > 627){
             mapPane.getChildren().remove(627);
@@ -461,6 +468,10 @@ public class GameController {
             seconds = "" + (frameCount % 600)/10;
 
         timeLabel.setText("" + minutes + ":" + seconds);
+
+    }
+
+    public void setPlayer(Player player){
 
     }
 
