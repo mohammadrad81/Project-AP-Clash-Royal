@@ -14,12 +14,19 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * controller for match result page
+ */
 public class GameResultController {
     private Player player;
 
     @FXML
     private Label resultLabel;
 
+    /**
+     *  back to the user menu page
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void backToMenu(ActionEvent event) throws Exception{
         Stage stage = (Stage) resultLabel.getScene().getWindow();
@@ -42,7 +49,12 @@ public class GameResultController {
         stage.show();
     }
 
-
+    /**
+     * set players and result of game
+     * @param player the player
+     * @param firstPlayerCrowns number of crowns of first player
+     * @param secondPlayerCrown number of crowns of second player
+     */
     public void setPlayers(Player player, int firstPlayerCrowns, int secondPlayerCrown){
         this.player = player;
         resultLabel.setText("" + firstPlayerCrowns + " - " + secondPlayerCrown);

@@ -11,6 +11,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * controller class for developers page
+ * developers page introduce us :)
+ *
+ * Mohammad Heydari Rad(Man of culture)
+ * Alireza Jabbari
+ */
 public class DevelopersDetailsController {
 
     @FXML

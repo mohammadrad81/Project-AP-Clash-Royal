@@ -24,6 +24,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+/**
+ * controller class for battle deck page
+ *
+ */
+
 public class BattleDeckController {
 
     private Player player;
@@ -45,6 +50,10 @@ public class BattleDeckController {
     @FXML
     private Label selectedCardsLabel;
 
+    /**
+     *  back to the user menu page
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void returnToUserMenu(ActionEvent event) throws Exception{
         if (deckChanged)
@@ -64,6 +73,9 @@ public class BattleDeckController {
         stage.show();
     }
 
+    /**
+     * set view for listViews
+     */
     public void initialize(){
         cardsListView.setCellFactory(new Callback<ListView<Card>, ListCell<Card>>() {
             @Override
@@ -79,6 +91,10 @@ public class BattleDeckController {
         });
     }
 
+    /**
+     * set player for controller
+     * @param player the player
+     */
     public void setPlayer(Player player){
         this.player = player;
         cards = FXCollections.observableArrayList(player.getCards());
@@ -87,8 +103,10 @@ public class BattleDeckController {
         handListView.setItems(hand);
     }
 
-
-
+    /**
+     * add a card to hand cards
+     * @param event
+     */
     @FXML
     void cardsMouseClicked(MouseEvent event) {
         Card card = cardsListView.getSelectionModel().getSelectedItem();
@@ -108,6 +126,9 @@ public class BattleDeckController {
         }
     }
 
+    /**
+     * remove a card from hand cards
+     */
     @FXML
     void handMouseClicked(MouseEvent event) {
         Card card = handListView.getSelectionModel().getSelectedItem();
@@ -124,6 +145,10 @@ public class BattleDeckController {
             });
         }
     }
+
+    /**
+     * save player details in file
+     */
     private void saveChanges(){
         File file = new File(directoryAddress + player.getUsername() + ".bin");
 

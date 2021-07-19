@@ -43,6 +43,9 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * controller class for game page
+ */
 public class GameController {
     private double cellWidth;
     private double cellHeight;
@@ -93,6 +96,10 @@ public class GameController {
     @FXML
     private Pane elementPane;
 
+    /**
+     * add selected card to the map if it is valid
+     * @param event click on map pane
+     */
     @FXML
     void addElement(MouseEvent event) {
         Card selectedCard = handListView.getSelectionModel().getSelectedItem();
@@ -106,7 +113,9 @@ public class GameController {
         model.addCommand(command);
     }
 
-
+    /**
+     * set view for listView
+     */
     public void initialize(){
         handListView.setCellFactory(new Callback<ListView<Card>, ListCell<Card>>() {
             @Override
@@ -117,6 +126,9 @@ public class GameController {
 
     }
 
+    /**
+     * create map view in the start of game
+     */
     private void initialMap(){
         try {
 
@@ -144,6 +156,11 @@ public class GameController {
         }
     }
 
+    /**
+     * set players of the match
+     * @param player1 first player
+     * @param player2 second player
+     */
     public void setPlayers(Player player1, Player player2){
         this.player1 = player1;
         this.player2 = player2;
@@ -156,6 +173,9 @@ public class GameController {
         startTimer();
     }
 
+    /**
+     * start the game !!!
+     */
     public void startTimer(){
         timer = new Timer();
         TimerTask timerTask = new TimerTask() {
@@ -173,6 +193,9 @@ public class GameController {
         timer.schedule(timerTask,0, frameTimeInMilliseconds);
     }
 
+    /**
+     * update the game one frame
+     */
     public void update(){
         model.update();
         if (model.isGameOver()) {
@@ -190,6 +213,9 @@ public class GameController {
 
     }
 
+    /**
+     * at the end of match change page to the result page
+     */
     private void goResultPage() {
         Match matchResult = model.gameResult();
         player1.addMatchToHistory(matchResult);
@@ -229,7 +255,9 @@ public class GameController {
 
 
     }
-
+    /**
+     * save player details in file
+     */
     private void saveChanges(){
         File file = new File(directoryAddress + player1.getUsername() + ".bin");
 
@@ -243,6 +271,10 @@ public class GameController {
         }
     }
 
+    /**
+     * change music to be played (my favorite method :) )
+     * @param name name of music file
+     */
     private void changeMusic(String name){
         Stage stage = (Stage) border.getScene().getWindow();
         Media media = new Media(new File("src/SoundTracks/" + name).toURI().toString());
@@ -252,6 +284,9 @@ public class GameController {
         stage.setUserData(mediaPlayer);
     }
 
+    /**
+     * show elements of game in the map (Troops, Towers and ...)
+     */
     public void showElements(){
 
         GameElement[][][] mapArray = model.getMapArray();
@@ -270,6 +305,11 @@ public class GameController {
             }
         }
     }
+
+    /**
+     * show all elements of game except spells in the map
+     * @param element non spell element to be showed
+     */
     private void showNonSpell(GameElement element){
 
         VBox view = elementView(element);
@@ -282,6 +322,9 @@ public class GameController {
 
     }
 
+    /**
+     * show all shoots of game in the map
+     */
     private void showShoots(){
 
         List<Shoot> shoots = model.getShoots();
@@ -311,6 +354,11 @@ public class GameController {
 
     }
 
+    /**
+     * return view of a element for show in map
+     * @param element the element to be showed
+     * @return element view ( picture of element and health bar)
+     */
     private VBox elementView(GameElement element){
         VBox vBox = new VBox(1);
         ProgressBar healthBar = new ProgressBar();
@@ -337,6 +385,9 @@ public class GameController {
 
     }
 
+    /**
+     * show active spells of game in the map
+     */
     private void showSpells(){
         List<GameElement> activeSpells = model.getActiveSpells();
         for (GameElement element: activeSpells) {
@@ -382,6 +433,11 @@ public class GameController {
 
     }
 
+    /**
+     * find image address of element by its direction and by its owner
+     * @param element the element to be shown
+     * @return
+     */
     public String findImage(GameElement element){
         String imageAddress = element.getImageAddress();
         if (element.getOwner().equals(player1))
@@ -423,6 +479,9 @@ public class GameController {
 
     }
 
+    /**
+     * update view of game by frame
+     */
     public void updateView(){
 
         while (mapPane.getChildren().size() > 627){

@@ -16,6 +16,11 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * controller class for battle history page
+ * battle history page shows recent matches of player
+ */
+
 public class BattleHistoryController {
 
     private Player player;
@@ -27,6 +32,11 @@ public class BattleHistoryController {
     @FXML
     private ListView<Match> matchesListView;
 
+    /**
+     *
+     *  back to the user menu page
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void returnToUserMenu(ActionEvent event) throws Exception{
         Stage stage = (Stage) backButton.getScene().getWindow();
@@ -42,7 +52,9 @@ public class BattleHistoryController {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * set view for listView
+     */
     public void initialize(){
         matchesListView.setCellFactory(new Callback<ListView<Match>, ListCell<Match>>() {
             @Override
@@ -52,7 +64,10 @@ public class BattleHistoryController {
         });
     }
 
-
+    /**
+     * set player for controller
+     * @param player the player
+     */
     public void setPlayer(Player player) {
         this.player = player;
         matches = FXCollections.observableArrayList(player.getHistory());
