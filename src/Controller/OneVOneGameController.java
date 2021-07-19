@@ -39,6 +39,7 @@ public class OneVOneGameController extends GameController{
     @Override
     public void update() {
         Object object = null;
+//        System.out.println("D");
         try {
             object = in.readObject();
         }
@@ -46,6 +47,7 @@ public class OneVOneGameController extends GameController{
             e.printStackTrace();
         }
         if (object instanceof GameManager){
+            System.out.println(((GameManager) object).getFrameCounter());
             model = (GameManager) object;
         }
         else if (object instanceof Match){ // game ended

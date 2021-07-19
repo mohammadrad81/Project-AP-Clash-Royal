@@ -515,6 +515,8 @@ public class GameController {
         elixirProgressBar.setProgress(elixir/10.0);
         elixirNumber.setText(Integer.toString(elixir));
 
+        enemyUsernameLabel.setText(model.getSecondPlayer().getUsername());
+
         enemyCrowns.setText(Integer.toString(model.getSecondPlayerCrown()));
         yourCrowns.setText(Integer.toString(model.getFirstPlayerCrown()));
 
@@ -527,6 +529,9 @@ public class GameController {
             seconds = "" + (frameCount % 600)/10;
 
         timeLabel.setText("" + minutes + ":" + seconds);
+
+//        System.out.println("" + minutes + ":" + seconds);
+        System.out.println(model.getFrameCounter());
 
     }
 
