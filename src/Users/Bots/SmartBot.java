@@ -10,6 +10,7 @@ import Model.Cards.Spells.Spell;
 import Model.Game.Command;
 import Model.Game.GameElement;
 import Model.Game.GameManager;
+import Model.Interfaces.Damager;
 import Model.Towers.Tower;
 import Users.Player;
 
@@ -21,6 +22,10 @@ import java.util.List;
 public class SmartBot extends Bot {
     public SmartBot(int level) {
         super("SMART BOT", level);
+    }
+
+    public SmartBot(String username, int level) {
+        super(username, level);
     }
 
     @Override
@@ -175,7 +180,10 @@ public class SmartBot extends Bot {
         while (iterator.hasNext()){
             GameElement element = iterator.next();
             if(elementTarget.get(element).equals(gameElement)){
-                return true;
+                if(((Damager)element.getGameEntity()).getRange() >=
+                        element.getLocation().distance(gameElement.getLocation())){
+                    return true;
+                }
             }
         }
         return false;
@@ -213,7 +221,7 @@ public class SmartBot extends Bot {
                     return upPoint;
                 }
 
-                else if(gameManager.isCommandAreaAllowed(new Command(this , card , upPoint))){
+                else if(gameManager.isCommandAreaAllowed(new Command(this , card , downPoint))){
                     return downPoint;
                 }
             }
