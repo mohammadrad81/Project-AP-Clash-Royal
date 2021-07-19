@@ -1568,5 +1568,50 @@ public class GameManager implements Serializable {
         }
         return null;
     }
+
+    private GameManager(Player firstPlayer,
+                       Player secondPlayer,
+                       HashMap<Player, Integer> playerElixir,
+                       int firstPlayerCrown,
+                       int secondPlayerCrown,
+                       HashMap<Player, List<GameElement>> playerToElementHashMap,
+                       GameElement[][][] mapArray,
+                       long frameCounter,
+                       HashMap<Player, List<Card>> playerRandomCardsHashMap,
+                       HashMap<GameElement, GameElement> elementToTargetHashMap,
+                       List<GameElement> activeSpells,
+                       List<Shoot> shoots,
+                       List<Command> commands) {
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
+        this.playerElixir = playerElixir;
+        this.firstPlayerCrown = firstPlayerCrown;
+        this.secondPlayerCrown = secondPlayerCrown;
+        this.playerToElementHashMap = playerToElementHashMap;
+        this.mapArray = mapArray;
+        this.frameCounter = frameCounter;
+        this.playerRandomCardsHashMap = playerRandomCardsHashMap;
+        this.elementToTargetHashMap = elementToTargetHashMap;
+        this.activeSpells = activeSpells;
+        this.shoots = shoots;
+        this.commands = commands;
+    }
+
+    public GameManager copy(){
+        return new GameManager(firstPlayer,
+                secondPlayer,
+                playerElixir,
+                firstPlayerCrown,
+                secondPlayerCrown,
+                playerToElementHashMap,
+                mapArray,
+                frameCounter,
+                playerRandomCardsHashMap,
+                elementToTargetHashMap,
+                activeSpells,
+                shoots,
+                commands);
+    }
+
 }
 

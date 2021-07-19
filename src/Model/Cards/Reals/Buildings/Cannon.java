@@ -42,4 +42,15 @@ public class Cannon extends Building{
         setDamage(damageByLevelArray[level -1]);
         setHealth(healthByLevelArray[level -1]);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof Cannon)){
+            return false;
+        }
+        return true;
+    }
 }

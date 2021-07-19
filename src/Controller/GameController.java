@@ -171,6 +171,17 @@ public class GameController {
         };
         long frameTimeInMilliseconds = (long) (1000.0 / model.getFps());
         timer.schedule(timerTask,0, frameTimeInMilliseconds);
+
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true)
+//                    update();
+//            }
+//        };
+//        Thread thread = new Thread(runnable);
+////        thread.setDaemon(true);
+//        thread.start();
     }
 
     public void update(){
@@ -430,6 +441,23 @@ public class GameController {
 
     }
 
+    private <T> boolean isSameTypeList(List<T> first , List<T> second){
+        if(first == null || second == null){
+            return false;
+        }
+        if(first.size() != second.size()){
+            return false;
+        }
+        else{
+            for (int i = 0; i < first.size(); i++) {
+                if(!first.get(i).getClass().equals(second.get(i).getClass())){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     protected void updateView(){
 
         while (mapPane.getChildren().size() > 627){
@@ -448,13 +476,15 @@ public class GameController {
 
         showElements();
         showSpells();
-
-        cardObservableList = FXCollections.observableList(cardList);
-        handListView.setItems(cardObservableList);
-
+        if(! isSameTypeList(cardObservableList , cardList)){
+            cardObservableList = FXCollections.observableList(cardList);
+            handListView.setItems(cardObservableList);
+        }
         int elixir = model.getFirstPlayerElixir();
         elixirProgressBar.setProgress(elixir/10.0);
         elixirNumber.setText(Integer.toString(elixir));
+
+        enemyUsernameLabel.setText(model.getSecondPlayer().getUsername());
 
         enemyCrowns.setText(Integer.toString(model.getSecondPlayerCrown()));
         yourCrowns.setText(Integer.toString(model.getFirstPlayerCrown()));
@@ -468,6 +498,9 @@ public class GameController {
             seconds = "" + (frameCount % 600)/10;
 
         timeLabel.setText("" + minutes + ":" + seconds);
+
+//        System.out.println("" + minutes + ":" + seconds);
+        System.out.println(model.getFrameCounter());
 
     }
 

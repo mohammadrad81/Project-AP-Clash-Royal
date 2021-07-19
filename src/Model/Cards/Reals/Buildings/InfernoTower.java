@@ -56,4 +56,15 @@ public class InfernoTower extends Building{
     public int getLastDamage() {
         return lastDamage;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof InfernoTower)){
+            return false;
+        }
+        return true;
+    }
 }

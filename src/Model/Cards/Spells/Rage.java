@@ -1,5 +1,7 @@
 package Model.Cards.Spells;
 
+import Model.Cards.Reals.Buildings.InfernoTower;
+
 /**
  * rage spell of the game
  * @version 1.0.0
@@ -42,5 +44,16 @@ public class Rage extends Spell{
      */
     public double getDuration() {
         return duration;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof Rage)){
+            return false;
+        }
+        return true;
     }
 }

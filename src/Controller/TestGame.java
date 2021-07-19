@@ -18,18 +18,18 @@ public class TestGame extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/View/GameView.fxml"));
+        loader.setLocation(getClass().getResource("/View/OneVOneGameView.fxml"));
 
 
         Parent root = loader.load();
         OneVOneGameController controller = loader.getController();
         primaryStage.setTitle("Clash Royale");
-//        Media media = new Media(new File("src/SoundTracks/menu.mp3").toURI().toString());
-//        MediaPlayer mediaPlayer = new MediaPlayer(media);
-//        mediaPlayer.play();
-//        primaryStage.setUserData(mediaPlayer);
-//        primaryStage.getIcons().add(new Image("/Pictures/icon.png"));
-//        primaryStage.setResizable(false);
+        Media media = new Media(new File("src/SoundTracks/menu.mp3").toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        primaryStage.setUserData(mediaPlayer);
+        primaryStage.getIcons().add(new Image("/Pictures/icon.png"));
+        primaryStage.setResizable(false);
 
         primaryStage.setScene(new Scene(root,600,1000));
         primaryStage.show();

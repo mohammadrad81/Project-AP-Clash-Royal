@@ -5,6 +5,7 @@ import Model.Game.Command;
 import Model.Game.GameManager;
 import Model.Stats.Match;
 import Users.Player;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -13,6 +14,8 @@ import java.awt.*;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class OneVOneGameController extends GameController{
     private ObjectInputStream in;
@@ -37,37 +40,65 @@ public class OneVOneGameController extends GameController{
     }
 
     @Override
+    public void startTimer() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                while (true)
+                    update();
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    @Override
     public void update() {
         Object object = null;
         try {
             object = in.readObject();
         }
         catch (Exception e){
-            e.printStackTrace();
+            return;
         }
         if (object instanceof GameManager){
             model = (GameManager) object;
         }
         else if (object instanceof Match){ // game ended
             Match matchResult = (Match) object;
-            timer.cancel();
+//            timer.cancel();
             try {
                 out.writeObject(null);
             }
             catch (Exception e){
                 e.printStackTrace();
+                System.exit(-1);
             }
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    goResultPage(matchResult);
+                }
+            });
 
-            goResultPage(matchResult);
             return;
         }
 
         if (model.getFrameCounter() == 1200)
             changeMusic("battle2.mp3");
 
-        updateView();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                updateView();
+            }
+        });
 
     }
+
+
 
     private void connectToServer(){
         try {

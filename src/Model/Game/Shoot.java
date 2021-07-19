@@ -1,8 +1,9 @@
 package Model.Game;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
-public class Shoot {
+public class Shoot implements Serializable {
     private Point2D src;
     private Point2D dest;
     private long madeAtFrame;

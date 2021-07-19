@@ -4,8 +4,9 @@ import Model.Cards.Card;
 import Users.Player;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
-public class Command {
+public class Command implements Serializable {
     private Player player;
     private Card card;
     private Point2D point2D;
