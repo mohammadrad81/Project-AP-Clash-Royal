@@ -10,6 +10,7 @@ import Model.Cards.Spells.Spell;
 import Model.Game.Block;
 import Model.Game.Command;
 import Model.Game.GameElement;
+import Model.Game.GameManager;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -27,7 +28,7 @@ public class IntelligentBot extends SmartBot {
         List<Spell> spellCards = spellCards(buyableCards);
         List<Troop> troopCards = troopCards(buyableCards);
         List<Building> buildingCards = buildingCards(buyableCards);
-
+        boolean defensive = shouldBeDefensive();
         Card chosenCard = findFireBall(buyableCards);
         if(chosenCard != null){
             Point2D enemyArmyMass = findArmyMass(mapArray , ((Fireball)chosenCard).getRadius() , false);
@@ -42,7 +43,44 @@ public class IntelligentBot extends SmartBot {
                 return new Command(this , chosenCard , enemyArmyMass);
             }
         }
-        // implement later
+        chosenCard = findRage(buyableCards);
+        if(chosenCard != null){
+            Point2D botArmyMass = findArmyMass(mapArray , ((Rage)chosenCard).getRadius() , true);
+            if(botArmyMass != null){
+                return new Command(this , chosenCard , botArmyMass);
+            }
+        }
+
+        chosenCard = findBuilding(buyableCards);
+        if(chosenCard != null){
+            if(defensive){
+                Point2D chosenPoint = searchForAllowedArea(chosenCard , new Point(9 , 4));
+                if(chosenPoint != null){
+                    return new Command(this , chosenCard , chosenPoint);
+                }
+            }
+            else {
+                Point2D chosenPoint = searchForAllowedArea(chosenCard , new Point(9 , 24));
+                if(chosenPoint != null){
+                    return new Command(this , chosenCard , chosenPoint);
+                }
+            }
+        }
+        chosenCard = findTroop(buyableCards);
+        if(chosenCard != null){
+            if(defensive){
+                Point2D chosenPoint = searchForAllowedArea(chosenCard , new Point(9 , 4));
+                if(chosenPoint != null){
+                    return new Command(this , chosenCard , chosenPoint);
+                }
+            }
+            else{
+                Point2D chosenPoint = searchForAllowedArea(chosenCard , new Point(9 , 24));
+                if(chosenPoint != null){
+                    return new Command(this , chosenCard , chosenPoint);
+                }
+            }
+        }
         return null;// just in case
     }
 
@@ -136,5 +174,47 @@ public class IntelligentBot extends SmartBot {
             }
         }
         return count;
+    }
+    
+    private boolean shouldBeDefensive(){
+        GameManager gameManager = GameManager.getInstance();
+        if(gameManager.getFirstPlayerCrown() > gameManager.getSecondPlayerCrown()){
+            return true;
+        }
+        if(howManyEnemyInBotField(gameManager.getMapArray()) > 3){
+            return true;
+        }
+        if(isKingTowerInDanger()){
+            return true;
+        }
+        return false;
+
+    }
+
+    private int howManyEnemyInBotField(GameElement[][][] mapArray){
+        GameElement gameElement = null;
+        int count = 0;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 16; j++) {
+                for (int k = 0; k < 2; k++) {
+                    gameElement = mapArray[i][j][k];
+                    if(gameElement != null && !(gameElement instanceof Block)){
+                        if(! gameElement.getOwner().equals(this)){
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    private boolean isKingTowerInDanger(){
+        GameManager gameManager = GameManager.getInstance();
+        GameElement kingTowerElement = gameManager.getMapArray()[9][1][0];
+        if(isUnderAttack(kingTowerElement)){
+            return true;
+        }
+        return false;
     }
 }
