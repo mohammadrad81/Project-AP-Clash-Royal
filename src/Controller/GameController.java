@@ -177,20 +177,31 @@ public class GameController {
      * start the game !!!
      */
     public void startTimer(){
-        timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
+//        timer = new Timer();
+//        TimerTask timerTask = new TimerTask() {
+//            @Override
+//            public void run() {
+//                Platform.runLater(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        update();
+//                    }
+//                });
+//            }
+//        };
+//        long frameTimeInMilliseconds = (long) (1000.0 / model.getFps());
+//        timer.schedule(timerTask,0, frameTimeInMilliseconds);
+
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        update();
-                    }
-                });
+                while (true)
+                    update();
             }
         };
-        long frameTimeInMilliseconds = (long) (1000.0 / model.getFps());
-        timer.schedule(timerTask,0, frameTimeInMilliseconds);
+        Thread thread = new Thread(runnable);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
@@ -486,9 +497,26 @@ public class GameController {
         return null;
 
     }
+    private <T> boolean isSameTypeList(List<T> first , List<T> second){
+        if(first == null || second == null){
+            return false;
+        }
+        if(first.size() != second.size()){
+            return false;
+        }
+        else{
+            for (int i = 0; i < first.size(); i++) {
+                if(!first.get(i).getClass().equals(second.get(i).getClass())){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     /**
      * update view of game by frame
      */
+
     protected void updateView(){
 
         while (mapPane.getChildren().size() > 627){
@@ -507,10 +535,10 @@ public class GameController {
 
         showElements();
         showSpells();
-
-        cardObservableList = FXCollections.observableList(cardList);
-        handListView.setItems(cardObservableList);
-
+        if(! isSameTypeList(cardObservableList , cardList)){
+            cardObservableList = FXCollections.observableList(cardList);
+            handListView.setItems(cardObservableList);
+        }
         int elixir = model.getFirstPlayerElixir();
         elixirProgressBar.setProgress(elixir/10.0);
         elixirNumber.setText(Integer.toString(elixir));

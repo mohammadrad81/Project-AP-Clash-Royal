@@ -1,5 +1,7 @@
 package Model.Cards.Spells;
 
+import Model.Cards.Reals.Buildings.InfernoTower;
+
 /**
  * class for fireball card of game
  * @version 1.0.0
@@ -44,5 +46,16 @@ public class Fireball extends Spell{
      */
     public int getAreaDamage() {
         return areaDamage;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof Fireball)){
+            return false;
+        }
+        return true;
     }
 }

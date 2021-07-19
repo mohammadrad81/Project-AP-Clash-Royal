@@ -1,5 +1,7 @@
 package Model.Cards.Spells;
 
+import Model.Cards.Reals.Buildings.InfernoTower;
+
 /**
  * the arrow spell card in game
  * @see Model.Cards.Card
@@ -45,5 +47,16 @@ public class Arrows extends Spell{
      */
     public int getAreaDamage() {
         return areaDamage;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof Arrows)){
+            return false;
+        }
+        return true;
     }
 }

@@ -5,6 +5,7 @@ import Model.Game.Command;
 import Model.Game.GameManager;
 import Model.Stats.Match;
 import Users.Player;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
@@ -52,7 +53,7 @@ public class OneVOneGameController extends GameController{
         }
         else if (object instanceof Match){ // game ended
             Match matchResult = (Match) object;
-            timer.cancel();
+//            timer.cancel();
             try {
                 out.writeObject(null);
             }
@@ -66,9 +67,12 @@ public class OneVOneGameController extends GameController{
 
         if (model.getFrameCounter() == 1200)
             changeMusic("battle2.mp3");
-
-        updateView();
-
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                updateView();
+            }
+        });
     }
 
     private void connectToServer(){
