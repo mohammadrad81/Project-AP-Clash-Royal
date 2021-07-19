@@ -181,7 +181,7 @@ public class IntelligentBot extends SmartBot {
         if(gameManager.getFirstPlayerCrown() > gameManager.getSecondPlayerCrown()){
             return true;
         }
-        if(howManyEnemyInBotField(gameManager.getMapArray()) > 3){
+        if(howManyEnemyInBotField(gameManager.getMapArray()) >= 2){
             return true;
         }
         if(isKingTowerInDanger()){
