@@ -14,6 +14,8 @@ import java.awt.*;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class OneVOneGameController extends GameController{
     private ObjectInputStream in;
@@ -40,21 +42,18 @@ public class OneVOneGameController extends GameController{
     @Override
     public void update() {
         Object object = null;
-//        System.out.println("D");
         try {
             object = in.readObject();
         }
         catch (Exception e){
-            e.printStackTrace();
-            System.exit(-1);
+            return;
         }
         if (object instanceof GameManager){
-            System.out.println(((GameManager) object).getFrameCounter());
             model = (GameManager) object;
         }
         else if (object instanceof Match){ // game ended
             Match matchResult = (Match) object;
-//            timer.cancel();
+            timer.cancel();
             try {
                 out.writeObject(null);
             }
@@ -69,13 +68,11 @@ public class OneVOneGameController extends GameController{
 
         if (model.getFrameCounter() == 1200)
             changeMusic("battle2.mp3");
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                updateView();
-            }
-        });
+
+        updateView();
     }
+
+
 
     private void connectToServer(){
         try {

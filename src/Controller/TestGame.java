@@ -18,7 +18,7 @@ public class TestGame extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/View/GameView.fxml"));
+        loader.setLocation(getClass().getResource("/View/OneVOneGameView.fxml"));
 
 
         Parent root = loader.load();

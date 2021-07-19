@@ -157,31 +157,31 @@ public class GameController {
     }
 
     public void startTimer(){
-//        timer = new Timer();
-//        TimerTask timerTask = new TimerTask() {
-//            @Override
-//            public void run() {
-//                Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        update();
-//                    }
-//                });
-//            }
-//        };
-//        long frameTimeInMilliseconds = (long) (1000.0 / model.getFps());
-//        timer.schedule(timerTask,0, frameTimeInMilliseconds);
-
-        Runnable runnable = new Runnable() {
+        timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                while (true)
-                    update();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        update();
+                    }
+                });
             }
         };
-        Thread thread = new Thread(runnable);
-//        thread.setDaemon(true);
-        thread.start();
+        long frameTimeInMilliseconds = (long) (1000.0 / model.getFps());
+        timer.schedule(timerTask,0, frameTimeInMilliseconds);
+
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true)
+//                    update();
+//            }
+//        };
+//        Thread thread = new Thread(runnable);
+////        thread.setDaemon(true);
+//        thread.start();
     }
 
     public void update(){
