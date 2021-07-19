@@ -50,7 +50,7 @@ public class TwoPlayerServer {
             }
         }
 
-        gameManager = new GameManager(serverSidePlayers[0].getPlayer(),
+        this.gameManager = new GameManager(serverSidePlayers[0].getPlayer(),
                 serverSidePlayers[1].getPlayer());
 
 //        gameLoop();

@@ -22,8 +22,10 @@ public class ServerSidePlayer {
         return player;
     }
 
-    public void sendToPlayer(Object object) throws IOException {
+    public synchronized void sendToPlayer(Object object) throws IOException {
 //        System.out.println(((GameManager) object).getFrameCounter());
+        out.flush();
+        out.reset();
         out.writeObject(object);
     }
     public Object receiveFromPlayer() throws IOException, ClassNotFoundException {

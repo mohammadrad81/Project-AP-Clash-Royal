@@ -10,7 +10,7 @@ public class PlayerHandler extends Thread{
 
     public PlayerHandler(ServerSidePlayer serverSidePlayer, TwoPlayerServer server) {
         this.serverSidePlayer = serverSidePlayer;
-        this.setDaemon(true);
+//        this.setDaemon(true);
         this.server = server;
     }
 
