@@ -46,6 +46,7 @@ public class OneVOneGameController extends GameController{
         }
         catch (Exception e){
             e.printStackTrace();
+            System.exit(-1);
         }
         if (object instanceof GameManager){
             System.out.println(((GameManager) object).getFrameCounter());
@@ -59,6 +60,7 @@ public class OneVOneGameController extends GameController{
             }
             catch (Exception e){
                 e.printStackTrace();
+                System.exit(-1);
             }
 
             goResultPage(matchResult);
