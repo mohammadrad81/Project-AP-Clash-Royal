@@ -200,7 +200,7 @@ public class GameController {
             }
         };
         Thread thread = new Thread(runnable);
-        thread.setDaemon(true);
+//        thread.setDaemon(true);
         thread.start();
     }
 
