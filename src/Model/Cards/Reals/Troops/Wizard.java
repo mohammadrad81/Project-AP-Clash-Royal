@@ -1,5 +1,6 @@
 package Model.Cards.Reals.Troops;
 
+import Model.Cards.Reals.Buildings.InfernoTower;
 import Model.Cards.Reals.Type;
 import Model.Interfaces.GroundWarrior;
 
@@ -31,5 +32,16 @@ public class Wizard extends Troop implements GroundWarrior{
                 Type.airAndGround, healthByLevelArray, damageByLevel,
                 Speed.medium, true, 1);
         upgrade(level);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof Wizard)){
+            return false;
+        }
+        return true;
     }
 }

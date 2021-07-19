@@ -1,5 +1,6 @@
 package Model.Cards.Reals.Troops;
 
+import Model.Cards.Reals.Buildings.InfernoTower;
 import Model.Cards.Reals.Type;
 import Model.Interfaces.GroundWarrior;
 
@@ -34,5 +35,16 @@ public class Barbarian extends Troop implements GroundWarrior {
                 healthByLevelArray, damageByLevel,
                 Speed.medium, false, 4);
         upgrade(level);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof Barbarian)){
+            return false;
+        }
+        return true;
     }
 }

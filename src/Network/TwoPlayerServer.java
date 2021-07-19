@@ -60,19 +60,38 @@ public class TwoPlayerServer {
     }
 
     public void startTimer(){
-        timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
+//        timer = new Timer();
+//        TimerTask timerTask = new TimerTask() {
+//            @Override
+//            public void run() {
+////                while (! gameManager.isGameOver()) {
+//                    gameManager.update();
+//                    sendGameManagerToPlayers();
+//                    //System.out.println(gameManager.getFrameCounter());
+////                }
+//            }
+//        };
+//        long frameTimeInMilliseconds = (long) (1000.0 / 10);
+//        timer.schedule(timerTask,0, frameTimeInMilliseconds);
+
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-//                while (! gameManager.isGameOver()) {
+                while (!gameManager.isGameOver()){
+                    try {
+                        Thread.sleep(99);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     gameManager.update();
+//                    gameManager = gameManager.copy();
                     sendGameManagerToPlayers();
-                    //System.out.println(gameManager.getFrameCounter());
-//                }
+                }
+                sendGameResultToPlayers();
             }
-        };
-        long frameTimeInMilliseconds = (long) (1000.0 / 10);
-        timer.schedule(timerTask,0, frameTimeInMilliseconds);
+        });
+
+        thread.start();
     }
 
     private void gameLoop(){
@@ -101,9 +120,9 @@ public class TwoPlayerServer {
     private void sendGameManagerToPlayers(){
         for (ServerSidePlayer serverSidePlayer : serverSidePlayers){
             if(serverSidePlayer.getPlayer().equals(gameManager.getFirstPlayer())){
-                System.out.println("GG");
+//                System.out.println("GG");
                 try {
-                    serverSidePlayer.sendToPlayer(GameManager.getInstance());
+                    serverSidePlayer.sendToPlayer(gameManager);
                 } catch (IOException e) {
                     playerDisconnected(serverSidePlayer);
                 }
