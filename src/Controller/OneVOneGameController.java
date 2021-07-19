@@ -40,6 +40,21 @@ public class OneVOneGameController extends GameController{
     }
 
     @Override
+    public void startTimer() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                while (true)
+                    update();
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    @Override
     public void update() {
         Object object = null;
         try {
@@ -53,7 +68,7 @@ public class OneVOneGameController extends GameController{
         }
         else if (object instanceof Match){ // game ended
             Match matchResult = (Match) object;
-            timer.cancel();
+//            timer.cancel();
             try {
                 out.writeObject(null);
             }
@@ -61,15 +76,26 @@ public class OneVOneGameController extends GameController{
                 e.printStackTrace();
                 System.exit(-1);
             }
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    goResultPage(matchResult);
+                }
+            });
 
-            goResultPage(matchResult);
             return;
         }
 
         if (model.getFrameCounter() == 1200)
             changeMusic("battle2.mp3");
 
-        updateView();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                updateView();
+            }
+        });
+
     }
 
 
