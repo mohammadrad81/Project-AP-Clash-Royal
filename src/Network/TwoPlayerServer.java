@@ -87,6 +87,7 @@ public class TwoPlayerServer {
 //                    gameManager = gameManager.copy();
                     sendGameManagerToPlayers();
                 }
+                sendGameResultToPlayers();
             }
         });
 
