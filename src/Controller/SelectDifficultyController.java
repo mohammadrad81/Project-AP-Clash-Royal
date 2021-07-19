@@ -1,6 +1,7 @@
 package Controller;
 
 import Users.Bots.IdiotBot;
+import Users.Bots.IntelligentBot;
 import Users.Bots.SmartBot;
 import Users.Player;
 import javafx.event.ActionEvent;
@@ -45,6 +46,11 @@ public class SelectDifficultyController {
     @FXML
     void startGameSmartBot(ActionEvent event) throws Exception{
         startGame(player,new SmartBot(player.getLevel()));
+    }
+
+    @FXML
+    void startGameIntelligentBot(ActionEvent event) throws Exception {
+        startGame(player , new IntelligentBot(player.getLevel()));
     }
 
     public void setPlayer(Player player){
