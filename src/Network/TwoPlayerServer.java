@@ -4,21 +4,25 @@ import Model.Game.Command;
 import Model.Game.GameManager;
 import Model.Stats.Match;
 import Users.Player;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TwoPlayerServer {
-    private static final int numberOfPlayers = 2;
-    private static final int port = 8989;
-    private static final ServerSidePlayer[] serverSidePlayers = new ServerSidePlayer[2];
-    private static GameManager gameManager ;
+    private final int numberOfPlayers = 2;
+    private final int port = 8989;
+    private final ServerSidePlayer[] serverSidePlayers = new ServerSidePlayer[2];
+    private GameManager gameManager ;
+    private Timer timer;
 
 
-    public static void main(String[] args) {
+    public void start() {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(port);
@@ -35,7 +39,7 @@ public class TwoPlayerServer {
                 Player player = (Player) in.readObject();
                 ServerSidePlayer serverSidePlayer = new ServerSidePlayer(player , out , in);
                 serverSidePlayers[i] = serverSidePlayer;
-                (new PlayerHandler(serverSidePlayer)).start();
+                (new PlayerHandler(serverSidePlayer, this)).start();
             } catch (IOException e) {
                 System.err.println("! not successful connection try !");
                 i--;
@@ -49,12 +53,29 @@ public class TwoPlayerServer {
         gameManager = new GameManager(serverSidePlayers[0].getPlayer(),
                 serverSidePlayers[1].getPlayer());
 
-        gameLoop();
-        sendGameResultToPlayers();
+//        gameLoop();
+        startTimer();
+//        sendGameResultToPlayers();
 
     }
 
-    private static void gameLoop(){
+    public void startTimer(){
+        timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+//                while (! gameManager.isGameOver()) {
+                    gameManager.update();
+                    sendGameManagerToPlayers();
+                    //System.out.println(gameManager.getFrameCounter());
+//                }
+            }
+        };
+        long frameTimeInMilliseconds = (long) (1000.0 / 10);
+        timer.schedule(timerTask,0, frameTimeInMilliseconds);
+    }
+
+    private void gameLoop(){
         while (! gameManager.isGameOver()){
             gameManager.update();
             sendGameManagerToPlayers();
@@ -67,7 +88,7 @@ public class TwoPlayerServer {
         }
     }
 
-    private static void sendGameResultToPlayers(){
+    private void sendGameResultToPlayers(){
         for(ServerSidePlayer serverSidePlayer : serverSidePlayers){
             try {
                 serverSidePlayer.sendToPlayer(gameManager.gameResult());
@@ -77,11 +98,12 @@ public class TwoPlayerServer {
         }
     }
 
-    private static void sendGameManagerToPlayers(){
+    private void sendGameManagerToPlayers(){
         for (ServerSidePlayer serverSidePlayer : serverSidePlayers){
             if(serverSidePlayer.getPlayer().equals(gameManager.getFirstPlayer())){
+                System.out.println("GG");
                 try {
-                    serverSidePlayer.sendToPlayer(gameManager);
+                    serverSidePlayer.sendToPlayer(GameManager.getInstance());
                 } catch (IOException e) {
                     playerDisconnected(serverSidePlayer);
                 }
@@ -98,7 +120,7 @@ public class TwoPlayerServer {
         }
     }
 
-    public synchronized static void addCommand(Command command){
+    public synchronized void addCommand(Command command){
         if(command.getPlayer().equals(gameManager.getSecondPlayer())){
             Command reversedCommand = GameManager.reverseCommand(command);
             gameManager.addCommand(reversedCommand);
@@ -109,7 +131,7 @@ public class TwoPlayerServer {
         }
     }
 
-    public synchronized static void playerDisconnected(ServerSidePlayer disconnectedPlayer){
+    public synchronized void playerDisconnected(ServerSidePlayer disconnectedPlayer){
         if(disconnectedPlayer.equals(serverSidePlayers[0])){
             try {
                 serverSidePlayers[1].sendToPlayer(new Match(serverSidePlayers[1].getPlayer().getUsername(),

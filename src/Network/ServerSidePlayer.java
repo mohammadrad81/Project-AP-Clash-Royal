@@ -1,5 +1,6 @@
 package Network;
 
+import Model.Game.GameManager;
 import Users.Player;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class ServerSidePlayer {
     }
 
     public void sendToPlayer(Object object) throws IOException {
+//        System.out.println(((GameManager) object).getFrameCounter());
         out.writeObject(object);
     }
     public Object receiveFromPlayer() throws IOException, ClassNotFoundException {
