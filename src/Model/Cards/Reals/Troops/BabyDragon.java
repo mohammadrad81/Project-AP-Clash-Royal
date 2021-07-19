@@ -1,5 +1,6 @@
 package Model.Cards.Reals.Troops;
 
+import Model.Cards.Reals.Buildings.InfernoTower;
 import Model.Cards.Reals.Type;
 import Model.Interfaces.AirWarrior;
 import Model.Interfaces.GroundWarrior;
@@ -35,5 +36,16 @@ public class BabyDragon extends Troop implements AirWarrior {
                 Type.airAndGround, healthByLevelArray, damageByLevel,
                 Speed.fast, true, 1);
         upgrade(level);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof BabyDragon)){
+            return false;
+        }
+        return true;
     }
 }

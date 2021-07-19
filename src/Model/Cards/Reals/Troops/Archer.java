@@ -1,5 +1,6 @@
 package Model.Cards.Reals.Troops;
 
+import Model.Cards.Reals.Buildings.InfernoTower;
 import Model.Cards.Reals.Type;
 import Model.Interfaces.GroundWarrior;
 
@@ -35,6 +36,17 @@ public class Archer extends Troop implements  GroundWarrior{
                 true , 2);
 
         upgrade(level);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof Archer)){
+            return false;
+        }
+        return true;
     }
 
 }
