@@ -107,12 +107,12 @@ public class WaitingPageController {
                     e.printStackTrace();
                 }
                 OneVOneGameController controller = loader.getController();
-                controller.setPlayer(player , socket , out , in);
 
                 Parent root = loader.getRoot();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
+                controller.setPlayer(player , socket , out , in);
             }
         });
     }
