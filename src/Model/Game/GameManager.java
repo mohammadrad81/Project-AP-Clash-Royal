@@ -202,8 +202,8 @@ public class GameManager implements Serializable {
 //        if(gameElement.getGameEntity() instanceof Spell){
 ////            activeSpells.remove(gameElement);
 //        }
-        System.gc();
-        Runtime.getRuntime().gc();
+//        System.gc();
+//        Runtime.getRuntime().gc();
     } //done
 
     private void removeFromTargetMap(GameElement deadElement){
@@ -516,8 +516,8 @@ public class GameManager implements Serializable {
         unRage();
 
         frameCounter++;
-        System.gc();
-        Runtime.getRuntime().gc();
+//        System.gc();
+//        Runtime.getRuntime().gc();
     }
 
     private void moveTroops(){
@@ -1025,7 +1025,7 @@ public class GameManager implements Serializable {
                 }
             }
         }
-        System.gc();
+//        System.gc();
     } // done
 
     private void findTarget(){
