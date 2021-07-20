@@ -132,18 +132,34 @@ public class Player implements Serializable {
         return xp;
     }
 
+    /**
+     * get recent matches of player
+     * @return list of matches
+     */
     public ArrayList<Match> getHistory() {
         return history;
     }
 
+    /**
+     * set username of player
+     * @param username username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * set level of player
+     * @param level level
+     */
     public void setLevel(int level) {
         this.level = level;
     }
 
+    /**
+     * set xp of player, if have enough xp, level up
+     * @param xp xp
+     */
     public void setXp(int xp) {
         this.xp = xp;
         if (this.xp > needXpForLevelUp[level - 1]){
@@ -158,18 +174,34 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * add a match to recent matches list
+     * @param match the match to be added
+     */
     public void addMatchToHistory(Match match){
        history.add(match);
     }
 
+    /**
+     * get list of cards of player
+     * @param cards card list
+     */
     public void setCards(ArrayList<Card> cards) {
         this.cards = cards;
     }
 
+    /**
+     * set hand cards of player
+     * @param hand
+     */
     public void setHand(ArrayList<Card> hand) {
         this.hand = hand;
     }
 
+    /**
+     * number of matches that player won
+     * @return number of victory
+     */
     public int getCountOfWonMatches(){
         int counter = 0;
         for(Match match : history){
