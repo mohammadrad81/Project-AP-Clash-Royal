@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * controller for user menu page
+ */
 public class UserMenuController {
 
     private Player player;
@@ -28,6 +31,11 @@ public class UserMenuController {
     @FXML
     private Button logoutButton;
 
+    /**
+     * back to the main menu page
+     * @param event click on logOut button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void returnToMainMenu(ActionEvent event) throws Exception{
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
@@ -44,6 +52,11 @@ public class UserMenuController {
         stage.show();
     }
 
+    /**
+     * go to battle deck page
+     * @param event click on battle deck button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void goBattleDeck(ActionEvent event) throws Exception{
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
@@ -59,6 +72,11 @@ public class UserMenuController {
         stage.show();
     }
 
+    /**
+     * go to the battle history page
+     * @param event click on battle history button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void goBattleHistory(ActionEvent event) throws Exception{
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
@@ -74,11 +92,20 @@ public class UserMenuController {
         stage.show();
     }
 
+    /**
+     * set player for controller
+     * @param player the player
+     */
     public void setPlayer(Player player){
         this.player = player;
         welcomeLabel.setText("WELCOME " + player.getUsername());
     }
 
+    /**
+     * go to the profile page
+     * @param event click on profile button
+     * @throws IOException if fxml file not founded (never throws)
+     */
     @FXML
     void goProfilePage(ActionEvent event) throws IOException {
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
@@ -94,6 +121,11 @@ public class UserMenuController {
         stage.show();
     }
 
+    /**
+     * go to training camp page (select difficulty of bot)
+     * @param event click on training camp button
+     * @throws Exception
+     */
     @FXML
     void goTrainingCamp(ActionEvent event) throws Exception{
         if (!validHand())
@@ -111,6 +143,10 @@ public class UserMenuController {
         stage.show();
     }
 
+    /**
+     * check number of card of player in its hand
+     * @return true if player have 8 cards, otherwise false
+     */
     private boolean validHand(){
         if (player.getHand().size() < 8){
             errorLabel.setText("FIRST SET HAND IN BATTLE DECK");

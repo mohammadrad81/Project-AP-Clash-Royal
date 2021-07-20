@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
+/**
+ * controller for signUp page
+ * this page create a player by username and password
+ */
 public class SignupPageController {
 
     private final String directoryAddress = "./Users/"; //must append with 'username'.bin
@@ -33,6 +37,11 @@ public class SignupPageController {
     @FXML
     private Label errorLabel;
 
+    /**
+     * back to the main menu page
+     * @param event click on back button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void returnToMainMenu(ActionEvent event) throws Exception{
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -42,6 +51,11 @@ public class SignupPageController {
         stage.show();
     }
 
+    /**
+     * create a new player by username and password
+     * @param event click on signUp button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void signup(ActionEvent event) throws Exception{
         if (usernameTextField.getText().trim().isEmpty()){
@@ -82,11 +96,20 @@ public class SignupPageController {
 
     }
 
+    /**
+     * check user files for check player exists or not
+     * @param username the username to be checked
+     * @return true if username exists, otherwise false
+     */
     private boolean usernameExists(String username) {
         File users = new File(directoryAddress + username + ".bin");
         return users.exists();
     }
 
+    /**
+     * add player to the user files
+     * @param player the player to be added
+     */
     private void addPlayer(Player player){
         File file = new File(directoryAddress + player.getUsername() + ".bin");
         if (!file.exists()){

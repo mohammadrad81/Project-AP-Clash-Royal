@@ -19,6 +19,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+/**
+ * controller for login page
+ */
 public class LogInPageController {
 
     private final String directoryAddress = "./Users/"; // must append with 'username'.bin
@@ -38,6 +41,11 @@ public class LogInPageController {
     @FXML
     private Label errorLabel;
 
+    /**
+     * login to the user menu page
+     * @param event click the login button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void logIn(ActionEvent event) throws Exception{
         if (usernameTextField.getText().trim().isEmpty()){
@@ -86,6 +94,11 @@ public class LogInPageController {
 
     }
 
+    /**
+     * back to the main menu page
+     * @param event click the back button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void returnToMainMenu(ActionEvent event) throws Exception{
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -96,6 +109,12 @@ public class LogInPageController {
         stage.show();
     }
 
+    /**
+     * find player in user files by username and password
+     * @param username username of player
+     * @param password password of player
+     * @return the founded player (if not founded return null)
+     */
     private Player findPlayer(String username, String password){
         File users = new File(directoryAddress + username + ".bin");
         if (!users.exists())

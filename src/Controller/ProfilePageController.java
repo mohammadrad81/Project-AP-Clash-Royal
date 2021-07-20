@@ -20,6 +20,10 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * controller for profile page
+ * this page shows player stats
+ */
 public class ProfilePageController {
     private Player player;
     @FXML
@@ -43,6 +47,11 @@ public class ProfilePageController {
     @FXML
     private FlowPane cardPicturesFlowPane;
 
+    /**
+     * back to the user menu page
+     * @param event click on the back
+     * @throws IOException if fxml file not founded (never throws)
+     */
     @FXML
     void returnToUserMenu(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -65,6 +74,10 @@ public class ProfilePageController {
         stage.show();
     }
 
+    /**
+     * set player for controller
+     * @param player the player
+     */
     public void setPlayer(Player player){
         this.player = player;
         usernameLabel.setText(usernameLabel.getText() + player.getUsername());
@@ -76,12 +89,20 @@ public class ProfilePageController {
         showPlayerHand();
     }
 
+    /**
+     * shows hand cards of player
+     */
     private void showPlayerHand(){
         for(Card card : player.getHand()){
             cardPicturesFlowPane.getChildren().add(cardImageView(card));
         }
     }
 
+    /**
+     * receive view for card
+     * @param card the card to be shown
+     * @return imageView of card
+     */
     private ImageView cardImageView(Card card){
         ImageView image = new ImageView();
         image.setFitHeight(120);

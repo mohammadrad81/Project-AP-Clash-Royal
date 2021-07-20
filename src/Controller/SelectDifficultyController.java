@@ -16,12 +16,20 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * controller class for select difficulty of bot page
+ */
 public class SelectDifficultyController {
     private Player player;
 
     @FXML
     private Button backButton;
 
+    /**
+     * back to the user menu page
+     * @param event click on the back button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void returnToUserMenu(ActionEvent event) throws Exception{
         Stage stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -38,25 +46,49 @@ public class SelectDifficultyController {
         stage.show();
     }
 
+    /**
+     * start a game with idiot bot (easy level)
+     * @param event click on idiot bot button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void startGameIdiotBot(ActionEvent event) throws Exception{
         startGame(player, new IdiotBot(player.getLevel()));
     }
 
+    /**
+     * start a game with smart bot (normal level)
+     * @param event click on smart bot button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void startGameSmartBot(ActionEvent event) throws Exception{
         startGame(player,new SmartBot(player.getLevel()));
     }
-
+    /**
+     * start a game with intelligent bot (hard level)
+     * @param event click on intelligent bot button
+     * @throws Exception if fxml file not founded (never throws)
+     */
     @FXML
     void startGameIntelligentBot(ActionEvent event) throws Exception {
         startGame(player , new IntelligentBot(player.getLevel()));
     }
 
+    /**
+     * set player for controller
+     * @param player the player
+     */
     public void setPlayer(Player player){
         this.player = player;
     }
 
+    /**
+     * start a game with given player and bot
+     * @param user the player
+     * @param bot the chosen bot
+     * @throws Exception if fxml file not founded (never throws)
+     */
     private void startGame(Player user, Player bot) throws Exception{
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader();
