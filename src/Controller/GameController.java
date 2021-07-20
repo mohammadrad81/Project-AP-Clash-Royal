@@ -135,14 +135,13 @@ public class GameController {
             FileInputStream mapFile = new FileInputStream("src/View/map.txt");
             Scanner lineReader = null;
             lineReader = new Scanner(mapFile);
-
             for (int i = 0; i < 33; i++) {
                 String line = lineReader.nextLine();
                 for (int j = 0; j < 19; j++) {
                     char[] str = line.toCharArray();
                     //String tileNumber = scanner.next();
                     Character tileNumber = str[2*j];
-                    ImageView image = new ImageView(new Image("/Pictures/Tiles/" + tileNumber.toString() + ".png"));
+                    ImageView image = new ImageView(ElementImageViews.tiles[i]);
                     image.setX(j * cellWidth);
                     image.setY(i * cellHeight);
                     image.setFitHeight(cellHeight);
