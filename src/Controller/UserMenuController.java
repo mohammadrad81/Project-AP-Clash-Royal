@@ -111,6 +111,23 @@ public class UserMenuController {
         stage.show();
     }
 
+    @FXML
+    void goWaitingPage(ActionEvent event) throws IOException {
+        if(!validHand())
+            return;
+        Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/WaitingPage.fxml"));
+        loader.load();
+        WaitingPageController controller = loader.getController();
+        controller.setPlayer(player);
+
+        Parent root = loader.getRoot();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     private boolean validHand(){
         if (player.getHand().size() < 8){
             errorLabel.setText("FIRST SET HAND IN BATTLE DECK");

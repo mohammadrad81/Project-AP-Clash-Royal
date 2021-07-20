@@ -105,23 +105,28 @@ public class OneVOneGameController extends GameController{
 
 
 
-    private void connectToServer(){
-        try {
-            Socket socket = new Socket("127.0.0.1", 8989);
-            in = new ObjectInputStream(socket.getInputStream());
-            out = new ObjectOutputStream(socket.getOutputStream());
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-    @Override
-    public void setPlayer(Player player){
+//    private void connectToServer(){
+//        try {
+////            Socket socket = new Socket("127.0.0.1", 8989);
+////            in = new ObjectInputStream(socket.getInputStream());
+////            out = new ObjectOutputStream(socket.getOutputStream());
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
+//    @Override
+    public void setPlayer(Player player , Socket socket ,
+                          ObjectOutputStream out ,
+                          ObjectInputStream in){
+
         this.player1 = player;
+        this.out = out;
+        this.in = in;
         cellWidth = (mapPane.getWidth()/19.0);
         cellHeight = (mapPane.getHeight()/33.0);
         enemyUsernameLabel.setText("WAITING FOR OPPONENT");
-        connectToServer();
+//        connectToServer();
         initialMap();
 
         try {
