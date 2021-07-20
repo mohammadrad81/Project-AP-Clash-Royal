@@ -123,14 +123,13 @@ public class GameController {
             FileInputStream mapFile = new FileInputStream("src/View/map.txt");
             Scanner lineReader = null;
             lineReader = new Scanner(mapFile);
-
             for (int i = 0; i < 33; i++) {
                 String line = lineReader.nextLine();
                 for (int j = 0; j < 19; j++) {
                     char[] str = line.toCharArray();
                     //String tileNumber = scanner.next();
                     Character tileNumber = str[2*j];
-                    ImageView image = new ImageView(new Image("/Pictures/Tiles/" + tileNumber.toString() + ".png"));
+                    ImageView image = new ImageView(ElementImageViews.tiles[Integer.parseInt(tileNumber.toString()) - 1]);
                     image.setX(j * cellWidth);
                     image.setY(i * cellHeight);
                     image.setFitHeight(cellHeight);
@@ -314,7 +313,8 @@ public class GameController {
                 iterator.remove();
                 continue;
             }
-            ImageView imageView = new ImageView(new Image("/Pictures/SpellEffects/Fireball.png"));
+//            ImageView imageView = new ImageView(new Image("/Pictures/SpellEffects/Fireball.png"));
+            ImageView imageView = new ImageView(ElementImageViews.fireBall);
             imageView.setFitWidth(cellWidth);
             imageView.setFitHeight(cellHeight);
             long delta = model.getFrameCounter() - shoot.getMadeAtFrame();
@@ -346,7 +346,8 @@ public class GameController {
         else
             healthBar.setStyle("-fx-accent: red;");
         vBox.getChildren().add(healthBar);
-        ImageView imageView = new ImageView(new Image(findImage(element)));
+//        ImageView imageView = new ImageView(new Image(findImage(element)));
+        ImageView imageView = new ImageView(ElementImageViews.getElementPicture(element, player1));
         imageView.setFitHeight(cellHeight);
         imageView.setFitWidth(cellWidth);
         vBox.getChildren().add(imageView);
@@ -387,7 +388,8 @@ public class GameController {
                     imageAddress += "Arrows.png";
                 }
 
-                ImageView imageView = new ImageView(new Image(imageAddress));
+//                ImageView imageView = new ImageView(new Image(imageAddress));
+                ImageView imageView = new ImageView(ElementImageViews.getElementPicture(spellElement, player1));
                 double radius = ((Spell)spellElement.getGameEntity()).getRadius();
                 imageView.setX((spellElement.getLocation().getX() - radius ) * cellWidth + cellWidth/2);
                 imageView.setY((spellElement.getLocation().getY() - radius ) * cellHeight + cellHeight/2);
@@ -500,8 +502,9 @@ public class GameController {
         timeLabel.setText("" + minutes + ":" + seconds);
 
 //        System.out.println("" + minutes + ":" + seconds);
-        System.out.println(model.getFrameCounter());
-
+//        System.out.println(model.getFrameCounter());
+//        System.gc();
+//        Runtime.getRuntime().gc();
     }
 
     public void setPlayer(Player player){
