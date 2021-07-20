@@ -13,6 +13,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * player class for login and play the game
+ */
 public class Player implements Serializable {
     private String username;
     private String password;
@@ -23,6 +26,12 @@ public class Player implements Serializable {
     private ArrayList<Card> hand;
     private final int[] needXpForLevelUp = {300, 500, 900, 1700, 2500};
 
+    /**
+     * create new player by username and password (this constructor used in signUp page)
+     * @param username the username of player
+     * @param password the password of player
+     * @see Controller.SignupPageController
+     */
     public Player(String username, String password){
         this.username = username;
         this.password = password;
@@ -46,6 +55,11 @@ public class Player implements Serializable {
         cards.add(new InfernoTower());
     }
 
+    /**
+     * create new player by username and level (this constructor used for create bots)
+     * @param username the username of player
+     * @param level the level of player
+     */
     public Player(String username, int level){ // used for create bots
         this.username = username;
         password = "";
@@ -75,26 +89,45 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * get username of player
+     * @return username
+     */
     public String getUsername() {
         return username;
     }
-
+    /**
+     * get password of player
+     * @return password
+     */
     public String getPassword() {
         return password;
     }
-
+    /**
+     * get card list of player
+     * @return list of cards
+     */
     public ArrayList<Card> getCards() {
         return cards;
     }
-
+    /**
+     * get hand list of player
+     * @return cards of hand
+     */
     public ArrayList<Card> getHand() {
         return hand;
     }
-
+    /**
+     * get level of player
+     * @return level
+     */
     public int getLevel() {
         return level;
     }
-
+    /**
+     * get XP of player
+     * @return XP
+     */
     public int getXp() {
         return xp;
     }
