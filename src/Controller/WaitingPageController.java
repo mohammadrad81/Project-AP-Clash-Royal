@@ -51,7 +51,7 @@ public class WaitingPageController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                infoLabel.setText("waiting to connection to server...");
+                infoLabel.setText("waiting to connect to server...");
             }
         });
 
