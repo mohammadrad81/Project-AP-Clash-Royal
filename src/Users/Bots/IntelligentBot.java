@@ -35,12 +35,20 @@ public class IntelligentBot extends SmartBot {
             if(enemyArmyMass != null){
                 return new Command(this , chosenCard , enemyArmyMass);
             }
+            Point2D mostHurtEnemyTowerLocation = (getMostHurtTowerElement(getEnemyTowers()).getLocation());
+            if(mostHurtEnemyTowerLocation != null){
+                return new Command(this , chosenCard , mostHurtEnemyTowerLocation);
+            }
         }
         chosenCard = findArrows(buyableCards);
         if(chosenCard != null){
             Point2D enemyArmyMass = findArmyMass(mapArray , ((Arrows)chosenCard).getRadius() , false);
             if(enemyArmyMass != null){
                 return new Command(this , chosenCard , enemyArmyMass);
+            }
+            Point2D mostHurtEnemyTowerLocation = (getMostHurtTowerElement(getEnemyTowers()).getLocation());
+            if(mostHurtEnemyTowerLocation != null){
+                return new Command(this , chosenCard , mostHurtEnemyTowerLocation);
             }
         }
         chosenCard = findRage(buyableCards);
@@ -129,53 +137,6 @@ public class IntelligentBot extends SmartBot {
         return null;
     }
 
-    protected Point2D findArmyMass(GameElement[][][] mapArray , double radius , boolean forThisPlayer){
-        int mass = 0;
-        int count = 0;
-        Point2D massLocation = null;
-        for (int x = 0; x < 19; x++) {
-            for (int y = 0; y < 33; y++) {
-                count = howManyInRadius(mapArray , x , y , radius , forThisPlayer);
-                if(count >= 3){
-                    if(count > mass){
-                        mass = count;
-                        massLocation = new Point(x , y);
-                    }
-                }
-            }
-        }
-        return massLocation;
-    }
-
-    private int howManyInRadius(GameElement[][][] mapArray , int x , int y , double radius, boolean forThisPlayer){
-        GameElement gameElement = null;
-        Point2D location = new Point(x , y);
-        int count = 0;
-        for (int i = 0; i < 19; i++) {
-            for (int j = 0; j < 33; j++) {
-                for (int k = 0; k < 2; k++) {
-                    gameElement = mapArray[i][j][k];
-                    if(gameElement != null && !(gameElement instanceof Block)){
-                        if(gameElement.getLocation().distance(location) <= radius){
-                            if(forThisPlayer){
-                                if(gameElement.getOwner().equals(this)){
-                                    count++;
-                                }
-                            }
-                            else{
-                                if(! gameElement.getOwner().equals(this)){
-                                    count++;
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-        return count;
-    }
-    
     private boolean shouldBeDefensive(){
         GameManager gameManager = GameManager.getInstance();
         if(gameManager.getFirstPlayerCrown() > gameManager.getSecondPlayerCrown()){
