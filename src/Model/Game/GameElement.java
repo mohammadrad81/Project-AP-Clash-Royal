@@ -11,8 +11,9 @@ import Model.Towers.Tower;
 import Users.Player;
 
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
-public class GameElement {
+public class GameElement implements Serializable {
     private GameEntity gameEntity;
     private boolean isHealthHaver;
     private boolean isDamager;

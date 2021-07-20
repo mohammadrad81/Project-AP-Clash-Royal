@@ -47,14 +47,14 @@ import java.util.List;
  * controller class for game page
  */
 public class GameController {
-    private double cellWidth;
-    private double cellHeight;
+    protected double cellWidth;
+    protected double cellHeight;
 
-    private GameManager model;
-    private Player player1;
+    protected GameManager model;
+    protected Player player1;
     private Player player2;
     private ObservableList<Card> cardObservableList;
-    private Timer timer;
+    protected Timer timer;
     private List<GameElement> spells = new ArrayList<>();
     private List<Shoot> shootList = new ArrayList<>();
 
@@ -70,7 +70,7 @@ public class GameController {
     private Label yourCrowns;
 
     @FXML
-    private Label enemyUsernameLabel;
+    protected Label enemyUsernameLabel;
 
     @FXML
     private Label timeLabel;
@@ -79,10 +79,10 @@ public class GameController {
     private StackPane arenaPane;
 
     @FXML
-    private Pane mapPane;
+    protected Pane mapPane;
 
     @FXML
-    private ListView<Card> handListView;
+    protected ListView<Card> handListView;
 
     @FXML
     private ImageView nextCardImage;
@@ -129,20 +129,19 @@ public class GameController {
     /**
      * create map view in the start of game
      */
-    private void initialMap(){
+    protected void initialMap(){
         try {
 
             FileInputStream mapFile = new FileInputStream("src/View/map.txt");
             Scanner lineReader = null;
             lineReader = new Scanner(mapFile);
-
             for (int i = 0; i < 33; i++) {
                 String line = lineReader.nextLine();
                 for (int j = 0; j < 19; j++) {
                     char[] str = line.toCharArray();
                     //String tileNumber = scanner.next();
                     Character tileNumber = str[2*j];
-                    ImageView image = new ImageView(new Image("/Pictures/Tiles/" + tileNumber.toString() + ".png"));
+                    ImageView image = new ImageView(ElementImageViews.tiles[Integer.parseInt(tileNumber.toString()) - 1]);
                     image.setX(j * cellWidth);
                     image.setY(i * cellHeight);
                     image.setFitHeight(cellHeight);
@@ -191,6 +190,17 @@ public class GameController {
         };
         long frameTimeInMilliseconds = (long) (1000.0 / model.getFps());
         timer.schedule(timerTask,0, frameTimeInMilliseconds);
+
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true)
+//                    update();
+//            }
+//        };
+//        Thread thread = new Thread(runnable);
+////        thread.setDaemon(true);
+//        thread.start();
     }
 
     /**
@@ -203,7 +213,7 @@ public class GameController {
             enemyCrowns.setText(Integer.toString(model.getSecondPlayerCrown()));
             yourCrowns.setText(Integer.toString(model.getFirstPlayerCrown()));
 
-            goResultPage();
+            goResultPage(model.gameResult());
             return;
         }
         if (model.getFrameCounter() == 1200){
@@ -216,18 +226,26 @@ public class GameController {
     /**
      * at the end of match change page to the result page
      */
-    private void goResultPage() {
-        Match matchResult = model.gameResult();
+
+    protected void goResultPage(Match matchResult) {
+//        Match matchResult = model.gameResult();
         player1.addMatchToHistory(matchResult);
-        player2.addMatchToHistory(matchResult);
+//        player2.addMatchToHistory(matchResult);
 
         String address = "/View/";
+        int firstPlayerCrowns;
+        int secondPlayerCrowns;
         if (matchResult.getWinnerName().equals(player1.getUsername())){
+            firstPlayerCrowns = matchResult.getWinnerCrown();
+            secondPlayerCrowns = matchResult.getLooserCrown();
+
             address += "VictoryPage.fxml";
             changeMusic("victory.mp3");
             player1.setXp(player1.getXp() + 200);
         }
         else {
+            firstPlayerCrowns = matchResult.getLooserCrown();;
+            secondPlayerCrowns = matchResult.getWinnerCrown();
             address += "DefeatPage.fxml";
             changeMusic("defeat.mp3");
             player1.setXp(player1.getXp() + 70);
@@ -247,7 +265,7 @@ public class GameController {
         }
         Parent root = fxmlLoader.getRoot();
         GameResultController controller = fxmlLoader.getController();
-        controller.setPlayers(player1, model.getFirstPlayerCrown(), model.getSecondPlayerCrown());
+        controller.setPlayers(player1, firstPlayerCrowns, secondPlayerCrowns);
 
         Scene scene = new Scene(root,500,900);
         stage.setScene(scene);
@@ -255,6 +273,7 @@ public class GameController {
 
 
     }
+
     /**
      * save player details in file
      */
@@ -270,12 +289,11 @@ public class GameController {
             e.printStackTrace();
         }
     }
-
     /**
      * change music to be played (my favorite method :) )
      * @param name name of music file
      */
-    private void changeMusic(String name){
+    protected void changeMusic(String name){
         Stage stage = (Stage) border.getScene().getWindow();
         Media media = new Media(new File("src/SoundTracks/" + name).toURI().toString());
         ((MediaPlayer) stage.getUserData()).pause();
@@ -339,7 +357,8 @@ public class GameController {
                 iterator.remove();
                 continue;
             }
-            ImageView imageView = new ImageView(new Image("/Pictures/SpellEffects/Fireball.png"));
+//            ImageView imageView = new ImageView(new Image("/Pictures/SpellEffects/Fireball.png"));
+            ImageView imageView = new ImageView(ElementImageViews.fireBall);
             imageView.setFitWidth(cellWidth);
             imageView.setFitHeight(cellHeight);
             long delta = model.getFrameCounter() - shoot.getMadeAtFrame();
@@ -376,7 +395,8 @@ public class GameController {
         else
             healthBar.setStyle("-fx-accent: red;");
         vBox.getChildren().add(healthBar);
-        ImageView imageView = new ImageView(new Image(findImage(element)));
+//        ImageView imageView = new ImageView(new Image(findImage(element)));
+        ImageView imageView = new ImageView(ElementImageViews.getElementPicture(element, player1));
         imageView.setFitHeight(cellHeight);
         imageView.setFitWidth(cellWidth);
         vBox.getChildren().add(imageView);
@@ -420,7 +440,8 @@ public class GameController {
                     imageAddress += "Arrows.png";
                 }
 
-                ImageView imageView = new ImageView(new Image(imageAddress));
+//                ImageView imageView = new ImageView(new Image(imageAddress));
+                ImageView imageView = new ImageView(ElementImageViews.getElementPicture(spellElement, player1));
                 double radius = ((Spell)spellElement.getGameEntity()).getRadius();
                 imageView.setX((spellElement.getLocation().getX() - radius ) * cellWidth + cellWidth/2);
                 imageView.setY((spellElement.getLocation().getY() - radius ) * cellHeight + cellHeight/2);
@@ -478,11 +499,27 @@ public class GameController {
         return null;
 
     }
-
+    private <T> boolean isSameTypeList(List<T> first , List<T> second){
+        if(first == null || second == null){
+            return false;
+        }
+        if(first.size() != second.size()){
+            return false;
+        }
+        else{
+            for (int i = 0; i < first.size(); i++) {
+                if(!first.get(i).getClass().equals(second.get(i).getClass())){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     /**
      * update view of game by frame
      */
-    public void updateView(){
+
+    protected void updateView(){
 
         while (mapPane.getChildren().size() > 627){
             mapPane.getChildren().remove(627);
@@ -500,13 +537,15 @@ public class GameController {
 
         showElements();
         showSpells();
-
-        cardObservableList = FXCollections.observableList(cardList);
-        handListView.setItems(cardObservableList);
-
+        if(! isSameTypeList(cardObservableList , cardList)){
+            cardObservableList = FXCollections.observableList(cardList);
+            handListView.setItems(cardObservableList);
+        }
         int elixir = model.getFirstPlayerElixir();
         elixirProgressBar.setProgress(elixir/10.0);
         elixirNumber.setText(Integer.toString(elixir));
+
+        enemyUsernameLabel.setText(model.getSecondPlayer().getUsername());
 
         enemyCrowns.setText(Integer.toString(model.getSecondPlayerCrown()));
         yourCrowns.setText(Integer.toString(model.getFirstPlayerCrown()));
@@ -521,6 +560,10 @@ public class GameController {
 
         timeLabel.setText("" + minutes + ":" + seconds);
 
+//        System.out.println("" + minutes + ":" + seconds);
+//        System.out.println(model.getFrameCounter());
+//        System.gc();
+//        Runtime.getRuntime().gc();
     }
 
 }

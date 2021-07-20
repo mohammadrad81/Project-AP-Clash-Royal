@@ -43,7 +43,7 @@
                               <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goBattleDeck" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="BATTLE DECK" />
                               <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goBattleHistory" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="BATTLE HISTORY" />
                               <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goTrainingCamp" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="TRAINING CAMP" />
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="1V1" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goWaitingPage" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="1V1" />
                         <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="2V2" />
                         <Label fx:id="errorLabel" style="-fx-background-color: #FF0000FF;" visible="false">
                            <padding>

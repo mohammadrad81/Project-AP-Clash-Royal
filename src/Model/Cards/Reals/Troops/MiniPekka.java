@@ -1,5 +1,6 @@
 package Model.Cards.Reals.Troops;
 
+import Model.Cards.Reals.Buildings.InfernoTower;
 import Model.Cards.Reals.Type;
 import Model.Interfaces.GroundWarrior;
 
@@ -34,5 +35,16 @@ public class MiniPekka extends Troop implements GroundWarrior{
                 Type.ground, healthByLevelArray, damageByLevel,
                 Speed.fast, false, 1);
         upgrade(level);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(! (obj instanceof MiniPekka)){
+            return false;
+        }
+        return true;
     }
 }

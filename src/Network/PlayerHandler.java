@@ -6,10 +6,12 @@ import java.io.IOException;
 
 public class PlayerHandler extends Thread{
     private ServerSidePlayer serverSidePlayer;
+    private TwoPlayerServer server;
 
-    public PlayerHandler(ServerSidePlayer serverSidePlayer) {
+    public PlayerHandler(ServerSidePlayer serverSidePlayer, TwoPlayerServer server) {
         this.serverSidePlayer = serverSidePlayer;
-        this.setDaemon(true);
+//        this.setDaemon(true);
+        this.server = server;
     }
 
     @Override
@@ -23,10 +25,10 @@ public class PlayerHandler extends Thread{
                     break;
                 }
                 command = (Command) receivedObject;
-                TwoPlayerServer.addCommand(command);
+                server.addCommand(command);
             } catch (IOException e) {
 //                e.printStackTrace();
-                TwoPlayerServer.playerDisconnected(serverSidePlayer);
+                server.playerDisconnected(serverSidePlayer);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

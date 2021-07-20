@@ -143,6 +143,23 @@ public class UserMenuController {
         stage.show();
     }
 
+    @FXML
+    void goWaitingPage(ActionEvent event) throws IOException {
+        if(!validHand())
+            return;
+        Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/WaitingPage.fxml"));
+        loader.load();
+        WaitingPageController controller = loader.getController();
+        controller.setPlayer(player);
+
+        Parent root = loader.getRoot();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     /**
      * check number of card of player in its hand
      * @return true if player have 8 cards, otherwise false

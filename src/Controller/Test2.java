@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-public class TestGame extends Application {
+public class Test2 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -36,7 +36,7 @@ public class TestGame extends Application {
 //        GameController controller = loader.getController();
 //        controller.setPlayers(new Player("Ali",1), new IdiotBot(1));
 
-        controller.setPlayer(new Player("Ali",1));
+        controller.setPlayer(new Player("Karim",1));
 
 
     }

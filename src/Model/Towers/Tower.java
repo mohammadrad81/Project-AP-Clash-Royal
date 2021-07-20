@@ -7,12 +7,14 @@ import Model.Interfaces.GroundWarrior;
 import Model.Interfaces.HealthHaver;
 import Model.Property;
 
+import java.io.Serializable;
+
 /**
  * the towers of the game
  * @since 7.8.2021
  * @version 1.0.0
  */
-public abstract class Tower implements Property,  GameEntity , HealthHaver , Damager , GroundWarrior {
+public abstract class Tower implements Property,  GameEntity , HealthHaver , Damager , GroundWarrior, Serializable {
     private Type myType , targetType;
     private String imageAddress;
     private int[] healthByLevelArray , damageByLevelArray;
