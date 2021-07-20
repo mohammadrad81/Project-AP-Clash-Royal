@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.WaitingPageController">
+   <children>
+      <ImageView fitHeight="500.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pictures/backgrounds/waitingPageImage.jpg" />
+         </image>
+      </ImageView>
+      <Pane prefHeight="308.0" prefWidth="571.0">
+         <children>
+            <ProgressBar layoutX="289.0" layoutY="376.0" prefHeight="18.0" prefWidth="322.0" />
+            <Button layoutX="14.0" layoutY="444.0" mnemonicParsing="false" onAction="#backToUserMenu" prefHeight="25.0" prefWidth="143.0" stylesheets="@../Styles/ButtonsStyles.css" text="back" />
+            <HBox alignment="CENTER" layoutX="2.0" layoutY="24.0" prefHeight="36.0" prefWidth="899.0">
+               <children>
+                  <Label fx:id="infoLabel" alignment="CENTER" textAlignment="CENTER" textFill="#00a1ff">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+   </children>
+   <padding>
+      <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+   </padding>
+</StackPane>
