@@ -7,6 +7,7 @@ import Model.Cards.Spells.Arrows;
 import Model.Cards.Spells.Fireball;
 import Model.Cards.Spells.Rage;
 import Model.Cards.Spells.Spell;
+import Model.Game.Block;
 import Model.Game.Command;
 import Model.Game.GameElement;
 import Model.Game.GameManager;
@@ -31,8 +32,6 @@ public class SmartBot extends Bot {
     @Override
     public Command decision(GameElement[][][] mapArray, List<Card> cards, int elixir) {
         Random random = new Random();
-        GameManager gameManager = GameManager.getInstance();
-        Card selectedCard = null;
         List<Card> buyAbleCards = buyAbleCards(cards , elixir);
         if(buyAbleCards.size() == 0){
             return null;
@@ -63,15 +62,20 @@ public class SmartBot extends Bot {
         else if(card instanceof Spell){
             Spell spell = (Spell) card;
             if(spell instanceof Rage){
-                List<GameElement> underAttackEnemyTowers = underAttackOnes(enemyTowers);
-                if(underAttackEnemyTowers.size() > 0){
-                    GameElement towerElement = getRandom(underAttackEnemyTowers);
-                    if(towerElement != null){
-                        chosenLocation = towerElement.getLocation();
-                        if(chosenLocation != null){
-                            return new Command(this , spell , chosenLocation);
-                        }
-                    }
+//                List<GameElement> underAttackEnemyTowers = underAttackOnes(enemyTowers);
+//                if(underAttackEnemyTowers.size() > 0){
+//                    GameElement towerElement = getRandom(underAttackEnemyTowers);
+//                    if(towerElement != null){
+//                        chosenLocation = towerElement.getLocation();
+//                        if(chosenLocation != null){
+//                            return new Command(this , spell , chosenLocation);
+//                        }
+//                    }
+//                }
+
+                Point2D chosenPoint = findArmyMass(mapArray , ((Rage)spell).getRadius() , true);
+                if(chosenPoint != null){
+                    return new Command(this , spell , chosenPoint);
                 }
             }
 
@@ -245,5 +249,52 @@ public class SmartBot extends Bot {
             }
         }
         return underAttackOnes;
+    }
+
+    protected Point2D findArmyMass(GameElement[][][] mapArray , double radius , boolean forThisPlayer){
+        int mass = 0;
+        int count = 0;
+        Point2D massLocation = null;
+        for (int x = 0; x < 19; x++) {
+            for (int y = 0; y < 33; y++) {
+                count = howManyInRadius(mapArray , x , y , radius , forThisPlayer);
+                if(count >= 3){
+                    if(count > mass){
+                        mass = count;
+                        massLocation = new Point(x , y);
+                    }
+                }
+            }
+        }
+        return massLocation;
+    }
+
+    private int howManyInRadius(GameElement[][][] mapArray , int x , int y , double radius, boolean forThisPlayer){
+        GameElement gameElement = null;
+        Point2D location = new Point(x , y);
+        int count = 0;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                for (int k = 0; k < 2; k++) {
+                    gameElement = mapArray[i][j][k];
+                    if(gameElement != null && !(gameElement instanceof Block)){
+                        if(gameElement.getLocation().distance(location) <= radius){
+                            if(forThisPlayer){
+                                if(gameElement.getOwner().equals(this)){
+                                    count++;
+                                }
+                            }
+                            else{
+                                if(! gameElement.getOwner().equals(this)){
+                                    count++;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        return count;
     }
 }
