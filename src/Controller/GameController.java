@@ -566,8 +566,4 @@ public class GameController {
 //        Runtime.getRuntime().gc();
     }
 
-    public void setPlayer(Player player){
-
-    }
-
 }

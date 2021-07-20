@@ -9,8 +9,12 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -125,12 +129,17 @@ public class OneVOneGameController extends GameController{
         this.in = in;
         cellWidth = (mapPane.getWidth()/19.0);
         cellHeight = (mapPane.getHeight()/33.0);
-        enemyUsernameLabel.setText("WAITING FOR OPPONENT");
-//        connectToServer();
+
+        Stage stage = (Stage) enemyUsernameLabel.getScene().getWindow();
+        Media media = new Media(new File("src/SoundTracks/battle1.mp3").toURI().toString());
+        ((MediaPlayer) stage.getUserData()).pause();
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        stage.setUserData(mediaPlayer);
+
         initialMap();
 
         try {
-            out.writeObject(player);
             model = (GameManager) in.readObject();
         }
         catch (Exception e){
