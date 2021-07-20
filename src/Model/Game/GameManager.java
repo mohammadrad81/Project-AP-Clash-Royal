@@ -1414,12 +1414,26 @@ public class GameManager implements Serializable {
     }
 
     private int sumTowersHealth(Player player){
-        List<GameElement> elements = playerToElementHashMap.get(player);
         int sumTowersHealth = 0;
-        for(GameElement gameElement : elements){
-            if(gameElement.getGameEntity() instanceof Tower){
-                Tower tower = (Tower) gameElement.getGameEntity();
-                sumTowersHealth += tower.getHealth();
+//        List<GameElement> elements = playerToElementHashMap.get(player);
+
+//        for(GameElement gameElement : elements){
+//            if(gameElement.getGameEntity() instanceof Tower){
+//                Tower tower = (Tower) gameElement.getGameEntity();
+//                sumTowersHealth += tower.getHealth();
+//            }
+//        }
+        GameElement gameElement = null;
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 33; j++) {
+                gameElement = mapArray[i][j][0];
+                if(gameElement != null && !(gameElement instanceof Block)){
+                    if(gameElement.getGameEntity() instanceof Tower){
+                        if(gameElement.getOwner().equals(player)){
+                            sumTowersHealth += gameElement.getHealth();
+                        }
+                    }
+                }
             }
         }
         return sumTowersHealth;
