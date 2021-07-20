@@ -1122,7 +1122,24 @@ public class GameManager implements Serializable {
     } // done
 
     private void correctDirection(GameElement hunter, GameElement target){
-        if(hunter.getLocation().getX() > target.getLocation().getX()){
+
+        if(hunter.getLocation().getX() > target.getLocation().getX() &&
+            hunter.getLocation().getY() == target.getLocation().getY()){
+            hunter.setDirection(Direction.left);
+        }
+        else if(hunter.getLocation().getX() < target.getLocation().getX() &&
+                hunter.getLocation().getY() == target.getLocation().getY()){
+            hunter.setDirection(Direction.right);
+        }
+        else if (hunter.getLocation().getX() == target.getLocation().getX() &&
+                hunter.getLocation().getY() > target.getLocation().getY() ){
+            hunter.setDirection(Direction.forward);
+        }
+        else if(hunter.getLocation().getX() == target.getLocation().getX() &&
+                hunter.getLocation().getY() < target.getLocation().getY() ){
+            hunter.setDirection(Direction.backward);
+        }
+        else if(hunter.getLocation().getX() > target.getLocation().getX()){
             if(hunter.getDirection() == Direction.right){
                 hunter.setDirection(Direction.left);
             }
