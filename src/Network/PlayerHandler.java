@@ -4,10 +4,18 @@ import Model.Game.Command;
 
 import java.io.IOException;
 
+/**
+ * class for handler player actions
+ */
 public class PlayerHandler extends Thread{
     private ServerSidePlayer serverSidePlayer;
     private TwoPlayerServer server;
 
+    /**
+     * create an instance
+     * @param serverSidePlayer the player
+     * @param server the server
+     */
     public PlayerHandler(ServerSidePlayer serverSidePlayer, TwoPlayerServer server) {
         this.serverSidePlayer = serverSidePlayer;
 //        this.setDaemon(true);

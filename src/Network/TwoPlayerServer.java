@@ -14,6 +14,9 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * server side for 1v1 games
+ */
 public class TwoPlayerServer {
     private final int numberOfPlayers = 2;
     private final int port = 8989;
@@ -21,7 +24,9 @@ public class TwoPlayerServer {
     private GameManager gameManager ;
     private Timer timer;
 
-
+    /**
+     * start the server
+     */
     public void start() {
         ServerSocket serverSocket = null;
         try {
@@ -59,6 +64,9 @@ public class TwoPlayerServer {
 
     }
 
+    /**
+     * start the 1v1 game
+     */
     public void startTimer(){
 //        timer = new Timer();
 //        TimerTask timerTask = new TimerTask() {
@@ -94,19 +102,9 @@ public class TwoPlayerServer {
         thread.start();
     }
 
-    private void gameLoop(){
-        while (! gameManager.isGameOver()){
-            gameManager.update();
-            sendGameManagerToPlayers();
-            try {
-                Thread.sleep(95);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                // never happens
-            }
-        }
-    }
-
+    /**
+     * send match result for players
+     */
     private void sendGameResultToPlayers(){
         for(ServerSidePlayer serverSidePlayer : serverSidePlayers){
             try {
@@ -117,6 +115,9 @@ public class TwoPlayerServer {
         }
     }
 
+    /**
+     * send game manager for players (update players)
+     */
     private void sendGameManagerToPlayers(){
         for (ServerSidePlayer serverSidePlayer : serverSidePlayers){
             if(serverSidePlayer.getPlayer().equals(gameManager.getFirstPlayer())){
@@ -139,6 +140,10 @@ public class TwoPlayerServer {
         }
     }
 
+    /**
+     * add received command of players
+     * @param command the received command
+     */
     public synchronized void addCommand(Command command){
         if(command.getPlayer().equals(gameManager.getSecondPlayer())){
             Command reversedCommand = GameManager.reverseCommand(command);
@@ -150,6 +155,10 @@ public class TwoPlayerServer {
         }
     }
 
+    /**
+     * handle the disconnection of player
+     * @param disconnectedPlayer the disconnected player
+     */
     public synchronized void playerDisconnected(ServerSidePlayer disconnectedPlayer){
         if(disconnectedPlayer.equals(serverSidePlayers[0])){
             try {
