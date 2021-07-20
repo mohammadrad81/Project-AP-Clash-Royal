@@ -560,7 +560,8 @@ public class GameController {
 
 //        System.out.println("" + minutes + ":" + seconds);
         System.out.println(model.getFrameCounter());
-
+        System.gc();
+        Runtime.getRuntime().gc();
     }
 
     public void setPlayer(Player player){

@@ -95,7 +95,9 @@ public class OneVOneGameController extends GameController{
                 updateView();
             }
         });
-
+        System.gc();
+        Runtime.getRuntime().gc();
+//        Runtime.getRuntime().gc();
     }
 
 
