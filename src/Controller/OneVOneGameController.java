@@ -21,6 +21,8 @@ public class OneVOneGameController extends GameController{
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
+    private boolean gameOver = false;
+
     @FXML
     void addElement(MouseEvent event) {
         Card selectedCard = handListView.getSelectionModel().getSelectedItem();
@@ -44,7 +46,7 @@ public class OneVOneGameController extends GameController{
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                while (true)
+                while (!gameOver)
                     update();
 
             }
@@ -61,13 +63,14 @@ public class OneVOneGameController extends GameController{
             object = in.readObject();
         }
         catch (Exception e){
-            return;
+            e.printStackTrace();
         }
         if (object instanceof GameManager){
             model = (GameManager) object;
         }
         else if (object instanceof Match){ // game ended
             Match matchResult = (Match) object;
+            gameOver = true;
 //            timer.cancel();
             try {
                 out.writeObject(null);
