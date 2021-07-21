@@ -56,12 +56,9 @@ public class SmartBot extends Bot {
 
         if(card instanceof Building){
             Building building = (Building) card;
-            if(defensive){
-                chosenLocation = searchForAllowedArea(building , ownMostHurtTowerElement.getLocation());
-            }
-            else {
-                chosenLocation = searchForAllowedArea(building , enemyMostHurtTowerElement.getLocation());
-            }
+
+                chosenLocation = searchForAllowedArea(building , new Point(9 , 7));
+
             if(chosenLocation != null){
                 return new Command(this , building , chosenLocation);
             }
