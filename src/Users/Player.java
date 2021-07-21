@@ -165,14 +165,16 @@ public class Player implements Serializable {
      */
     public void setXp(int xp) {
         this.xp = xp;
-        if (this.xp > needXpForLevelUp[level - 1]){
-            this.xp -= needXpForLevelUp[level - 1];
-            setLevel(level + 1);
-            for (Card card : cards){
-                card.upgrade(level);
-            }
-            for (Card card: hand){
-                card.upgrade(level);
+        if(level <= 5){
+            if (this.xp > needXpForLevelUp[level - 1]){
+                this.xp -= needXpForLevelUp[level - 1];
+                setLevel(level + 1);
+                for (Card card : cards){
+                    card.upgrade(level);
+                }
+                for (Card card: hand){
+                    card.upgrade(level);
+                }
             }
         }
     }
