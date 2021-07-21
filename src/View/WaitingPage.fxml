@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.WaitingPageController">
    <children>
       <ImageView fitHeight="500.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
@@ -25,10 +24,13 @@
             <Button layoutX="14.0" layoutY="444.0" mnemonicParsing="false" onAction="#backToUserMenu" prefHeight="25.0" prefWidth="143.0" stylesheets="@../Styles/ButtonsStyles.css" text="back" />
             <HBox alignment="CENTER" layoutX="2.0" layoutY="24.0" prefHeight="36.0" prefWidth="899.0">
                <children>
-                  <Label fx:id="infoLabel" alignment="CENTER" textAlignment="CENTER" textFill="#00a1ff">
+                  <Label fx:id="infoLabel" alignment="CENTER" style="-fx-background-color: rgb(49,34,69);" textAlignment="CENTER" textFill="#00a1ff">
                      <font>
                         <Font size="25.0" />
                      </font>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
                   </Label>
                </children>
             </HBox>
