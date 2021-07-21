@@ -23,6 +23,9 @@ import java.util.TimerTask;
 
 /**
  * class for 1 v 1 game
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class OneVOneGameController extends GameController{
     private ObjectInputStream in;

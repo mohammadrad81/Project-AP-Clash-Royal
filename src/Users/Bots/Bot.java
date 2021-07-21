@@ -9,6 +9,9 @@ import java.util.List;
 
 /**
  * an abstract class for bots of the game
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public abstract class Bot extends Player {
     protected Bot(String username, int level){

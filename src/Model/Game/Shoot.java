@@ -5,6 +5,9 @@ import java.io.Serializable;
 
 /**
  * class for show attack of troops
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class Shoot implements Serializable {
     private Point2D src;

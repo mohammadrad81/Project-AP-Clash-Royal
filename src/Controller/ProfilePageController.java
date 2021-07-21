@@ -23,6 +23,9 @@ import java.io.IOException;
 /**
  * controller for profile page
  * this page shows player stats
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class ProfilePageController {
     private Player player;

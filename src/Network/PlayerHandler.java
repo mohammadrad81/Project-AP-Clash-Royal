@@ -6,6 +6,9 @@ import java.io.IOException;
 
 /**
  * class for handler player actions
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class PlayerHandler extends Thread{
     private ServerSidePlayer serverSidePlayer;

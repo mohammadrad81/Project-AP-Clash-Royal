@@ -4,8 +4,10 @@ import Model.Cards.Reals.Type;
 
 /**
  * inferno tower card of the game
- * @since 7.8.2021
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
  * @version 1.0.0
+ * @since 7.8.2021
  */
 public class InfernoTower extends Building{
     private static final String infernoCardImageAddress = "/Pictures/CardImages/InfernoTowerCard.png";

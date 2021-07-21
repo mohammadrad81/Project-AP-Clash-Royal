@@ -16,6 +16,9 @@ import java.util.TimerTask;
 
 /**
  * server side for 1v1 games
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class TwoPlayerServer {
     private final int numberOfPlayers = 2;

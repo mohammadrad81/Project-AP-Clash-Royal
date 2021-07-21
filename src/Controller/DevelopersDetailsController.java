@@ -16,7 +16,7 @@ import java.io.IOException;
  * developers page introduce us :)
  *
  * Mohammad Heydari Rad(Man of culture)
- * Alireza Jabbari
+ * Alireza Jabbari ( The greate man )
  */
 public class DevelopersDetailsController {
 

@@ -15,6 +15,9 @@ import java.util.Collections;
 
 /**
  * player class for login and play the game
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class Player implements Serializable {
     private String username;

@@ -9,8 +9,18 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * main class for the game
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
+ */
 public class Main extends Application {
-
+    /**
+     * the start method to open the main menu page
+     * @param primaryStage
+     * @throws Exception for io exception for loading the fxml file
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/View/MainMenu.fxml"));
@@ -25,7 +35,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * main method
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }

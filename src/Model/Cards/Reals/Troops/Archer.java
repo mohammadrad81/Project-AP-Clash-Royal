@@ -7,6 +7,8 @@ import Model.Interfaces.GroundWarrior;
 /**
  * the archer card of the game
  * @since 7.8.2021
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
  * @version 1.0.0
  */
 public class Archer extends Troop implements  GroundWarrior{

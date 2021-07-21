@@ -17,6 +17,9 @@ import javafx.scene.image.ImageView;
 
 /**
  * a class that holds the images of the game
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class ElementImageViews {
     public static final Image archerBlueForward = new Image("/Pictures/ElementImages/Archer/blue/forward.png");

@@ -19,6 +19,9 @@ import javafx.util.Callback;
 /**
  * controller class for battle history page
  * battle history page shows recent matches of player
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 
 public class BattleHistoryController {

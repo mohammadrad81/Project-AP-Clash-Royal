@@ -8,6 +8,9 @@ import java.io.Serializable;
 
 /**
  * class for store user actions
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class Command implements Serializable {
     private Player player;

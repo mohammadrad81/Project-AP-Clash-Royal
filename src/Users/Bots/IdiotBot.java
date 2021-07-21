@@ -12,7 +12,9 @@ import java.util.Random;
 
 /**
  * the dumbest bot of the game ( do not underestimate it )
- *
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class IdiotBot extends Bot {
     private GameManager gameManager = null;

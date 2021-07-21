@@ -21,6 +21,9 @@ import java.util.TimerTask;
 
 /**
  * controller for waiting for server and opponent page
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class WaitingPageController {
     private Player player;

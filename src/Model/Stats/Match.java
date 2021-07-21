@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 /**
  * class for store result of a game
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class Match implements Serializable {
 

@@ -19,6 +19,8 @@ import java.util.List;
 /**
  * class for intelligent bot of the game ( very smart )
  * @since 7.21.2021
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
  * @version 1.0.0
  */
 public class IntelligentBot extends SmartBot {

@@ -5,6 +5,8 @@ import Model.Cards.Reals.Buildings.InfernoTower;
 /**
  * the arrow spell card in game
  * @see Model.Cards.Card
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
  * @version 1.0.0
  * @since 7.8.2021
  */

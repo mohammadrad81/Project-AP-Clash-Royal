@@ -12,6 +12,8 @@ import java.io.Serializable;
 /**
  * the towers of the game
  * @since 7.8.2021
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
  * @version 1.0.0
  */
 public abstract class Tower implements Property,  GameEntity , HealthHaver , Damager , GroundWarrior, Serializable {

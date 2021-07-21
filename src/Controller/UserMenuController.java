@@ -17,6 +17,9 @@ import java.io.IOException;
 
 /**
  * controller for user menu page
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class UserMenuController {
 

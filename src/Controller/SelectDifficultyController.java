@@ -18,6 +18,9 @@ import java.io.File;
 
 /**
  * controller class for select difficulty of bot page
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class SelectDifficultyController {
     private Player player;

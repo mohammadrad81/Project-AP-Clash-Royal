@@ -5,6 +5,9 @@ import java.io.Serializable;
 
 /**
  * class for define forbidden area for ground warriors
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
+ * @version 1.0.0
  */
 public class Block extends GameElement implements Serializable {
     public static final String blockImageAddress = "" ;// implement later;

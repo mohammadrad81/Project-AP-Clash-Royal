@@ -7,6 +7,8 @@ import Model.Interfaces.HealthHaver;
 /**
  * the cards which are not spells
  * are Reals , right ? :-)
+ * @author Alireza Jabbari Mahalle No
+ * @author Mohammad Heydari Rad
  * @version 1.0.0
  * @since 7.8.2021
  */
