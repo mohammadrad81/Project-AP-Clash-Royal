@@ -6,6 +6,8 @@ import Model.Interfaces.GroundWarrior;
 
 /**
  * wizard card of the game
+ * @since 7.8.2021
+ * @version 1.0.0
  */
 public class Wizard extends Troop implements GroundWarrior{
     private static final String cardImageAddress = "/Pictures/CardImages/WizardCard.png";

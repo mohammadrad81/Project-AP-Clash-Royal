@@ -21,12 +21,20 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * class for 1 v 1 game
+ */
 public class OneVOneGameController extends GameController{
     private ObjectInputStream in;
     private ObjectOutputStream out;
 
     private boolean gameOver = false;
 
+    /**
+     * by the chosen card and the chosen location by the player
+     * sends a command to server to play the card
+     * @param event click on map pane
+     */
     @FXML
     void addElement(MouseEvent event) {
         Card selectedCard = handListView.getSelectionModel().getSelectedItem();
@@ -45,6 +53,9 @@ public class OneVOneGameController extends GameController{
         }
     }
 
+    /**
+     * updates the game concurrently
+     */
     @Override
     public void startTimer() {
         Runnable runnable = new Runnable() {
@@ -60,6 +71,9 @@ public class OneVOneGameController extends GameController{
         thread.start();
     }
 
+    /**
+     * updates the game
+     */
     @Override
     public void update() {
         Object object = null;
@@ -120,6 +134,14 @@ public class OneVOneGameController extends GameController{
 //        }
 //    }
 //    @Override
+
+    /**
+     * sets the player , the connection stuff of the player
+     * @param player the player
+     * @param socket the socket to server
+     * @param out the outputStream to server
+     * @param in the inputStream to server
+     */
     public void setPlayer(Player player , Socket socket ,
                           ObjectOutputStream out ,
                           ObjectInputStream in){

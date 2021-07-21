@@ -33,7 +33,11 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.List;
 
-
+/**
+ * the class that manages the game
+ * @since 7.8.2021
+ * @version 1.0.0
+ */
 public class GameManager implements Serializable {
 //    private static final String team1Name = "team 1";
 //    private static final String team2Name = "team 2";
@@ -54,13 +58,20 @@ public class GameManager implements Serializable {
     private HashMap<GameElement , GameElement> elementToTargetHashMap;
     private List<GameElement> activeSpells;
     private List<Shoot> shoots;
-
+    private List<Command> commands;
+    /**
+     * static method to get the last game manager made
+     * @return
+     */
     public static GameManager getInstance(){
         return gameManager;
     }
 
-    private List<Command> commands;
-
+    /**
+     * constructor for the game manager
+     * @param firstPlayer is the first player that plays
+     * @param secondPlayer is the second player that plays
+     */
     public GameManager(Player firstPlayer, Player secondPlayer) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
@@ -83,6 +94,9 @@ public class GameManager implements Serializable {
         init();
     }
 
+    /**
+     * initializes the game
+     */
     private void init(){
         givePlayerTowers(firstPlayer);
         givePlayerTowers(secondPlayer);
@@ -94,6 +108,9 @@ public class GameManager implements Serializable {
 
     }
 
+    /**
+     * puts the blocks in the map
+     */
     private void putBlocks(){
 
         for(int i = 0 ; i < 19; i ++){
@@ -104,14 +121,25 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * increases the count of crowns of the first player
+     */
     private void increaseFirstPlayerCrown(){
         firstPlayerCrown++;
     }//done
 
+    /**
+     * increases the count of crowns of the second player
+     */
     private void increaseSecondPlayerCrown(){
         secondPlayerCrown++;
     }//done
 
+    /**
+     * adds an element to the game
+     * @param player is the player who owns the element
+     * @param gameElement is the element , we are about to add
+     */
     private void addElement(Player player , GameElement gameElement ){
         playerToElementHashMap.get(player).add(gameElement);
         if(gameElement.getGameEntity() instanceof Spell){
@@ -127,10 +155,19 @@ public class GameManager implements Serializable {
         }
     } //done
 
+    /**
+     * places the element in the map
+     * @param gameElement is the element we are about to place
+     */
     private void placeElement(GameElement gameElement){
         placeElement(gameElement , gameElement.getLocation());
     }//done
 
+    /**
+     * places a count of same type of elements in the map ( the troops that have counts )
+     * @param gameElement is the game element is about to get placed
+     * @param count is the count of the game element ( for instance , barbarian has 4 count )
+     */
     private void placeElement(GameElement gameElement , int count){
         Point2D[] point2DS = new Point2D[count];
         int x = (int) gameElement.getLocation().getX();
@@ -142,6 +179,11 @@ public class GameManager implements Serializable {
         }
     }//done
 
+    /**
+     * places an element in a particular point
+     * @param gameElement is the element is about to get placed
+     * @param point2D is the point , the game element is about to get placed
+     */
     private void placeElement(GameElement gameElement , Point2D point2D){
         gameElement = gameElement.copy();
         gameElement.setLocation(point2D);
@@ -156,10 +198,19 @@ public class GameManager implements Serializable {
         }
     }//done
 
+    /**
+     * removes an element from the game
+     * @param gameElement is the removing game element
+     */
     private void removeElement(GameElement gameElement){
         removeElement(gameElement.getOwner() , gameElement);
     } // done
 
+    /**
+     * removes an element from the owned elements by a player
+     * @param player is the player who owns the element
+     * @param gameElement is the element is about to get removed
+     */
     private void removeElement(Player player , GameElement gameElement){
         List<GameElement> playerElements = playerToElementHashMap.get(player);
         playerElements.remove(gameElement);
@@ -206,6 +257,10 @@ public class GameManager implements Serializable {
 //        Runtime.getRuntime().gc();
     } //done
 
+    /**
+     * removes a dead element from the target hash map
+     * @param deadElement is the element that its health is 0
+     */
     private void removeFromTargetMap(GameElement deadElement){
         Iterator<GameElement> it = elementToTargetHashMap.keySet().iterator();
         GameElement gameElement = null;
@@ -219,6 +274,12 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * the player buys a card and plays it
+     * @param player is the player who plays the card
+     * @param card is the played card
+     * @param point2D is the point to play the card
+     */
     private void buyCard(Player player , Card card , Point2D point2D) {
         Command command = new Command(player, card, point2D);
         int x = (int) point2D.getX();
@@ -254,12 +315,23 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * gives random cards to player
+     * from his/her/its hand
+     * @param player is the player we are about to give cards to
+     * @param count is the count of cards to give to player
+     */
     private void giveRandomCardToPlayer(Player player , int count){
         for(int i = 0; i < count; i++){
             giveRandomCardToPlayer(player);
         }
     } // done
 
+    /**
+     * gives a random card
+     * from his/her/its hand
+     * @param player is the player to give a random card to
+     */
     private void giveRandomCardToPlayer(Player player){
         boolean done = false;
         List<Card> hand = player.getHand();
@@ -274,6 +346,10 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * gives the player their towers
+     * @param player is the player this method gives towers to
+     */
     private void givePlayerTowers(Player player){
         List<GameElement> gameElements = playerToElementHashMap.get(player);
         GameElement kingTowerElement = null;
@@ -329,6 +405,10 @@ public class GameManager implements Serializable {
         gameElements.add(rightPrincessTower);
     } // done
 
+    /**
+     * spells the area
+     * @param spellElement is the game element of the spell
+     */
     private void spellArea(GameElement spellElement){
 //        activeSpells.add(spellElement);
         if(spellElement.getGameEntity() instanceof Rage){
@@ -342,6 +422,10 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * damages the elements in the range of the arrow spell ( no self damage )
+     * @param arrowElement is the game element of the arrow spell
+     */
     private void arrowArea(GameElement arrowElement){
         Arrows arrows = (Arrows) arrowElement.getGameEntity();
         Point2D arrowPoint = arrowElement.getLocation();
@@ -362,6 +446,10 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * damages the elements in the range of the arrow spell ( no self damage )
+     * @param fireBallElement
+     */
     private void fireBallArea(GameElement fireBallElement){
         Fireball fireball = (Fireball) fireBallElement.getGameEntity();
         Point2D fireballPoint = fireBallElement.getLocation();
@@ -383,6 +471,10 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * rages the elements in the range of the rage spell
+     * @param rageElement
+     */
     private void rageArea(GameElement rageElement){
         Rage rage = (Rage) rageElement.getGameEntity();
         Point2D ragePoint = rageElement.getLocation();
@@ -404,6 +496,11 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * checks if the game element is in raged area or not
+     * @param gameElement
+     * @return
+     */
     private boolean isInRagedArea(GameElement gameElement){
         Point2D elementPoint = gameElement.getLocation();
         Point2D spellPoint = null;
@@ -420,6 +517,10 @@ public class GameManager implements Serializable {
         return false;
     } // done
 
+    /**
+     * checks if the game is over or not
+     * @return true if the game is over , else false
+     */
     public boolean isGameOver(){
         if(frameCounter == 1800 ||
                 !hasKingTowers(firstPlayer) ||
@@ -429,6 +530,11 @@ public class GameManager implements Serializable {
         return false;
     } // done
 
+    /**
+     * checks if the player has king tower or not
+     * @param player is the checking player
+     * @return true if the player has king tower, else false
+     */
     private boolean hasKingTowers(Player player){
         for(GameElement gameElement : playerToElementHashMap.get(player)){
             if(gameElement.getGameEntity() instanceof KingTower){
@@ -437,7 +543,11 @@ public class GameManager implements Serializable {
         }
         return false;
     } // done
-
+    /**
+     * checks if the player has left princess tower or not
+     * @param player is the checking player
+     * @return true if the player has left princess tower tower, else false
+     */
     private boolean hasLeftTower(Player player){
         if(player.equals(firstPlayer)){
             if(mapArray[3][28][0] != null){
@@ -455,7 +565,11 @@ public class GameManager implements Serializable {
         }
         return false;
     } // done
-
+    /**
+     * checks if the player has right princess tower or not
+     * @param player is the checking player
+     * @return true if the player has right princess tower tower, else false
+     */
     private boolean hasRightTower(Player player){
         if(player.equals(firstPlayer)){
             if(mapArray[15][28][0] != null){
@@ -474,6 +588,9 @@ public class GameManager implements Serializable {
         return false;
     } // done
 
+    /**
+     * influences the game state by the commands sent by players
+     */
     private void doCommands(){
         Iterator<Command> commandIterator = commands.iterator();
         Command command = null;
@@ -484,12 +601,20 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * influences the game state by the command
+     * @param command is the command from a player
+     */
     private void doTheCommand(Command command){
         if(command != null){
             buyCard(command.getPlayer() , command.getCard() , command.getPoint2D());
         }
     }// done
 
+    /**
+     * actives the king tower of the input player
+     * @param player is the input player
+     */
     private void activeKingTower(Player player){
         for(GameElement gameElement : playerToElementHashMap.get(player)){
             if(gameElement.getGameEntity() instanceof  KingTower){
@@ -498,6 +623,9 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * updates the game to the next step ( frame )
+     */
     public void update(){
         resetShoots();
         increaseElixirs();
@@ -520,6 +648,9 @@ public class GameManager implements Serializable {
 //        Runtime.getRuntime().gc();
     }
 
+    /**
+     * moves the troops to their targets ( if they are in their range , they stop moving )
+     */
     private void moveTroops(){
         GameElement[][][] newMap = new GameElement[19][33][2];
 
@@ -531,6 +662,9 @@ public class GameManager implements Serializable {
 
     }
 
+    /**
+     * removes the spells that their life time is over
+     */
     private void removeExpiredSpells(){
        Iterator<GameElement> spellIterator = activeSpells.iterator();
        GameElement spellElement = null;
@@ -569,6 +703,10 @@ public class GameManager implements Serializable {
         return counter;
     }
 
+    /**
+     * places the properties ( towers and buildings ) on the next map
+     * @param newMap is the new map ( next map )
+     */
     private void placeProperties(GameElement[][][] newMap){
         GameElement gameElement = null;
         for (int i = 0; i < 19; i++) {
@@ -590,6 +728,10 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * places the troops that their targets are in range
+     * @param newMap is the new map ( next map )
+     */
     private void placeInRangeHunters(GameElement[][][] newMap){
         GameElement gameElement = null;
         GameElement targetElement = null;
@@ -612,6 +754,10 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * places the troops that their targets are out of range
+     * @param newMap is the new map ( next map )
+     */
     private void placeOutRangeHunters(GameElement[][][] newMap){
         GameElement gameElement = null;
         GameElement targetElement = null;
@@ -888,6 +1034,11 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * the element stays in it's own location
+     * @param gameElement is the game element that stays
+     * @param newMap is the new map of the game ( next map )
+     */
     private void stay(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
@@ -903,6 +1054,11 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * the element moves to right direction
+     * @param gameElement is the element that moves
+     * @param newMap is the new map of the game ( next map )
+     */
     private void moveRight(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
@@ -918,6 +1074,11 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * the element moves left
+     * @param gameElement is the element that moves to left
+     * @param newMap is the new map of the game ( next map )
+     */
     private void moveLeft(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
@@ -932,7 +1093,11 @@ public class GameManager implements Serializable {
             newMap[x - 1][y][0] = gameElement;
         }
     }
-
+    /**
+     * the element moves forward
+     * @param gameElement is the element that moves to forward
+     * @param newMap is the new map of the game ( next map )
+     */
     private void moveForward(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
@@ -947,7 +1112,11 @@ public class GameManager implements Serializable {
             newMap[x][y - 1][0] = gameElement;
         }
     }
-
+    /**
+     * the element moves backward
+     * @param gameElement is the element that moves to backward
+     * @param newMap is the new map of the game ( next map )
+     */
     private void moveBackward(GameElement gameElement , GameElement[][][] newMap){
         int x = (int) gameElement.getLocation().getX();
         int y = (int) gameElement.getLocation().getY();
@@ -964,6 +1133,13 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * checks what direction is the best for hunter to get close to it's target
+     * @param hunterPosition is the position of the hunter
+     * @param targetPosition is the position of the target
+     * @param points are the available points for hunter to move
+     * @return the direction to move the hunter
+     */
     private Direction whichWayCloserToTarget(Point2D hunterPosition , Point2D targetPosition , Point2D... points){
         double distance = 100000000;
         Point2D chosenPoint = null;
@@ -995,6 +1171,13 @@ public class GameManager implements Serializable {
         return null;
     }
 
+    /**
+     * checks if the point is in the map or not
+     * @param i
+     * @param j
+     * @param k
+     * @return true if the point is in the map , else false
+     */
     private boolean isPointInArea(int i , int j , int k){
         if(i >= 0 && i <= 18 && j >= 0 && j <= 32 && k >= 0 && k <= 1){
             return true;
@@ -1002,6 +1185,9 @@ public class GameManager implements Serializable {
         return false;
     }
 
+    /**
+     * removes the elements that their time or health is over
+     */
     private void removeDead(){
         GameElement gameElement = null;
         HealthHaver healthHaver = null;
@@ -1028,6 +1214,9 @@ public class GameManager implements Serializable {
 //        System.gc();
     } // done
 
+    /**
+     * finds target for the game elements that their entity is damager
+     */
     private void findTarget(){
         GameElement gameElement = null;
         for (int i = 0; i < 19; i++) {
@@ -1044,6 +1233,10 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * finds target for a game element that it's entity is damager
+     * @param hunterElement is the game element this method finds target for it
+     */
     private void findTargetForElement(GameElement hunterElement){
         GameElement targetElement = null;
         GameElement currentTarget = elementToTargetHashMap.get(hunterElement);
@@ -1071,6 +1264,9 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * the hunters damage their targets
+     */
     private void damageTargets(){
         GameElement gameElement = null;
         GameElement targetElement = null;
@@ -1121,6 +1317,11 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * by moving or damaging the targets , the hunter direction should be corrected
+     * @param hunter is the game element of the hunter
+     * @param target is the game is the game element of the target of the hunter
+     */
     private void correctDirection(GameElement hunter, GameElement target){
 
         if(hunter.getLocation().getX() > target.getLocation().getX() &&
@@ -1161,6 +1362,11 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * by area splash , the area by radius 1 is hurt
+     * @param hunter is the game element of the hunter
+     * @param target is the game element of the target
+     */
     private void damageAreaSplash(GameElement hunter , GameElement target){
         int x = (int) target.getLocation().getX();
         int y = (int) target.getLocation().getY();
@@ -1184,6 +1390,9 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * influences the game state by spells
+     */
     private void doSpells(){
         Iterator<GameElement> iterator = activeSpells.iterator();
         GameElement gameElement = null;
@@ -1193,6 +1402,9 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * if the elements are raged , it brings them back to the previous stage
+     */
     private void unRage(){
         GameElement gameElement = null;
         for (int i = 0; i < 19; i++) {
@@ -1209,6 +1421,9 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * increases the elixirs of players to
+     */
     private void increaseElixirs(){
         int increaseAmount = 0;
         int currentElixir = 0;
@@ -1232,22 +1447,36 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * adds a shooting
+     * @param src is the source of the shoot
+     * @param dest is the destination of the shoot
+     */
     private void damageShoot(Point2D src , Point2D dest){
         shoots.add(new Shoot(src , dest, frameCounter));
     }
 
+    /**
+     * empties the shoots
+     */
     private void resetShoots(){
         shoots = new ArrayList<>();
     }
 
+    /**
+     * adds a command to the command list
+     * @param command is the command the player sent to game
+     */
     public void addCommand(Command command){
         commands.add(command);
     }// done
 
-    private boolean isAreaAllowed(Player player, Point2D point2D){
-        return isAreaAllowed(new Command(player , null , point2D));
-    } // done
-
+    /**
+     * checks if the command is allowed ( when the card of the command is a troop )
+     * @param command is the command sent by player
+     * @param count is the count of the troop
+     * @return true if the command is allowed , else false
+     */
     private boolean isAreaAllowed(Command command, int count){
         int x = (int) command.getPoint2D().getX();
         int y = (int) command.getPoint2D().getY();
@@ -1259,6 +1488,11 @@ public class GameManager implements Serializable {
         return true;
     } // done
 
+    /**
+     * checks if the command is allowed
+     * @param command is the command sent by the player
+     * @return true if the command is allowed , else false
+     */
     private boolean isAreaAllowed(Command command){
         int x = (int) command.getPoint2D().getX();
         int y = (int) command.getPoint2D().getY();
@@ -1328,6 +1562,9 @@ public class GameManager implements Serializable {
         return false;
     } // done
 
+    /**
+     * configures the damages of the
+     */
     private void configureDamages(){
         int firstDamage = 0;
         int lastDamage = 0;
@@ -1353,6 +1590,12 @@ public class GameManager implements Serializable {
         }
     } // done
 
+    /**
+     * checks if the hunter target type is same with the type of target
+     * @param hunter is the element of hunter
+     * @param target is the element of target
+     * @return true if the types , match
+     */
     private boolean checkHunterTargetType(GameElement hunter , GameElement target){
         GameEntity hunterEntity = hunter.getGameEntity();
         GameEntity targetEntity = target.getGameEntity();
@@ -1386,6 +1629,11 @@ public class GameManager implements Serializable {
         return false;
     }
 
+    /**
+     * checks if the command sent from the player is allowed
+     * @param command is the command sent from player
+     * @return true if the command is allowed , else false
+     */
     public boolean isCommandAreaAllowed(Command command){
         GameEntity  gameEntity = command.getCard();
         if(gameEntity instanceof Troop){
@@ -1396,6 +1644,10 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * at the end of the game , the game result is sent as an instance of match
+     * @return the result of the game
+     */
     public Match gameResult(){
         String winnerName = null;
         String looserName = null;
@@ -1430,6 +1682,11 @@ public class GameManager implements Serializable {
         return new Match(winnerName , looserName , winnerCrown , looserCrown);
     }
 
+    /**
+     * calculates the sum of health of towers of a player
+     * @param player is the player
+     * @return the sum of towers health of the player
+     */
     private int sumTowersHealth(Player player){
         int sumTowersHealth = 0;
 //        List<GameElement> elements = playerToElementHashMap.get(player);
@@ -1456,6 +1713,9 @@ public class GameManager implements Serializable {
         return sumTowersHealth;
     }
 
+    /**
+     * if a player is bot , then it's decision will be sent to the game
+     */
     private void botsDecisions(){
         if(firstPlayer instanceof Bot){
             Command botCommand = ((Bot)firstPlayer).decision(mapArray,
@@ -1471,52 +1731,108 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * getter for map of the game
+     * @return the mapArray ( the array of the map
+     */
     public GameElement[][][] getMapArray() {
         return mapArray;
     }
 
+    /**
+     * getter for frame counter
+     * @return the frameCounter
+     */
     public long getFrameCounter() {
         return frameCounter;
     }
 
+    /**
+     * getter for fps of the
+     * @return
+     */
     public int getFps() {
         return fps;
     }
 
+    /**
+     * getter for hash map of the players cards
+     * @return the hash map
+     */
     public HashMap<Player, List<Card>> getPlayerRandomCardsHashMap() {
         return playerRandomCardsHashMap;
     }
 
+    /**
+     * getter for active spells list
+     * @return the active spells list
+     */
     public List<GameElement> getActiveSpells() {
         return activeSpells;
     }
 
+    /**
+     * getter for shoots list
+     * @return the list of shoots
+     */
     public List<Shoot> getShoots() {
         return shoots;
     }
 
+    /**
+     * getter for the count of crowns of first player
+     * @return the count of crowns of first player
+     */
     public int getFirstPlayerCrown(){ return firstPlayerCrown; }
 
+    /**
+     * getter for the count of crowns of second player
+     * @return the count of crowns of second player
+     */
     public int getSecondPlayerCrown(){ return secondPlayerCrown; }
 
+    /**
+     * getter for player to elixir hash map
+     * @return the hash map of players elixir
+     */
     public int getFirstPlayerElixir(){ return playerElixir.get(firstPlayer); }
 
+    /**
+     * getter for player to list of his/her/its elements hash map
+     * @return the described hash map
+     */
     public HashMap<Player, List<GameElement>> getPlayerToElementHashMap() {
         return playerToElementHashMap;
     }
 
+    /**
+     * getter for element to target hash map
+     * @return a hash map of game element to its target
+     */
     public HashMap<GameElement, GameElement> getElementToTargetHashMap() {
         return elementToTargetHashMap;
     }
 
+    /**
+     * getter for first player of the game
+     * @return the first player
+     */
     public Player getFirstPlayer() {
         return firstPlayer;
     }
 
+    /**
+     * getter for second player of the game
+     * @return the second player of the game
+     */
     public Player getSecondPlayer() {
         return secondPlayer;
     }
 
+    /**
+     * reverse method for game manager
+     * reverses every thing for 1v1 game
+     */
     public void reverse(){
         reversePlayers();
         reverseCrowns();
@@ -1525,6 +1841,9 @@ public class GameManager implements Serializable {
         reverseShoots();
     }
 
+    /**
+     * reverses the map of the game
+     */
     private void reverseMap(){
         GameElement[][][] newMap = new GameElement[19][33][2];
         GameElement gameElement = null;
@@ -1543,12 +1862,18 @@ public class GameManager implements Serializable {
         mapArray = newMap;
     }
 
+    /**
+     * reverses the location of spells
+     */
     private void reverseSpells(){
         for(GameElement spellElement : activeSpells){
             reverseElementLocation(spellElement);
         }
     }
 
+    /**
+     * reverses the location of shoots
+     */
     private void reverseShoots(){
         for(Shoot shoot : shoots){
             shoot.setSrc(reversePoint(shoot.getSrc()));
@@ -1556,38 +1881,67 @@ public class GameManager implements Serializable {
         }
     }
 
+    /**
+     * reverses the location of the input game element
+     * @param gameElement is the input game element
+     */
     private void reverseElementLocation(GameElement gameElement){
         gameElement.setLocation(reversePoint(gameElement.getLocation()));
     }
 
+    /**
+     * reverses a point
+     * @param point2D is the input point
+     * @return the reversed point
+     */
     public static Point2D reversePoint(Point2D point2D){
         int newX = (int) (18 - point2D.getX());
         int newY = (int) (32 - point2D.getY());
         return new Point(newX , newY);
     }
 
+    /**
+     * reverses a command ( the chosen location )
+     * @param command is the input command
+     * @return the reversed command
+     */
     public static Command reverseCommand (Command command){
         return new Command(command.getPlayer(),
                 command.getCard(),
                 reversePoint(command.getPoint2D()));
     }
 
+    /**
+     * reverses the crown of players
+     */
     private void reverseCrowns(){
         int tmp = firstPlayerCrown;
         firstPlayerCrown = secondPlayerCrown;
         secondPlayerCrown = tmp;
     }
 
+    /**
+     * reverses the players
+     */
     private void reversePlayers(){
         Player tmp = firstPlayer;
         firstPlayer = secondPlayer;
         secondPlayer = tmp;
     }
 
+    /**
+     * reverses the direction of elements
+     * @param gameElement
+     */
     private void reverseElementDirection(GameElement gameElement){
         gameElement.setDirection(reverseDirection(gameElement.getDirection()));
     }
 
+    /**
+     * reverses the direction
+     * @param direction input direction
+     * @return the reversed direction
+     */
     private Direction reverseDirection(Direction direction){
         if(direction == Direction.backward){
             return Direction.forward;
@@ -1603,50 +1957,5 @@ public class GameManager implements Serializable {
         }
         return null;
     }
-
-    private GameManager(Player firstPlayer,
-                       Player secondPlayer,
-                       HashMap<Player, Integer> playerElixir,
-                       int firstPlayerCrown,
-                       int secondPlayerCrown,
-                       HashMap<Player, List<GameElement>> playerToElementHashMap,
-                       GameElement[][][] mapArray,
-                       long frameCounter,
-                       HashMap<Player, List<Card>> playerRandomCardsHashMap,
-                       HashMap<GameElement, GameElement> elementToTargetHashMap,
-                       List<GameElement> activeSpells,
-                       List<Shoot> shoots,
-                       List<Command> commands) {
-        this.firstPlayer = firstPlayer;
-        this.secondPlayer = secondPlayer;
-        this.playerElixir = playerElixir;
-        this.firstPlayerCrown = firstPlayerCrown;
-        this.secondPlayerCrown = secondPlayerCrown;
-        this.playerToElementHashMap = playerToElementHashMap;
-        this.mapArray = mapArray;
-        this.frameCounter = frameCounter;
-        this.playerRandomCardsHashMap = playerRandomCardsHashMap;
-        this.elementToTargetHashMap = elementToTargetHashMap;
-        this.activeSpells = activeSpells;
-        this.shoots = shoots;
-        this.commands = commands;
-    }
-
-    public GameManager copy(){
-        return new GameManager(firstPlayer,
-                secondPlayer,
-                playerElixir,
-                firstPlayerCrown,
-                secondPlayerCrown,
-                playerToElementHashMap,
-                mapArray,
-                frameCounter,
-                playerRandomCardsHashMap,
-                elementToTargetHashMap,
-                activeSpells,
-                shoots,
-                commands);
-    }
-
 }
 

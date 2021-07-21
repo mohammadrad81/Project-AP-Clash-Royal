@@ -16,12 +16,27 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.List;
 
+/**
+ * class for intelligent bot of the game ( very smart )
+ * @since 7.21.2021
+ * @version 1.0.0
+ */
 public class IntelligentBot extends SmartBot {
-
-    public IntelligentBot(int level) {
+    /**
+     * constructor for the bot
+     * @param level is the level of the bot
+     */
+    public  IntelligentBot(int level) {
         super("Intelligent bot" , level);
     }
 
+    /**
+     * the intelligent decision of the bot
+     * @param mapArray is the map of the game
+     * @param cards is the cards the bot owns
+     * @param elixir is the amount of elixir the bot can spend
+     * @return the command as the decision of the bot
+     */
     @Override
     public Command decision(GameElement[][][] mapArray, List<Card> cards, int elixir) {
         List<Card> buyableCards = buyAbleCards(cards , elixir);
@@ -92,6 +107,11 @@ public class IntelligentBot extends SmartBot {
         return null;// just in case
     }
 
+    /**
+     * finds fireball card in the input card list
+     * @param buyableCards is the list of cards , the bot can buy
+     * @return the fireball card in this list , ( can be null )
+     */
     protected Card findFireBall(List<Card> buyableCards){
         for (Card card : buyableCards){
             if (card instanceof Fireball){
@@ -101,6 +121,11 @@ public class IntelligentBot extends SmartBot {
         return null;
     }
 
+    /**
+     * finds arrows card in the input card list
+     * @param buyableCards is the list of cards , the bot can buy
+     * @return the arrows card in this list , ( can be null )
+     */
     protected Card findArrows (List<Card> buyableCards){
         for (Card card : buyableCards){
             if(card instanceof Arrows){
@@ -109,7 +134,11 @@ public class IntelligentBot extends SmartBot {
         }
         return null;
     }
-
+    /**
+     * finds rage card in the input card list
+     * @param buyableCards is the list of cards , the bot can buy
+     * @return the rage card in this list , ( can be null )
+     */
     protected Card findRage(List<Card> buyableCards){
         for(Card card : buyableCards){
             if(card instanceof Rage){
@@ -118,7 +147,11 @@ public class IntelligentBot extends SmartBot {
         }
         return null;
     }
-
+    /**
+     * finds building card in the input card list
+     * @param buyableCards is the list of cards , the bot can buy
+     * @return the building card in this list , ( can be null )
+     */
     protected Card findBuilding(List<Card> buyableCards){
         for(Card card : buyableCards){
             if(card instanceof Building){
@@ -127,7 +160,11 @@ public class IntelligentBot extends SmartBot {
         }
         return null;
     }
-
+    /**
+     * finds troop card in the input card list
+     * @param buyableCards is the list of cards , the bot can buy
+     * @return the troop card in this list , ( can be null )
+     */
     protected Card findTroop(List<Card> buyableCards){
         for(Card card : buyableCards){
             if(card instanceof Troop){
@@ -137,6 +174,10 @@ public class IntelligentBot extends SmartBot {
         return null;
     }
 
+    /**
+     * checks if the bot should play defensive or not
+     * @return true if should play defensive , else false
+     */
     private boolean shouldBeDefensive(){
         GameManager gameManager = GameManager.getInstance();
         if(gameManager.getFirstPlayerCrown() > gameManager.getSecondPlayerCrown()){
@@ -152,6 +193,11 @@ public class IntelligentBot extends SmartBot {
 
     }
 
+    /**
+     * counts the enemy elements
+     * @param mapArray
+     * @return
+     */
     private int howManyEnemyInBotField(GameElement[][][] mapArray){
         GameElement gameElement = null;
         int count = 0;
@@ -170,6 +216,10 @@ public class IntelligentBot extends SmartBot {
         return count;
     }
 
+    /**
+     * checks if the king tower of the bot is under attack
+     * @return true if it is under attack , else false
+     */
     private boolean isKingTowerInDanger(){
         GameManager gameManager = GameManager.getInstance();
         GameElement kingTowerElement = gameManager.getMapArray()[9][1][0];

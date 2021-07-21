@@ -10,13 +10,28 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * the dumbest bot of the game ( do not underestimate it )
+ *
+ */
 public class IdiotBot extends Bot {
     private GameManager gameManager = null;
 
+    /**
+     * constructor of it
+     * @param level
+     */
     public IdiotBot(int level){
         super("IDIOT BOT", level);
     }
 
+    /**
+     * the decision of the bot
+     * @param mapArray is the map of the game
+     * @param cards is a list of cards , given to the bot
+     * @param elixir is the amount of elixir the bot can spend
+     * @return the command that is the decision of the bot
+     */
     @Override
     public Command decision(GameElement[][][] mapArray, List<Card> cards, int elixir) {
         if (gameManager == null)

@@ -2,6 +2,8 @@ package Model.Towers;
 
 /**
  * the king tower of the game
+ * @since 7.8.2021
+ * @version 1.0.0
  */
 public class KingTower extends Tower {
     private static final int[] healthByLevelArray = {2400, 2568, 2736, 2904, 3086};

@@ -13,6 +13,11 @@ import Users.Player;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
+/**
+ * class for elements of the game
+ * @since 7.8.2021
+ * @version 1.0.0
+ */
 public class GameElement implements Serializable {
     private GameEntity gameEntity;
     private boolean isHealthHaver;
@@ -31,6 +36,14 @@ public class GameElement implements Serializable {
     private Direction direction;
     private Speed speed;
 
+    /**
+     * the constructor for the game element
+     * @param gameEntity is the entity of the element
+     * @param location is the location of the element
+     * @param owner is the player who owns the element
+     * @param madeAtFrame is the frame that the element is made
+     * @param direction is the direction of the element
+     */
     public GameElement(GameEntity gameEntity,
                        Point2D location,
                        Player owner,
@@ -65,11 +78,14 @@ public class GameElement implements Serializable {
         }
     }
 
+    /**
+     * boosts the element
+     */
     public void boost(){
         if(gameEntity instanceof Damager){
             boosted = true;
             damage = (int) (damage * (140.0 / 100.0));
-            hitSpeed = hitSpeed * (140.0 / 100.0);
+            hitSpeed = hitSpeed * (100.0/140.0);
         }
         if(gameEntity instanceof Troop){
             if(speed == Speed.slow){
@@ -84,6 +100,9 @@ public class GameElement implements Serializable {
         }
     }
 
+    /**
+     * if it is boosted , not any more :)
+     */
     public void deBoost(){
 
         if(gameEntity instanceof Damager){
@@ -104,6 +123,10 @@ public class GameElement implements Serializable {
         }
     }
 
+    /**
+     * this method decreases the health of an element
+     * @param damage is the damage of the hunter who damages this game element
+     */
     public void hurt(int damage){
         if(damage > health){
             health = 0;
@@ -113,58 +136,90 @@ public class GameElement implements Serializable {
         }
     }
 
+    /**
+     * getter for entity of element
+     * @return the entity of the element
+     */
     public GameEntity getGameEntity() {
         return gameEntity;
     }
 
-    public boolean isHealthHaver() {
-        return isHealthHaver;
-    }
-
-    public boolean isDamager() {
-        return isDamager;
-    }
-
+    /**
+     *
+     * @return true if the entity is instance of Spell , else false
+     */
     public boolean isSpell() {
         return isSpell;
     }
 
+    /**
+     *
+     * @return true if the entity is instance of Troop , else false
+     */
     public boolean isTroop() {
         return isTroop;
     }
 
+    /**
+     *
+     * @return true if the entity is instance of building
+     */
     public boolean isBuilding() {
         return isBuilding;
     }
 
-    public boolean isTower() {
-        return isTower;
-    }
-
+    /**
+     *
+     * @return the health of the element
+     */
     public int getHealth() {
         return health;
     }
 
+    /**
+     *
+     * @return the damage of this element
+     */
     public int getDamage() {
         return damage;
     }
 
+    /**
+     *
+     * @return the location of this element
+     */
     public Point2D getLocation() {
         return location;
     }
 
+    /**
+     *
+     * @return the owner of this element
+     */
     public Player getOwner() {
         return owner;
     }
 
+    /**
+     *
+     * @return the number of frame this element is made at
+     */
     public long getMadeAtFrame() {
         return madeAtFrame;
     }
 
+    /**
+     *
+     * @return direction of elemen
+     */
     public Direction getDirection() {
         return direction;
     }
 
+    /**
+     *
+     * @return the speed of the element
+     */
     public Speed getSpeed() {
         return speed;
     }
@@ -176,22 +231,42 @@ public class GameElement implements Serializable {
         return null;
     }
 
+    /**
+     * sets the new location for element
+     * @param location is the new location
+     */
     public void setLocation(Point2D location) {
         this.location = location;
     }
 
+    /**
+     * sets the direction of the element
+     * @param direction is the new direction
+     */
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
 
+    /**
+     * sets the damage of the element
+     * @param damage is the new damage
+     */
     public void setDamage(int damage) {
         this.damage = damage;
     }
 
+    /**
+     *
+     * @return true if element is boosted , else false
+     */
     public boolean isBoosted() {
         return boosted;
     }
 
+    /**
+     * makes a copy from this element
+     * @return the copy
+     */
     public GameElement copy(){
         return new GameElement(gameEntity , location , owner , madeAtFrame , direction);
     }

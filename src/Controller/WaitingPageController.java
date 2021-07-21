@@ -19,6 +19,9 @@ import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * controller for waiting for server and opponent page
+ */
 public class WaitingPageController {
     private Player player;
     private Socket socket;
@@ -29,6 +32,11 @@ public class WaitingPageController {
     @FXML
     private Label infoLabel;
 
+    /**
+     * returns back to the user menu page
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void backToUserMenu(ActionEvent event) throws IOException {
         connector.interrupt();
@@ -45,6 +53,10 @@ public class WaitingPageController {
 
     }
 
+    /**
+     * sets the player , and waits for the connection to the server
+     * @param player is the player who plays the game
+     */
     public void setPlayer(Player player){
         this.player = player;
 
@@ -94,6 +106,11 @@ public class WaitingPageController {
         connector.start();
     }
 
+    /**
+     * goes to online game with the opponent
+     * @param out is the outputStream to the server
+     * @param in is the inputStream to the server
+     */
     private void goToOnlineGame(ObjectOutputStream out , ObjectInputStream in){
         Platform.runLater(new Runnable() {
             @Override

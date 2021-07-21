@@ -20,6 +20,11 @@ import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
 
+/**
+ * class for smart bot of the game
+ * @since 7.21.2021
+ * @version 1.0.0
+ */
 public class SmartBot extends Bot {
     public SmartBot(int level) {
         super("SMART BOT", level);
@@ -99,6 +104,11 @@ public class SmartBot extends Bot {
         return null;
     }
 
+    /**
+     * @param cards is the list of cards , the game gives to the bot
+     * @param elixir the amount of elixir the bot can spend
+     * @return a list of cards , the bot can buy and use for game ( could be empty )
+     */
     protected List<Card> buyAbleCards(List<Card> cards , int elixir){
         List<Card> buyAbleCards = new ArrayList<>();
         for(Card card : cards){
@@ -109,6 +119,11 @@ public class SmartBot extends Bot {
         return buyAbleCards;
     }
 
+    /**
+     *
+     * @param cards is the list of cards
+     * @return a list of the troop cards of the card list
+     */
     protected List<Troop> troopCards(List<Card> cards){
         List<Troop> troopCards = new ArrayList<>();
         for(Card card : cards){
@@ -119,6 +134,11 @@ public class SmartBot extends Bot {
         return troopCards;
     }
 
+    /**
+     *
+     * @param cards is the list of cards
+     * @return a list of the building cards of the card list
+     */
     protected List<Building> buildingCards(List<Card> cards){
         List<Building> buildingCards = new ArrayList<>();
         for(Card card : cards ){
@@ -129,6 +149,11 @@ public class SmartBot extends Bot {
         return buildingCards;
     }
 
+    /**
+     *
+     * @param cards is the list of cards
+     * @return a list of the spell cards of the card list
+     */
     protected List<Spell> spellCards(List<Card> cards){
         List<Spell> spellCards = new ArrayList<>();
         for(Card card : cards){
@@ -139,6 +164,10 @@ public class SmartBot extends Bot {
         return spellCards;
     }
 
+    /**
+     *
+     * @return a list of the towers of this bot
+     */
     protected List<GameElement> getOwnTowers(){
         GameManager gameManager = GameManager.getInstance();
         List<GameElement> ownTowers = new ArrayList<>();
@@ -155,6 +184,10 @@ public class SmartBot extends Bot {
         return ownTowers;
     }
 
+    /**
+     *
+     * @return a list of the towers of the enemy of this bot ( the player )
+     */
     protected List<GameElement> getEnemyTowers(){
         GameManager gameManager = GameManager.getInstance();
         List<GameElement> enemyTowers = new ArrayList<>();
@@ -175,6 +208,11 @@ public class SmartBot extends Bot {
         return enemyTowers;
     }
 
+    /**
+     * checks if a game element is under attack or not
+     * @param gameElement is the game element , is about to check
+     * @return true if the game element is under attack , else , false
+     */
     protected boolean isUnderAttack(GameElement gameElement){
         GameManager gameManager = GameManager.getInstance();
         HashMap<GameElement , GameElement> elementTarget =gameManager.getElementToTargetHashMap();
@@ -193,6 +231,11 @@ public class SmartBot extends Bot {
         return false;
     }
 
+    /**
+     *
+     * @param towers is a list of towers
+     * @return the tower that is hurt the most
+     */
     protected GameElement getMostHurtTowerElement(List<GameElement> towers){
         Iterator<GameElement> it = towers.iterator();
         GameElement mostHurtTowerElement = null;
@@ -210,6 +253,12 @@ public class SmartBot extends Bot {
         return mostHurtTowerElement;
     }
 
+    /**
+     *
+     * @param card is the card , the bot is about to play
+     * @param point2D is the point that the bot wants to play the card near it ( not necessarily in that point )
+     * @return a point that is allowed for card to be played
+     */
     protected Point2D searchForAllowedArea(Card card , Point2D point2D){
         int x = (int) point2D.getX();
         int y = (int) point2D.getY();
@@ -233,11 +282,22 @@ public class SmartBot extends Bot {
         return null;
     }
 
+    /**
+     *
+     * @param list is a list of some things ( can be anything )
+     * @param <T> is the generic type of the objects in the list
+     * @return a random one from the list
+     */
     protected  <T> T getRandom (List<T> list){
         Random random = new Random();
         return list.get(random.nextInt(list.size()));
     }
 
+    /**
+     *
+     * @param elements is a list of elements
+     * @return a list of elements that are under attack
+     */
     protected List<GameElement> underAttackOnes(List<GameElement> elements){
         Iterator<GameElement> iterator = elements.iterator();
         List<GameElement> underAttackOnes = new ArrayList<>();
@@ -251,6 +311,13 @@ public class SmartBot extends Bot {
         return underAttackOnes;
     }
 
+    /**
+     * army mass is a point of map that there are more than 2 troops of a side is in it
+     * @param mapArray is the map of the game
+     * @param radius is the radius of the searching
+     * @param forThisPlayer used to determine to search for a mass of the bot or the player ( true if for the bot )
+     * @return a point that is an army mass ( could be null )
+     */
     protected Point2D findArmyMass(GameElement[][][] mapArray , double radius , boolean forThisPlayer){
         int mass = 0;
         int count = 0;
@@ -269,6 +336,15 @@ public class SmartBot extends Bot {
         return massLocation;
     }
 
+    /**
+     * counts the elements of a side , in a radius from a point
+     * @param mapArray is the map of the game
+     * @param x is the x of the point
+     * @param y is the y of the point
+     * @param radius is the radius
+     * @param forThisPlayer used to determine to count of elements of this bot or the player ( true if for this bot )
+     * @return the count of the elements of the determined side in the radius from the point
+     */
     private int howManyInRadius(GameElement[][][] mapArray , int x , int y , double radius, boolean forThisPlayer){
         GameElement gameElement = null;
         Point2D location = new Point(x , y);

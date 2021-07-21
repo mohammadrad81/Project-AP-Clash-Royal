@@ -15,6 +15,9 @@ import Users.Player;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * a class that holds the images of the game
+ */
 public class ElementImageViews {
     public static final Image archerBlueForward = new Image("/Pictures/ElementImages/Archer/blue/forward.png");
     public static final Image archerBlueBackward = new Image("/Pictures/ElementImages/Archer/blue/backward.png");
@@ -112,6 +115,13 @@ public class ElementImageViews {
                      (new Image("/Pictures/Tiles/6.png" )),
                      (new Image("/Pictures/Tiles/7.png" )),
                      (new Image("/Pictures/Tiles/8.png" ))};
+
+    /**
+     *
+     * @param gameElement is the element , the client class wants its picture
+     * @param firstPlayer is the playing player
+     * @return the correct image of the element
+     */
     public static Image getElementPicture(GameElement gameElement , Player firstPlayer){
         GameEntity gameEntity = gameElement.getGameEntity();
 
