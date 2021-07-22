@@ -8,6 +8,9 @@ import Users.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -40,6 +43,8 @@ public class OneVOneGameController extends GameController{
      */
     @FXML
     void addElement(MouseEvent event) {
+        if (gameOver)
+            return;
         Card selectedCard = handListView.getSelectionModel().getSelectedItem();
         if (selectedCard == null)
             return;
@@ -52,7 +57,14 @@ public class OneVOneGameController extends GameController{
             out.writeObject(command);
         }
         catch (Exception e){
-            e.printStackTrace();
+            gameOver = true;
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    disconnect();
+                }
+            });
+            return;
         }
     }
 
@@ -84,7 +96,14 @@ public class OneVOneGameController extends GameController{
             object = in.readObject();
         }
         catch (Exception e){
-            e.printStackTrace();
+            gameOver = true;
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    disconnect();
+                }
+            });
+            return;
         }
         if (object instanceof GameManager){
             model = (GameManager) object;
@@ -97,8 +116,13 @@ public class OneVOneGameController extends GameController{
                 out.writeObject(null);
             }
             catch (Exception e){
-                e.printStackTrace();
-                System.exit(-1);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        disconnect();
+                    }
+                });
+                return;
             }
             Platform.runLater(new Runnable() {
                 @Override
@@ -168,11 +192,44 @@ public class OneVOneGameController extends GameController{
             model = (GameManager) in.readObject();
         }
         catch (Exception e){
-            e.printStackTrace();
+            gameOver = true;
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    disconnect();
+                }
+            });
+
+            return;
         }
         updateView();
         startTimer();
 
+    }
+
+    private void disconnect(){
+        Stage stage = (Stage) enemyUsernameLabel.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/View/UserMenu.fxml"));
+        try {
+            fxmlLoader.load();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        UserMenuController controller = fxmlLoader.getController();
+        controller.setPlayer(player1);
+
+        Media media = new Media(new File("src/SoundTracks/menu2.mp3").toURI().toString());
+        ((MediaPlayer) stage.getUserData()).pause();
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        stage.setUserData(mediaPlayer);
+
+        Parent root = fxmlLoader.getRoot();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 
