@@ -111,7 +111,7 @@ public class SmartBot extends Bot {
     protected List<Card> buyAbleCards(List<Card> cards , int elixir){
         List<Card> buyAbleCards = new ArrayList<>();
         for(Card card : cards){
-            if(card.getCost() <= elixir){
+            if(card.getCost() <= elixir && cards.indexOf(card) != 4){
                 buyAbleCards.add(card);
             }
         }
