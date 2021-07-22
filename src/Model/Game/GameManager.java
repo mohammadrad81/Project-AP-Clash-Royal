@@ -630,17 +630,27 @@ public class GameManager implements Serializable {
      */
     public void update(){
         resetShoots();
+
         increaseElixirs();
+
         removeExpiredSpells();
+
         botsDecisions();
+
         doCommands();
 
         removeDead();
+
         findTarget();
-        moveTroops();
 
         configureDamages();
+
         doSpells();
+
+        moveTroops();
+
+
+
 
         damageTargets();
 
@@ -773,7 +783,7 @@ public class GameManager implements Serializable {
                     if(gameElement != null){
                         if(gameElement.getGameEntity() instanceof Troop){
 
-                            if(frameCounter % ((Troop)gameElement.getGameEntity()).getSpeed().getValue() != 0){
+                            if(frameCounter % gameElement.getSpeed().getValue() != 0){
                                 stay(gameElement , newMap);
                                 continue;
                             }
@@ -1279,35 +1289,33 @@ public class GameManager implements Serializable {
                     gameElement = mapArray[i][j][k];
                     if(gameElement != null && !(gameElement instanceof Block)){
                         if(gameElement.getGameEntity() instanceof Damager){
-                            if(frameCounter % (int)(((Damager)gameElement.getGameEntity()).getHitSpeed() * 10) == 0){
+                            if(frameCounter % ((int) (gameElement.getHitSpeed() * 10.0)) == 0){
                                 targetElement = elementToTargetHashMap.get(gameElement);
                                 if(targetElement != null){
                                     if(gameElement.getLocation().distance(targetElement.getLocation()) <= ((Damager)gameElement.getGameEntity()).getRange() + 0.5){
-                                        if(frameCounter % (int) (10.0 *  ((Damager) gameElement.getGameEntity()).getHitSpeed()) == 0){
-                                            if(((Damager)gameElement.getGameEntity()).getRange() > 1){
-                                                damageShoot(gameElement.getLocation() , targetElement.getLocation());
+                                        if(((Damager)gameElement.getGameEntity()).getRange() > 1){
+                                            damageShoot(gameElement.getLocation() , targetElement.getLocation());
+                                        }
+                                        correctDirection(gameElement , targetElement);
+                                        if(gameElement.getGameEntity() instanceof KingTower){
+                                            if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
+                                                targetElement.hurt(gameElement.getDamage());
                                             }
-                                            correctDirection(gameElement , targetElement);
-                                            if(gameElement.getGameEntity() instanceof KingTower){
-                                                if(((KingTower)gameElement.getGameEntity()).isActiveToShoot()){
+                                        }
+                                        else {
+                                            if(gameElement.getGameEntity() instanceof Troop){
+                                                if(((Troop)gameElement.getGameEntity()).isAreaSplash()){
+                                                    damageAreaSplash(gameElement , targetElement);
+                                                }
+                                                else{
                                                     targetElement.hurt(gameElement.getDamage());
                                                 }
                                             }
                                             else {
-                                                if(gameElement.getGameEntity() instanceof Troop){
-                                                    if(((Troop)gameElement.getGameEntity()).isAreaSplash()){
-                                                          damageAreaSplash(gameElement , targetElement);
-                                                    }
-                                                    else{
-                                                        targetElement.hurt(gameElement.getDamage());
-                                                    }
-                                                }
-                                                else {
-                                                    targetElement.hurt(gameElement.getDamage());
-                                                }
-                                                if(targetElement.getGameEntity() instanceof KingTower){
-                                                    activeKingTower(targetElement.getOwner());
-                                                }
+                                                targetElement.hurt(gameElement.getDamage());
+                                            }
+                                            if(targetElement.getGameEntity() instanceof KingTower){
+                                                activeKingTower(targetElement.getOwner());
                                             }
                                         }
                                     }
@@ -1470,7 +1478,7 @@ public class GameManager implements Serializable {
      * adds a command to the command list
      * @param command is the command the player sent to game
      */
-    public void addCommand(Command command){
+    public synchronized void addCommand(Command command){
         commands.add(command);
     }// done
 
