@@ -7,6 +7,7 @@ import Model.Game.GameElement;
 import Model.Game.GameManager;
 
 import java.awt.*;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -56,20 +57,23 @@ public class IdiotBot extends Bot {
         Random random = new Random();
 
         Command command = null;
-
+        long startMilliSec = ZonedDateTime.now().toInstant().toEpochMilli();
+        long nowMilliSec = 0;
         if (selectedCard instanceof Spell) {
             do {
+                nowMilliSec = ZonedDateTime.now().toInstant().toEpochMilli();
                 int x = random.nextInt(19);  // between 0 and 18
                 int y = random.nextInt(33);  // between 0 and 32
                 command = new Command(this, selectedCard, new Point(x, y));
-            } while (! gameManager.isCommandAreaAllowed(command));
+            } while ((! gameManager.isCommandAreaAllowed(command)) && (nowMilliSec < (startMilliSec + 20)));
         }
         else{
             do {
+                nowMilliSec = ZonedDateTime.now().toInstant().toEpochMilli();
                 int x = random.nextInt(19);  // between 0 and 18
                 int y = random.nextInt(21);  // between 0 and 20 (enemy towers may be destroyed)
                 command = new Command(this, selectedCard, new Point(x, y));
-            } while (! gameManager.isCommandAreaAllowed(command));
+            } while ((! gameManager.isCommandAreaAllowed(command)) && (nowMilliSec < startMilliSec + 20));
         }
 
         return command;
