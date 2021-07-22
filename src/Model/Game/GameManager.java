@@ -639,8 +639,9 @@ public class GameManager implements Serializable {
         findTarget();
         moveTroops();
 
-        doSpells();
         configureDamages();
+        doSpells();
+
         damageTargets();
 
         unRage();
@@ -745,7 +746,7 @@ public class GameManager implements Serializable {
                         if(gameElement.getGameEntity() instanceof Troop){
                             targetElement = elementToTargetHashMap.get(gameElement);
                             if(gameElement.getLocation().distance(targetElement.getLocation()) <=
-                                    ((Troop)gameElement.getGameEntity()).getRange()){
+                                    ((Troop)gameElement.getGameEntity()).getRange() + 0.5){
                                 newMap[i][j][k] = mapArray[i][j][k];
                                 mapArray[i][j][k] = null;
                             }
@@ -1281,7 +1282,7 @@ public class GameManager implements Serializable {
                             if(frameCounter % (int)(((Damager)gameElement.getGameEntity()).getHitSpeed() * 10) == 0){
                                 targetElement = elementToTargetHashMap.get(gameElement);
                                 if(targetElement != null){
-                                    if(gameElement.getLocation().distance(targetElement.getLocation()) <= ((Damager)gameElement.getGameEntity()).getRange()){
+                                    if(gameElement.getLocation().distance(targetElement.getLocation()) <= ((Damager)gameElement.getGameEntity()).getRange() + 0.5){
                                         if(frameCounter % (int) (10.0 *  ((Damager) gameElement.getGameEntity()).getHitSpeed()) == 0){
                                             if(((Damager)gameElement.getGameEntity()).getRange() > 1){
                                                 damageShoot(gameElement.getLocation() , targetElement.getLocation());
@@ -1960,4 +1961,3 @@ public class GameManager implements Serializable {
         return null;
     }
 }
-
