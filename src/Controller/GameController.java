@@ -16,6 +16,7 @@ import View.CardView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,6 +37,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 import java.awt.*;
@@ -164,6 +166,13 @@ public class GameController {
      * @param player2 second player
      */
     public void setPlayers(Player player1, Player player2){
+        timeLabel.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                timer.cancel();
+                System.exit(0);
+            }
+        });
         this.player1 = player1;
         this.player2 = player2;
         cellWidth = (mapPane.getWidth()/19.0);
