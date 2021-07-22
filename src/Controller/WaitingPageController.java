@@ -41,12 +41,17 @@ public class WaitingPageController {
      * @throws IOException
      */
     @FXML
-    void backToUserMenu(ActionEvent event) throws IOException {
+    void backToUserMenu(ActionEvent event) {
         connector.interrupt();
         Stage stage = (Stage) infoLabel.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/View/UserMenu.fxml"));
-        fxmlLoader.load();
+        try {
+            fxmlLoader.load();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         UserMenuController controller = fxmlLoader.getController();
         controller.setPlayer(player);
         Parent root = fxmlLoader.getRoot();
@@ -84,9 +89,15 @@ public class WaitingPageController {
                             }
                         });
                     } catch (IOException e) {
-                        //waiting for connection
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                backToUserMenu(null);
+                            }
+                        });
+                        return;
                     } catch (InterruptedException e) {
-                        break;
+                        return;
                     }
                 }
                 ObjectOutputStream out = null;
@@ -97,10 +108,13 @@ public class WaitingPageController {
                     out.writeObject(player);
                     in.readObject();
                     goToOnlineGame(out , in);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            backToUserMenu(null);
+                        }
+                    });
                 }
 
             }
