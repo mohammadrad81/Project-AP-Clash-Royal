@@ -226,6 +226,20 @@ public class GameElement implements Serializable {
         return speed;
     }
 
+    /**
+     *
+     * @return hit speed of element
+     */
+    public double getHitSpeed() {
+        return hitSpeed;
+    }
+
+
+
+    /**
+     *
+     * @return image address of game element
+     */
     public String getImageAddress(){
         if(gameEntity != null){
             return gameEntity.getImageAddress();
