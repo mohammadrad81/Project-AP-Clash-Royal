@@ -98,7 +98,7 @@ public class SelectDifficultyController {
         fxmlLoader.setLocation(getClass().getResource("/View/GameView.fxml"));
         fxmlLoader.load();
 
-        Media media = new Media(new File("src/SoundTracks/battle1.mp3").toURI().toString());
+        Media media = new Media(getClass().getResource("/SoundTracks/battle1.mp3").toString());
         ((MediaPlayer) stage.getUserData()).pause();
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();

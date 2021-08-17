@@ -12,7 +12,7 @@ import Model.Stats.Match;
 import Model.Towers.KingTower;
 import Model.Towers.Tower;
 import Users.Player;
-import View.CardView;
+import com.sun.corba.se.impl.orbutil.CorbaResourceUtil;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,6 +64,7 @@ public class GameController {
     private List<Shoot> shootList = new ArrayList<>();
 
     private final String directoryAddress = "./Users/"; //must append with 'username'.bin
+    private final ElementImageViews eiv = new ElementImageViews();
 
     @FXML
     private BorderPane border;
@@ -137,7 +138,39 @@ public class GameController {
     protected void initialMap(){
         try {
 
-            FileInputStream mapFile = new FileInputStream("src/View/map.txt");
+            String mapFile = new String("1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1\n" +
+                    "2 1 2 4 4 4 4 4 4 4 4 4 4 4 4 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "3 3 3 4 3 3 3 3 3 3 3 3 3 3 3 4 3 3 3\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 2 1 2 1 2 1 2 1 2 1 2 4 1 2 1\n" +
+                    "2 1 2 4 1 2 1 2 1 2 1 2 1 2 1 4 2 1 2\n" +
+                    "1 2 1 4 4 4 4 4 4 4 4 4 4 4 4 4 1 2 1\n" +
+                    "2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2");
             Scanner lineReader = null;
             lineReader = new Scanner(mapFile);
             for (int i = 0; i < 33; i++) {
@@ -146,7 +179,7 @@ public class GameController {
                     char[] str = line.toCharArray();
                     //String tileNumber = scanner.next();
                     Character tileNumber = str[2*j];
-                    ImageView image = new ImageView(ElementImageViews.tiles[Integer.parseInt(tileNumber.toString()) - 1]);
+                    ImageView image = new ImageView(eiv.tiles[Integer.parseInt(tileNumber.toString()) - 1]);
                     image.setX(j * cellWidth);
                     image.setY(i * cellHeight);
                     image.setFitHeight(cellHeight);
@@ -307,7 +340,7 @@ public class GameController {
      */
     protected void changeMusic(String name){
         Stage stage = (Stage) border.getScene().getWindow();
-        Media media = new Media(new File("src/SoundTracks/" + name).toURI().toString());
+        Media media = new Media(getClass().getResource("/SoundTracks/" + name).toString());
         ((MediaPlayer) stage.getUserData()).pause();
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
@@ -370,7 +403,7 @@ public class GameController {
                 continue;
             }
 //            ImageView imageView = new ImageView(new Image("/Pictures/SpellEffects/Fireball.png"));
-            ImageView imageView = new ImageView(ElementImageViews.fireBall);
+            ImageView imageView = new ImageView(eiv.fireBall);
             imageView.setFitWidth(cellWidth);
             imageView.setFitHeight(cellHeight);
             long delta = model.getFrameCounter() - shoot.getMadeAtFrame();
@@ -408,7 +441,8 @@ public class GameController {
             healthBar.setStyle("-fx-accent: red;");
         vBox.getChildren().add(healthBar);
 //        ImageView imageView = new ImageView(new Image(findImage(element)));
-        ImageView imageView = new ImageView(ElementImageViews.getElementPicture(element, player1));
+        ImageView imageView = new ImageView(eiv
+                .getElementPicture(element, player1));
         imageView.setFitHeight(cellHeight);
         imageView.setFitWidth(cellWidth);
         vBox.getChildren().add(imageView);
@@ -453,7 +487,7 @@ public class GameController {
                 }
 
 //                ImageView imageView = new ImageView(new Image(imageAddress));
-                ImageView imageView = new ImageView(ElementImageViews.getElementPicture(spellElement, player1));
+                ImageView imageView = new ImageView(eiv.getElementPicture(spellElement, player1));
                 double radius = ((Spell)spellElement.getGameEntity()).getRadius();
                 imageView.setX((spellElement.getLocation().getX() - radius ) * cellWidth + cellWidth/2);
                 imageView.setY((spellElement.getLocation().getY() - radius ) * cellHeight + cellHeight/2);

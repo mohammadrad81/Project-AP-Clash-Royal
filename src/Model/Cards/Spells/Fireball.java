@@ -1,7 +1,5 @@
 package Model.Cards.Spells;
 
-import Model.Cards.Reals.Buildings.InfernoTower;
-
 /**
  * class for fireball card of game
  * @author Alireza Jabbari Mahalle No

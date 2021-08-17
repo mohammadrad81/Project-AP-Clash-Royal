@@ -1,4 +1,4 @@
-package View;
+package Controller;
 
 import Model.Cards.Card;
 import Model.Stats.Match;

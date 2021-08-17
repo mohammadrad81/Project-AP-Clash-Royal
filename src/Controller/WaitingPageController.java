@@ -15,9 +15,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * controller for waiting for server and opponent page

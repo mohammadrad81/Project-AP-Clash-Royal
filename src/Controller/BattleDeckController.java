@@ -2,7 +2,7 @@ package Controller;
 
 import Model.Cards.Card;
 import Users.Player;
-import View.CardView;
+import Controller.CardView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

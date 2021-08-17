@@ -6,7 +6,6 @@ import Model.Game.GameManager;
 import Model.Stats.Match;
 import Users.Player;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,8 +20,6 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * class for 1 v 1 game
@@ -180,7 +177,7 @@ public class OneVOneGameController extends GameController{
         cellHeight = (mapPane.getHeight()/33.0);
 
         Stage stage = (Stage) enemyUsernameLabel.getScene().getWindow();
-        Media media = new Media(new File("src/SoundTracks/battle1.mp3").toURI().toString());
+        Media media = new Media(getClass().getResource("/SoundTracks/battle1.mp3").toString());
         ((MediaPlayer) stage.getUserData()).pause();
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
@@ -220,7 +217,7 @@ public class OneVOneGameController extends GameController{
         UserMenuController controller = fxmlLoader.getController();
         controller.setPlayer(player1);
 
-        Media media = new Media(new File("src/SoundTracks/menu2.mp3").toURI().toString());
+        Media media = new Media(getClass().getResource("/SoundTracks/menu2.mp3").toString());
         ((MediaPlayer) stage.getUserData()).pause();
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();

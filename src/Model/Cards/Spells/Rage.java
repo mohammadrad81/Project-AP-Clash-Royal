@@ -1,7 +1,5 @@
 package Model.Cards.Spells;
 
-import Model.Cards.Reals.Buildings.InfernoTower;
-
 /**
  * rage spell of the game
  * @author Alireza Jabbari Mahalle No
