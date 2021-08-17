@@ -22,7 +22,7 @@ import java.util.TimerTask;
  */
 public class TwoPlayerServer {
     private final int numberOfPlayers = 2;
-    private final int port = 8989;
+//    private final int port = 8989;
     private final ServerSidePlayer[] serverSidePlayers = new ServerSidePlayer[2];
     private GameManager gameManager ;
     private Timer timer;
@@ -30,34 +30,36 @@ public class TwoPlayerServer {
     /**
      * start the server
      */
-    public void start() {
-        ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
-            System.err.println("! the server couldn't turn on !");
-            System.exit(-1);
-        }
-
-        for (int i = 0; i < numberOfPlayers; i++) {
-            try {
-                Socket socket = serverSocket.accept();
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                Player player = (Player) in.readObject();
-                ServerSidePlayer serverSidePlayer = new ServerSidePlayer(player , out , in);
-                serverSidePlayers[i] = serverSidePlayer;
-                (new PlayerHandler(serverSidePlayer, this)).start();
-            } catch (IOException e) {
-                System.err.println("! not successful connection try !");
-                i--;
-                continue;
-            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-                System.err.println("! wrong object sent by player !");
-            }
-        }
-
+    public void start(ServerSidePlayer player1, ServerSidePlayer player2) {
+//        ServerSocket serverSocket = null;
+//        try {
+//            serverSocket = new ServerSocket(port);
+//        } catch (IOException e) {
+//            System.err.println("! the server couldn't turn on !");
+//            System.exit(-1);
+//        }
+//
+//        for (int i = 0; i < numberOfPlayers; i++) {
+//            try {
+//                Socket socket = serverSocket.accept();
+//                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+//                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+//                Player player = (Player) in.readObject();
+//                ServerSidePlayer serverSidePlayer = new ServerSidePlayer(player , out , in);
+//                serverSidePlayers[i] = serverSidePlayer;
+//                (new PlayerHandler(serverSidePlayer, this)).start();
+//            } catch (IOException e) {
+//                System.err.println("! not successful connection try !");
+//                i--;
+//                continue;
+//            } catch (ClassNotFoundException e) {
+////                e.printStackTrace();
+//                System.err.println("! wrong object sent by player !");
+//            }
+//        }
+//
+        serverSidePlayers[0] = player1;
+        serverSidePlayers[1] = player2;
         this.gameManager = new GameManager(serverSidePlayers[0].getPlayer(),
                 serverSidePlayers[1].getPlayer());
 
@@ -182,6 +184,6 @@ public class TwoPlayerServer {
                 System.err.println("! seems like both players are disconnected !");
             }
         }
-        System.exit(-2);
+//        System.exit(-2);
     }
 }

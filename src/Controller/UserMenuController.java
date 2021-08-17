@@ -42,7 +42,7 @@ public class UserMenuController {
     @FXML
     void returnToMainMenu(ActionEvent event) throws Exception{
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-        Media media = new Media(new File("src/SoundTracks/menu.mp3").toURI().toString());
+        Media media = new Media(getClass().getResource("/SoundTracks/menu.mp3").toString());
         ((MediaPlayer) stage.getUserData()).pause();
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
