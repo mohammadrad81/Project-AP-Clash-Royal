@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Server main class
@@ -30,20 +31,27 @@ public class Main  {
     }
 
     public static void startServer(){
+        System.out.println("Please enter the port : ");
+        Scanner scanner = new Scanner(System.in);
+        int port = scanner.nextInt();
+        System.out.println("The server is online");
         ServerSidePlayer buff = null;
         Socket socket = null;
         try {
-            ServerSocket serverSocket = new ServerSocket(8989);
+            ServerSocket serverSocket = new ServerSocket(port);
             while (true){
                 socket = serverSocket.accept();
+
                 ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
                 Player player =(Player) in.readObject();
                 if(buff == null){
                     buff = new ServerSidePlayer(player, out, in);
+                    System.out.println("new player joined the server\nwaiting for opponent...");
                 }
                 else{
                     ServerSidePlayer finalBuff = buff;
+                    System.out.println("opponent joined");
                     ServerSidePlayer secondPlayer = new ServerSidePlayer(player,out,in);
                     Thread thread = new Thread(new Runnable() {
                         @Override
@@ -55,6 +63,7 @@ public class Main  {
                         }
                     });
                     thread.start();
+                    System.out.println("a new game started");
                     buff = null;
 
                 }
