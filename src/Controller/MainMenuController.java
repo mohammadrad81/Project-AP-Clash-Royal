@@ -72,4 +72,14 @@ public class MainMenuController {
         stage.show();
     }
 
+
+    @FXML
+    void goConnectionSetting(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/View/ChangeIPMenu.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }

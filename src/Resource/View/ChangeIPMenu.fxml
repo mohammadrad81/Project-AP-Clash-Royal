@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ConnectionController">
+   <children>
+      <ImageView fitHeight="367.0" fitWidth="582.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Pictures/backgrounds/signInPage.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane>
+         <children>
+            <Label layoutX="177.0" layoutY="14.0" text="change connection" textFill="#d3eaff">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+            <TextField fx:id="ipTextField" layoutX="173.0" layoutY="116.0" prefHeight="26.0" prefWidth="236.0" stylesheets="@../Styles/TextFields.css" />
+            <TextField fx:id="portTextField" layoutX="173.0" layoutY="170.0" prefHeight="26.0" prefWidth="236.0" stylesheets="@../Styles/TextFields.css" />
+            <Label layoutX="144.0" layoutY="115.0" text="IP:" textFill="#82c7ff">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="126.0" layoutY="174.0" text="Port:" textFill="#72c9ff">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Button layoutX="14.0" layoutY="325.0" mnemonicParsing="false" onAction="#backToMainMenu" prefHeight="26.0" prefWidth="64.0" stylesheets="@../Styles/ButtonsStyles.css" text="Back" />
+            <Button layoutX="247.0" layoutY="215.0" mnemonicParsing="false" onAction="#submitAddresses" stylesheets="@../Styles/ButtonsStyles.css" text="set addresses" />
+            <Label fx:id="errorLabel" layoutX="183.0" layoutY="76.0" text="the port must be a number" textFill="#ff9605" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="successfulSetLabel" layoutX="198.0" layoutY="247.0" text="the addresses are set" textFill="#00ff3c" visible="false">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
