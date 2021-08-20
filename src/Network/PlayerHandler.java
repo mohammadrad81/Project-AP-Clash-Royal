@@ -40,6 +40,7 @@ public class PlayerHandler extends Thread{
             } catch (IOException e) {
 //                e.printStackTrace();
                 server.playerDisconnected(serverSidePlayer);
+                break;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

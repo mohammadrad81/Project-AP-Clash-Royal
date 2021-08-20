@@ -26,6 +26,7 @@ public class TwoPlayerServer {
     private final ServerSidePlayer[] serverSidePlayers = new ServerSidePlayer[2];
     private GameManager gameManager ;
     private Timer timer;
+    private boolean areTwoPlayersOnline = true;
 
     /**
      * start the server
@@ -90,7 +91,7 @@ public class TwoPlayerServer {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (!gameManager.isGameOver()){
+                while (!gameManager.isGameOver() && areTwoPlayersOnline){
                     try {
                         Thread.sleep(99);
                     } catch (InterruptedException e) {
@@ -115,7 +116,8 @@ public class TwoPlayerServer {
             try {
                 serverSidePlayer.sendToPlayer(gameManager.gameResult());
             } catch (IOException e) {
-                playerDisconnected(serverSidePlayer);
+//                playerDisconnected(serverSidePlayer);
+                //does not matter
             }
         }
     }
@@ -165,6 +167,8 @@ public class TwoPlayerServer {
      * @param disconnectedPlayer the disconnected player
      */
     public synchronized void playerDisconnected(ServerSidePlayer disconnectedPlayer){
+        System.err.println("a player of the match is disconnected");
+        areTwoPlayersOnline = false;
         if(disconnectedPlayer.equals(serverSidePlayers[0])){
             try {
                 serverSidePlayers[1].sendToPlayer(new Match(serverSidePlayers[1].getPlayer().getUsername(),

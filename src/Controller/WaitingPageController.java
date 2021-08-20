@@ -1,6 +1,7 @@
 package Controller;
 
 
+import Network.IpPort;
 import Users.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -26,8 +27,8 @@ public class WaitingPageController {
     private Player player;
     private Socket socket;
     private Thread connector;
-    private static final String ip = "127.0.0.1";
-    private static final int port = 8989;
+    private static final String ip = IpPort.getInstance().getIp();
+    private static final int port = IpPort.getInstance().getPort();
 
     @FXML
     private Label infoLabel;
