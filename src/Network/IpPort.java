@@ -8,7 +8,7 @@ public class IpPort {
     public static IpPort getInstance(){
         if (instance == null){
             instance = new IpPort();
-            instance.ip = "localhost";
+            instance.ip = "185.239.106.151";
             instance.port = 8989;
         }
         return instance;
