@@ -65,7 +65,7 @@ public class ProfilePageController {
         UserMenuController userMenuController = loader.getController();
         userMenuController.setPlayer(player);
 
-        Media media = new Media(new File("src/SoundTracks/menu2.mp3").toURI().toString());
+        Media media = new Media(getClass().getResource("/SoundTracks/menu2.mp3").toString());
         ((MediaPlayer) stage.getUserData()).pause();
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="project clash royal:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/project_clash_royal_jar</output-path>
+    <root id="archive" name="project clash royal.jar">
+      <element id="module-output" name="project clash royal" />
+    </root>
+  </artifact>
+</component>

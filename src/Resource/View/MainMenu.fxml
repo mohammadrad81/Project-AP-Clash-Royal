@@ -20,7 +20,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </StackPane.margin>
             </ImageView>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="230.0" prefWidth="234.0" spacing="10.0">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="287.0" prefWidth="234.0" spacing="10.0">
                <children>
                   <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goSignUpPage" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="SIGN UP">
                      <VBox.margin>
@@ -28,6 +28,7 @@
                      </VBox.margin></Button>
                   <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goLogInPage" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="LOG IN" />
                   <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goDevelopersDetailPage" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="DEVELOPERS" />
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#goConnectionSetting" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="CONNECTION SETTING" />
                   <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exit" prefHeight="50.0" prefWidth="200.0" stylesheets="@../Styles/ButtonsStyles.css" text="EXIT" />
                </children>
             </VBox>

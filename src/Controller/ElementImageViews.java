@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Cards.Reals.Buildings.Building;
 import Model.Cards.Reals.Buildings.Cannon;
 import Model.Cards.Reals.Buildings.InfernoTower;
 import Model.Cards.Reals.Troops.*;
@@ -13,7 +12,6 @@ import Model.Towers.KingTower;
 import Model.Towers.PrincessTower;
 import Users.Player;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  * a class that holds the images of the game
@@ -22,102 +20,103 @@ import javafx.scene.image.ImageView;
  * @version 1.0.0
  */
 public class ElementImageViews {
-    public static final Image archerBlueForward = new Image("/Pictures/ElementImages/Archer/blue/forward.png");
-    public static final Image archerBlueBackward = new Image("/Pictures/ElementImages/Archer/blue/backward.png");
-    public static final Image archerBlueLeft = new Image("/Pictures/ElementImages/Archer/blue/left.png" );
-    public static final Image archerBlueRight =  (new Image("/Pictures/ElementImages/Archer/blue/right.png" ));
+    public  Class cl = getClass();
+    public  final Image archerBlueForward = new Image(cl.getResource("/Pictures/ElementImages/Archer/blue/forward.png").toString());
+    public  final Image archerBlueBackward = new Image(cl.getResource("/Pictures/ElementImages/Archer/blue/backward.png").toString());
+    public  final Image archerBlueLeft = new Image(cl.getResource("/Pictures/ElementImages/Archer/blue/left.png").toString());
+    public  final Image archerBlueRight =  (new Image(cl.getResource("/Pictures/ElementImages/Archer/blue/right.png").toString()));
     
-    public static final Image archerRedForward =  (new Image("/Pictures/ElementImages/Archer/red/forward.png" ));
-    public static final Image archerRedBackward =  (new Image("/Pictures/ElementImages/Archer/red/backward.png" ));
-    public static final Image archerRedLeft =  (new Image("/Pictures/ElementImages/Archer/red/left.png" ));
-    public static final Image archerRedRight =  (new Image("/Pictures/ElementImages/Archer/red/right.png" ));
+    public  final Image archerRedForward =  (new Image(cl.getResource("/Pictures/ElementImages/Archer/red/forward.png").toString()));
+    public  final Image archerRedBackward =  (new Image(cl.getResource("/Pictures/ElementImages/Archer/red/backward.png").toString()));
+    public  final Image archerRedLeft =  (new Image(cl.getResource("/Pictures/ElementImages/Archer/red/left.png").toString()));
+    public  final Image archerRedRight =  (new Image(cl.getResource("/Pictures/ElementImages/Archer/red/right.png").toString()));
     
-    public static final Image babyDragonBlueForward =  (new Image("/Pictures/ElementImages/BabyDragon/blue/forward.png" ));
-    public static final Image babyDragonBlueBackward =  (new Image("/Pictures/ElementImages/BabyDragon/blue/backward.png" ));
-    public static final Image babyDragonBlueLeft =  (new Image("/Pictures/ElementImages/BabyDragon/blue/left.png" ));
-    public static final Image babyDragonBlueRight =  (new Image("/Pictures/ElementImages/BabyDragon/blue/right.png" ));
+    public  final Image babyDragonBlueForward =  (new Image(cl.getResource("/Pictures/ElementImages/BabyDragon/blue/forward.png").toString()));
+    public  final Image babyDragonBlueBackward =  (new Image(cl.getResource("/Pictures/ElementImages/BabyDragon/blue/backward.png").toString()));
+    public  final Image babyDragonBlueLeft =  (new Image(cl.getResource("/Pictures/ElementImages/BabyDragon/blue/left.png").toString()));
+    public  final Image babyDragonBlueRight =  (new Image(cl.getResource("/Pictures/ElementImages/BabyDragon/blue/right.png").toString()));
     
-    public static final Image babyDragonRedForward =  (new Image("/Pictures/ElementImages/BabyDragon/red/forward.png" ));
-    public static final Image babyDragonRedBackward =  (new Image("/Pictures/ElementImages/BabyDragon/red/backward.png" ));
-    public static final Image babyDragonRedLeft =  (new Image("/Pictures/ElementImages/BabyDragon/red/left.png" ));
-    public static final Image babyDragonRedRight =  (new Image("/Pictures/ElementImages/BabyDragon/red/right.png" ));
+    public  final Image babyDragonRedForward =  (new Image(cl.getResource("/Pictures/ElementImages/BabyDragon/red/forward.png").toString()));
+    public  final Image babyDragonRedBackward =  (new Image(cl.getResource("/Pictures/ElementImages/BabyDragon/red/backward.png").toString()));
+    public  final Image babyDragonRedLeft =  (new Image(cl.getResource("/Pictures/ElementImages/BabyDragon/red/left.png").toString()));
+    public  final Image babyDragonRedRight =  (new Image(cl.getResource("/Pictures/ElementImages/BabyDragon/red/right.png").toString()));
     
-    public static final Image barbarianBlueForward =  (new Image("/Pictures/ElementImages/Barbarian/blue/forward.png" ));
-    public static final Image barbarianBlueBackward =  (new Image("/Pictures/ElementImages/Barbarian/blue/backward.png" ));
-    public static final Image barbarianBlueLeft =  (new Image("/Pictures/ElementImages/Barbarian/blue/left.png" ));
-    public static final Image barbarianBlueRight =  (new Image("/Pictures/ElementImages/Barbarian/blue/right.png" ));
+    public  final Image barbarianBlueForward =  (new Image(cl.getResource("/Pictures/ElementImages/Barbarian/blue/forward.png").toString()));
+    public  final Image barbarianBlueBackward =  (new Image(cl.getResource("/Pictures/ElementImages/Barbarian/blue/backward.png").toString()));
+    public  final Image barbarianBlueLeft =  (new Image(cl.getResource("/Pictures/ElementImages/Barbarian/blue/left.png").toString()));
+    public  final Image barbarianBlueRight =  (new Image(cl.getResource("/Pictures/ElementImages/Barbarian/blue/right.png").toString()));
     
-    public static final Image barbarianRedForward =  (new Image("/Pictures/ElementImages/Barbarian/red/forward.png" ));
-    public static final Image barbarianRedBackward =  (new Image("/Pictures/ElementImages/Barbarian/red/backward.png" ));
-    public static final Image barbarianRedLeft =  ( new Image("/Pictures/ElementImages/Barbarian/red/left.png" ));
-    public static final Image barbarianRedRight =  (new Image("/Pictures/ElementImages/Barbarian/red/right.png" ));
+    public  final Image barbarianRedForward =  (new Image(cl.getResource("/Pictures/ElementImages/Barbarian/red/forward.png").toString()));
+    public  final Image barbarianRedBackward =  (new Image(cl.getResource("/Pictures/ElementImages/Barbarian/red/backward.png").toString()));
+    public  final Image barbarianRedLeft =  ( new Image(cl.getResource("/Pictures/ElementImages/Barbarian/red/left.png").toString()));
+    public  final Image barbarianRedRight =  (new Image(cl.getResource("/Pictures/ElementImages/Barbarian/red/right.png").toString()));
     
-    public static final Image giantBlueForward =  (new Image("/Pictures/ElementImages/Giant/blue/forward.png" ));
-    public static final Image giantBlueBackward =  (new Image("/Pictures/ElementImages/Giant/blue/backward.png" ));
-    public static final Image giantBlueLeft =  (new Image("/Pictures/ElementImages/Giant/blue/left.png" ));
-    public static final Image giantBlueRight =  (new Image("/Pictures/ElementImages/Giant/blue/right.png" ));
+    public  final Image giantBlueForward =  (new Image(cl.getResource("/Pictures/ElementImages/Giant/blue/forward.png").toString()));
+    public  final Image giantBlueBackward =  (new Image(cl.getResource("/Pictures/ElementImages/Giant/blue/backward.png").toString()));
+    public  final Image giantBlueLeft =  (new Image(cl.getResource("/Pictures/ElementImages/Giant/blue/left.png").toString()));
+    public  final Image giantBlueRight =  (new Image(cl.getResource("/Pictures/ElementImages/Giant/blue/right.png").toString()));
 
-    public static final Image giantRedForward =  (new Image("/Pictures/ElementImages/Giant/red/forward.png" ));
-    public static final Image giantRedBackward =  (new Image("/Pictures/ElementImages/Giant/red/backward.png" ));
-    public static final Image giantRedLeft =  (new Image("/Pictures/ElementImages/Giant/red/left.png" ));
-    public static final Image giantRedRight =  (new Image("/Pictures/ElementImages/Giant/red/right.png" ));
+    public  final Image giantRedForward =  (new Image(cl.getResource("/Pictures/ElementImages/Giant/red/forward.png").toString()));
+    public  final Image giantRedBackward =  (new Image(cl.getResource("/Pictures/ElementImages/Giant/red/backward.png").toString()));
+    public  final Image giantRedLeft =  (new Image(cl.getResource("/Pictures/ElementImages/Giant/red/left.png").toString()));
+    public  final Image giantRedRight =  (new Image(cl.getResource("/Pictures/ElementImages/Giant/red/right.png").toString()));
     
-    public static final Image cannonBlue =  (new Image("/Pictures/ElementImages/Cannon/blue/cannon.png" ));
-    public static final Image cannonRed =  (new Image("/Pictures/ElementImages/Cannon/red/cannon.png" ));
+    public  final Image cannonBlue =  (new Image(cl.getResource("/Pictures/ElementImages/Cannon/blue/cannon.png").toString()));
+    public  final Image cannonRed =  (new Image(cl.getResource("/Pictures/ElementImages/Cannon/red/cannon.png").toString()));
     
-    public static final Image inferno =  (new Image("/Pictures/ElementImages/InfernoTower/InfernoTower.png" ));
+    public  final Image inferno =  (new Image(cl.getResource("/Pictures/ElementImages/InfernoTower/InfernoTower.png").toString()));
     
-    public static final Image miniPekkaBlueForward =  (new Image("/Pictures/ElementImages/MiniPekka/blue/forward.png" ));
-    public static final Image miniPekkaBlueBackward =  (new Image("/Pictures/ElementImages/MiniPekka/blue/backward.png" ));
-    public static final Image miniPekkaBlueLeft =  (new Image("/Pictures/ElementImages/MiniPekka/blue/left.png" ));
-    public static final Image miniPekkaBlueRight =  (new Image("/Pictures/ElementImages/MiniPekka/blue/right.png" ));
+    public  final Image miniPekkaBlueForward =  (new Image(cl.getResource("/Pictures/ElementImages/MiniPekka/blue/forward.png").toString()));
+    public  final Image miniPekkaBlueBackward =  (new Image(cl.getResource("/Pictures/ElementImages/MiniPekka/blue/backward.png").toString()));
+    public  final Image miniPekkaBlueLeft =  (new Image(cl.getResource("/Pictures/ElementImages/MiniPekka/blue/left.png").toString()));
+    public  final Image miniPekkaBlueRight =  (new Image("/Pictures/ElementImages/MiniPekka/blue/right.png"));
 
-    public static final Image miniPekkaRedForward =  (new Image("/Pictures/ElementImages/MiniPekka/red/forward.png" ));
-    public static final Image miniPekkaRedBackward =  (new Image("/Pictures/ElementImages/MiniPekka/red/backward.png" ));
-    public static final Image miniPekkaRedLeft =  (new Image("/Pictures/ElementImages/MiniPekka/red/left.png" ));
-    public static final Image miniPekkaRedRight =  (new Image("/Pictures/ElementImages/MiniPekka/red/right.png" ));
+    public  final Image miniPekkaRedForward =  (new Image(cl.getResource("/Pictures/ElementImages/MiniPekka/red/forward.png").toString()));
+    public  final Image miniPekkaRedBackward =  (new Image(cl.getResource("/Pictures/ElementImages/MiniPekka/red/backward.png").toString()));
+    public  final Image miniPekkaRedLeft =  (new Image(cl.getResource("/Pictures/ElementImages/MiniPekka/red/left.png").toString()));
+    public  final Image miniPekkaRedRight =  (new Image(cl.getResource("/Pictures/ElementImages/MiniPekka/red/right.png").toString()));
     
-    public static final Image kingTowerBlueActive =  (new Image("/Pictures/ElementImages/Towers/KingTower/blue/active.png" ));
-    public static final Image kingTowerBlueIdle =  (new Image("/Pictures/ElementImages/Towers/KingTower/blue/idle.png" ));
+    public  final Image kingTowerBlueActive =  (new Image(cl.getResource("/Pictures/ElementImages/Towers/KingTower/blue/active.png").toString()));
+    public  final Image kingTowerBlueIdle =  (new Image(cl.getResource("/Pictures/ElementImages/Towers/KingTower/blue/idle.png").toString()));
 
-    public static final Image kingTowerRedActive =  (new Image("/Pictures/ElementImages/Towers/KingTower/red/active.png" ));
-    public static final Image kingTowerRedIdle =  (new Image("/Pictures/ElementImages/Towers/KingTower/red/idle.png" ));
+    public  final Image kingTowerRedActive =  (new Image(cl.getResource("/Pictures/ElementImages/Towers/KingTower/red/active.png").toString()));
+    public  final Image kingTowerRedIdle =  (new Image("/Pictures/ElementImages/Towers/KingTower/red/idle.png"));
 
-    public static final Image princesTowerBlue =  (new Image("/Pictures/ElementImages/Towers/PrincesTower/blue/PrincesTower.png" ));
-    public static final Image princesTowerRed =  (new Image("/Pictures/ElementImages/Towers/PrincesTower/red/PrincesTower.png" ));
+    public  final Image princesTowerBlue =  (new Image(cl.getResource("/Pictures/ElementImages/Towers/PrincesTower/blue/PrincesTower.png").toString()));
+    public  final Image princesTowerRed =  (new Image(cl.getResource("/Pictures/ElementImages/Towers/PrincesTower/red/PrincesTower.png").toString()));
     
-    public static final Image valkyrieBlueForward =  (new Image("/Pictures/ElementImages/Valkyrie/blue/forward.png" ));
-    public static final Image valkyrieBlueBackward  =  (new Image("/Pictures/ElementImages/Valkyrie/blue/backward.png" ));
-    public static final Image valkyrieBlueLeft =  (new Image("/Pictures/ElementImages/Valkyrie/blue/left.png" ));
-    public static final Image valkyrieBlueRight =  (new Image("/Pictures/ElementImages/Valkyrie/blue/right.png" ));
+    public  final Image valkyrieBlueForward =  (new Image(cl.getResource("/Pictures/ElementImages/Valkyrie/blue/forward.png").toString()));
+    public  final Image valkyrieBlueBackward  =  (new Image(cl.getResource("/Pictures/ElementImages/Valkyrie/blue/backward.png").toString()));
+    public  final Image valkyrieBlueLeft =  (new Image(cl.getResource("/Pictures/ElementImages/Valkyrie/blue/left.png").toString()));
+    public  final Image valkyrieBlueRight =  (new Image(cl.getResource("/Pictures/ElementImages/Valkyrie/blue/right.png").toString()));
 
-    public static final Image valkyrieRedForward =  (new Image("/Pictures/ElementImages/Valkyrie/red/forward.png" ));
-    public static final Image valkyrieRedBackward  =  (new Image("/Pictures/ElementImages/Valkyrie/red/backward.png" ));
-    public static final Image valkyrieRedLeft =  (new Image("/Pictures/ElementImages/Valkyrie/red/left.png" ));
-    public static final Image valkyrieRedRight =  (new Image("/Pictures/ElementImages/Valkyrie/red/right.png" ));
+    public  final Image valkyrieRedForward =  (new Image(cl.getResource("/Pictures/ElementImages/Valkyrie/red/forward.png").toString()));
+    public  final Image valkyrieRedBackward  =  (new Image(cl.getResource("/Pictures/ElementImages/Valkyrie/red/backward.png").toString()));
+    public  final Image valkyrieRedLeft =  (new Image(cl.getResource("/Pictures/ElementImages/Valkyrie/red/left.png").toString()));
+    public  final Image valkyrieRedRight =  (new Image(cl.getResource("/Pictures/ElementImages/Valkyrie/red/right.png").toString()));
 
-    public static final Image wizardBlueForward =  (new Image("/Pictures/ElementImages/Wizard/blue/forward.png" ));
-    public static final Image wizardBlueBackward =  (new Image("/Pictures/ElementImages/Wizard/blue/backward.png" ));
-    public static final Image wizardBlueLeft =  (new Image("/Pictures/ElementImages/Wizard/blue/left.png" ));
-    public static final Image wizardBlueRight =  (new Image("/Pictures/ElementImages/Wizard/blue/right.png" ));
+    public  final Image wizardBlueForward =  (new Image(cl.getResource("/Pictures/ElementImages/Wizard/blue/forward.png").toString()));
+    public  final Image wizardBlueBackward =  (new Image(cl.getResource("/Pictures/ElementImages/Wizard/blue/backward.png").toString()));
+    public  final Image wizardBlueLeft =  (new Image(cl.getResource("/Pictures/ElementImages/Wizard/blue/left.png").toString()));
+    public  final Image wizardBlueRight =  (new Image(cl.getResource("/Pictures/ElementImages/Wizard/blue/right.png").toString()));
 
-    public static final Image wizardRedForward =  (new Image("/Pictures/ElementImages/Wizard/red/forward.png" ));
-    public static final Image wizardRedBackward =  (new Image("/Pictures/ElementImages/Wizard/red/backward.png" ));
-    public static final Image wizardRedLeft =  (new Image("/Pictures/ElementImages/Wizard/red/left.png" ));
-    public static final Image wizardRedRight =  (new Image("/Pictures/ElementImages/Wizard/red/right.png" ));
+    public  final Image wizardRedForward =  (new Image(cl.getResource("/Pictures/ElementImages/Wizard/red/forward.png").toString()));
+    public  final Image wizardRedBackward =  (new Image(cl.getResource("/Pictures/ElementImages/Wizard/red/backward.png").toString()));
+    public  final Image wizardRedLeft =  (new Image(cl.getResource("/Pictures/ElementImages/Wizard/red/left.png").toString()));
+    public  final Image wizardRedRight =  (new Image(cl.getResource("/Pictures/ElementImages/Wizard/red/right.png").toString()));
 
-    public static final Image arrows =  (new Image("/Pictures/SpellEffects/Arrows.png" ));
-    public static final Image fireBall =  (new Image("/Pictures/SpellEffects/Fireball.png" ));
+    public  final Image arrows =  (new Image(cl.getResource("/Pictures/SpellEffects/Arrows.png").toString()));
+    public  final Image fireBall =  (new Image(cl.getResource("/Pictures/SpellEffects/Fireball.png").toString()));
     
-    public static final Image[] tiles =
-            { (new Image("/Pictures/Tiles/1.png" )),
-                     (new Image("/Pictures/Tiles/2.png" )),
-                     (new Image("/Pictures/Tiles/3.png" )),
-                     (new Image("/Pictures/Tiles/4.png" )),
-                     (new Image("/Pictures/Tiles/5.png" )),
-                     (new Image("/Pictures/Tiles/6.png" )),
-                     (new Image("/Pictures/Tiles/7.png" )),
-                     (new Image("/Pictures/Tiles/8.png" ))};
+    public  final Image[] tiles =
+            { (new Image("/Pictures/Tiles/1.png")),
+                     (new Image(cl.getResource("/Pictures/Tiles/2.png").toString())),
+                     (new Image(cl.getResource("/Pictures/Tiles/3.png").toString())),
+                     (new Image(cl.getResource("/Pictures/Tiles/4.png").toString())),
+                     (new Image(cl.getResource("/Pictures/Tiles/5.png").toString())),
+                     (new Image(cl.getResource("/Pictures/Tiles/6.png").toString())),
+                     (new Image(cl.getResource("/Pictures/Tiles/7.png").toString())),
+                     (new Image(cl.getResource("/Pictures/Tiles/8.png").toString()))};
 
     /**
      *
@@ -125,7 +124,7 @@ public class ElementImageViews {
      * @param firstPlayer is the playing player
      * @return the correct image of the element
      */
-    public static Image getElementPicture(GameElement gameElement , Player firstPlayer){
+    public  Image getElementPicture(GameElement gameElement , Player firstPlayer){
         GameEntity gameEntity = gameElement.getGameEntity();
 
         if(gameEntity instanceof Troop){

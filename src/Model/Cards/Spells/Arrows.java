@@ -1,7 +1,5 @@
 package Model.Cards.Spells;
 
-import Model.Cards.Reals.Buildings.InfernoTower;
-
 /**
  * the arrow spell card in game
  * @see Model.Cards.Card

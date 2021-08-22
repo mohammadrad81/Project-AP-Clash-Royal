@@ -1,9 +1,7 @@
 package Model.Cards.Reals.Troops;
 
-import Model.Cards.Reals.Buildings.InfernoTower;
 import Model.Cards.Reals.Type;
 import Model.Interfaces.AirWarrior;
-import Model.Interfaces.GroundWarrior;
 
 /**
  * baby dragon card of the game

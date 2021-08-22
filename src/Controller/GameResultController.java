@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -40,7 +39,7 @@ public class GameResultController {
         UserMenuController userMenuController = loader.getController();
         userMenuController.setPlayer(player);
 
-        Media media = new Media(new File("src/SoundTracks/menu2.mp3").toURI().toString());
+        Media media = new Media(getClass().getResource("/SoundTracks/menu2.mp3").toString());
         ((MediaPlayer) stage.getUserData()).pause();
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
